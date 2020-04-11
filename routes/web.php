@@ -13,4 +13,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'Admin\AdminController@index');
+
+
+Auth::routes([
+    'register' => false,
+    'verify' => true,
+    'reset' => false
+]);
+
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/', 'Admin\AdminController@index');
+});
