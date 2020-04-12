@@ -16,15 +16,29 @@
     @endif
 
     <div class="form-style-5">
-        <form action="{{ url('/%%routeGroup%%%%viewName%%/' . $%%crudNameSingular%%->%%primaryKey%%) }}" method="post" enctype="multipart/form-data">
+        <form action="{{ url('/clients/' . $client->id) }}" method="post" enctype="multipart/form-data">
             {{ method_field('PATCH') }}
             @csrf
             <fieldset>
-                <legend><span class="number"><i class="fas fa-plus"></i></span> Edit %%modelName%% ({{ $%%crudNameSingular%%->%%primaryKey%% }})</legend>
+                <legend><span class="number"><i class="fas fa-plus"></i></span> Edit Client ({{ $client->id }})</legend>
             </fieldset>
             <fieldset>
-                @include ('%%viewTemplateDir%%.form', ['formMode' => 'edit'])
+                @include ('admin.clients.form', ['formMode' => 'edit'])
             </fieldset>
         </form>
     </div>
+@endsection
+
+@section('footer-script')
+    <script type="text/javascript">
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#blah').attr('src', e.target.result);
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
 @endsection

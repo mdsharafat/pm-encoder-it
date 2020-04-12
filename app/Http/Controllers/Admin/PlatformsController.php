@@ -38,7 +38,7 @@ class PlatformsController extends Controller
         
         Platform::create($requestData);
 
-        return redirect('platforms')->with('flash_message', 'Platform added!');
+        return redirect('platforms')->with('flashMessage', 'Platform added!');
     }
 
     public function show($id)
@@ -63,13 +63,13 @@ class PlatformsController extends Controller
         $platform = Platform::findOrFail($id);
         $platform->update($requestData);
 
-        return redirect('platforms')->with('flash_message', 'Platform updated!');
+        return redirect('platforms')->with('flashMessage', 'Platform updated!');
     }
 
     public function destroy($id)
     {
         Platform::destroy($id);
 
-        return redirect('platforms')->with('flash_message', 'Platform deleted!');
+        return redirect('platforms')->with('flashMessage', 'Platform deleted!');
     }
 }

@@ -4,14 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Platform extends Model
+class Client extends Model
 {
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'platforms';
+    protected $table = 'clients';
 
     /**
     * The database primary key value.
@@ -25,11 +25,11 @@ class Platform extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'ratings'];
+    protected $fillable = ['name', 'email', 'skype', 'platform_id', 'desc', 'image'];
 
-    public function clients()
+    public function platform()
     {
-        return $this->hasMany(Client::class, 'platform_id');
+        return $this->belongsTo(Platform::class, 'platform_id');
     }
     
 }

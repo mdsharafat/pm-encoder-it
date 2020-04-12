@@ -33,3 +33,4 @@ Route::group(['middleware' => ['auth']], function () {
     Route::PATCH('/change-user-image', 'Admin\UserController@changeUserImage');
 });
 Route::resource('platforms', 'Admin\\PlatformsController');
+Route::resource('clients', 'Admin\\ClientsController');

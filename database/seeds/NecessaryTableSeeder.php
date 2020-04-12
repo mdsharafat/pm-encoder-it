@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Client;
 use App\User;
 use App\Platform;
 use Illuminate\Support\Facades\Hash;
@@ -19,6 +20,7 @@ class NecessaryTableSeeder extends Seeder
         $roleSuperAdmin = Role::create(['name' => 'Super Admin']);
         $roleAdmin      = Role::create(['name' => 'Admin']);
         $roleUser       = Role::create(['name' => 'User']);
+        $roleClient     = Role::create(['name' => 'Client']);
 
         $permissionAddUser    = Permission::create(['name' => 'add-user']);
         $permissionEditUser   = Permission::create(['name' => 'edit-user']);
@@ -32,7 +34,6 @@ class NecessaryTableSeeder extends Seeder
 
         $roleSuperAdmin->syncPermissions(Permission::all());
         $roleAdmin->syncPermissions([$permissionViewUser ,$permissionEditUser]);
-        $roleUser->givePermissionTo($permissionViewUser);
 
         $faker = Faker\Factory::create();
 
@@ -65,6 +66,16 @@ class NecessaryTableSeeder extends Seeder
             $platform->name    = $item[0];
             $platform->ratings = $item[1];
             $platform->save();
+        }
+
+        //client table
+        for ($i=1; $i <=5 ; $i++) { 
+            $client = new Client();
+            $client->name = $faker->name;
+            $client->email = 'client_'.$i.'@test.com';
+            $client->platform_id = mt_rand(1,2);
+            $client->desc = $faker->paragraph;
+            $client->save();
         }
     }
 }

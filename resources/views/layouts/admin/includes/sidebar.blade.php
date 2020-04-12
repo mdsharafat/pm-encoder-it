@@ -44,11 +44,11 @@
 
     @canany(['add-platform', 'edit-platform', 'view-platform', 'delete-platform'])
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
                 <i class="fas fa-fw fa-folder"></i>
                 <span>PLATFORMS</span>
             </a>
-            <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div id="collapseThree" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <a class="collapse-item" href="{{ url('/platforms/create') }}">ADD PLATFORM</a>
                     <a class="collapse-item" href="{{ url('/platforms') }}">MANAGE PLATFORMS</a>
@@ -57,6 +57,20 @@
         </li>
     @endcanany
 
+    @role('Super Admin')
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+                <i class="fas fa-user-tie"></i>
+                <span>CLIENTS</span>
+            </a>
+            <div id="collapseFour" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="{{ url('/clients/create') }}">ADD CLIENT</a>
+                    <a class="collapse-item" href="{{ url('/clients') }}">MANAGE CLIENT</a>
+                </div>
+            </div>
+        </li>
+    @endrole
     <!-- Nav Item - Charts -->
     <li class="nav-item">
     <a class="nav-link" href="charts.html">

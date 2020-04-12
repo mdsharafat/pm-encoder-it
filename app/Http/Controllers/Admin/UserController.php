@@ -44,7 +44,7 @@ class UserController extends Controller
         ]);
 
         $user           = new User();
-        $user->name     = ucfirst(trans(str_replace(' ','',$request->name)));
+        $user->name     = ucfirst(trans($request->name));
         $user->email    = $request->email;
         $user->password = Hash::make('12345678');
         $user->save();
