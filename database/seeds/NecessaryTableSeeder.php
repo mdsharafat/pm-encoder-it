@@ -15,26 +15,29 @@ class NecessaryTableSeeder extends Seeder
      */
     public function run()
     {
-        $roleSuperAdmin = Role::create(['name' => 'admin']);
-        $roleAdmin      = Role::create(['name' => 'project-manager']);
-        $roleTeamLead   = Role::create(['name' => 'team-lead']);
-        $roleUser       = Role::create(['name' => 'user']);
+        $roleSuperAdmin = Role::create(['name' => 'Super Admin']);
+        $roleAdmin      = Role::create(['name' => 'Admin']);
+        $roleUser       = Role::create(['name' => 'User']);
 
-        $permissionAddUser = Permission::create(['name' => 'add user']);
-        // $roleSuperAdmin->givePermissionTo($permission);
+        $permissionAddUser    = Permission::create(['name' => 'add-user']);
+        $permissionEditUser   = Permission::create(['name' => 'edit-user']);
+        $permissionDeleteUser = Permission::create(['name' => 'delete-user']);
+
+        $roleSuperAdmin->syncPermissions(Permission::all());
+        $roleAdmin->givePermissionTo($permissionEditUser);
         
         $faker = Faker\Factory::create();
 
         $userArray = [
-            0 => ['abir', 'abir@test.com', 'abir.jpg', 'admin'],
-            1 => ['shahed', 'shahed@test.com', 'shahed.jpg', 'project-manager'],
-            2 => ['sohan', 'sohan@test.com', 'sohan.jpg', 'team-lead'],
-            3 => ['salman', 'salman@test.com', 'salman.jpg', 'user']
+            0 => ['abir', 'abir@test.com', 'abir.jpg', 'Super Admin'],
+            1 => ['shahed', 'shahed@test.com', 'shahed.jpg', 'Admin'],
+            2 => ['sohan', 'sohan@test.com', 'sohan.jpg', 'User'],
+            3 => ['salman', 'salman@test.com', 'salman.jpg', 'User']
         ];
 
         foreach($userArray as $item){
             $user = new User();
-            $user->name = $item[0];
+            $user->name = ucfirst(trans($item[0]));
             $user->email = $item[1];
             $user->password = Hash::make('11111111');
             $user->image = $item[2];

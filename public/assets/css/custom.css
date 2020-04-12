@@ -2,3 +2,11 @@
     font-weight: 700;
     color: #ffffff;
 }
+
+.badge, .btn, .form-control, .form-control-sm, .page-link, .rounded {
+    border-radius: 0px !important;
+}
+
+.sidebar .nav-item .collapse .collapse-inner .collapse-item, .sidebar .nav-item .collapsing .collapse-inner .collapse-item {
+    border-radius: 0px !important;
+}

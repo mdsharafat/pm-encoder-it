@@ -1,37 +1,30 @@
-@extends('layouts.app')
+@extends('layouts.admin.master-layout')
 
-@section('content')
-    <div class="container">
-        <div class="row">
-            @include('admin.sidebar')
+@section('main-content')
+    @if ($errors->any())
+        <ul class="text-center" style="list-style: none;">
+            @foreach ($errors->all() as $error)
+                <li><h4 class="text-danger">{{ $error }}</h4></li>
+            @endforeach
+        </ul>
+    @endif
+    @if(Session::has('flashMessageError'))
+        <h4 class="text-center text-danger">{{ Session::get('flashMessageError') }}</h4>
+    @endif
+    @if(Session::has('flashMessage'))
+        <h4 class="text-center text-success">{{ Session::get('flashMessage') }}</h4>
+    @endif
 
-            <div class="col-md-9">
-                <div class="card">
-                    <div class="card-header">Edit %%modelName%% #{{ $%%crudNameSingular%%->%%primaryKey%% }}</div>
-                    <div class="card-body">
-                        <a href="{{ url('/%%routeGroup%%%%viewName%%') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
-                        <br />
-                        <br />
-
-                        @if ($errors->any())
-                            <ul class="alert alert-danger">
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        @endif
-
-                        <form method="POST" action="{{ url('/%%routeGroup%%%%viewName%%/' . $%%crudNameSingular%%->%%primaryKey%%) }}" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
-                            {{ method_field('PATCH') }}
-                            {{ csrf_field() }}
-
-                            @include ('%%viewTemplateDir%%.form', ['formMode' => 'edit'])
-
-                        </form>
-
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="form-style-5">
+        <form action="{{ url('/%%routeGroup%%%%viewName%%/' . $%%crudNameSingular%%->%%primaryKey%%) }}" method="post">
+            {{ method_field('PATCH') }}
+            @csrf
+            <fieldset>
+                <legend><span class="number"><i class="fas fa-plus"></i></span> Edit %%modelName%% ({{ $%%crudNameSingular%%->%%primaryKey%% }})</legend>
+            </fieldset>
+            <fieldset>
+                @include ('%%viewTemplateDir%%.form', ['formMode' => 'edit'])
+            </fieldset>
+        </form>
     </div>
 @endsection

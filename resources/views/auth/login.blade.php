@@ -59,6 +59,9 @@
                   <div class="text-center">
                     <h1 class="hit-the-floor">Encoder-IT</h1>
                   </div>
+                  @if(Session::has('flashMessage'))
+                      <h6 class="text-center text-danger font-weight-bold">{{ Session::get('flashMessage') }}</h6>
+                  @endif
                   <br>
                   <form class="user" method="POST" action="{{ route('login') }}">
                     @csrf
@@ -78,7 +81,7 @@
                             </span>
                         @enderror
                     </div>
-                    <button type="submit" class="button button--moema button--text-thick button--text-upper button--size-s">{{ __('Login') }}</button>
+                    <button type="submit" class="customButton">{{ __('Login') }}</button>
                     <hr>
                   </form>
                   <div class="text-center">

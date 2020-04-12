@@ -5,9 +5,11 @@
 
   @include('layouts.admin.includes.meta')
 
-  <title>PM-EncoderIT</title>
+  <title>PM-Encoder-IT</title>
 
   @include('layouts.admin.includes.css')
+
+  @yield('header-script')
 
 </head>
 
@@ -75,6 +77,7 @@
 
 
     @include('layouts.admin.includes.js')
+    @yield('footer-script')
 </body>
 
 </html>

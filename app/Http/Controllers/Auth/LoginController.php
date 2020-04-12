@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\User;
+use Session;
+use Illuminate\Support\Arr;
 
 class LoginController extends Controller
 {
@@ -37,4 +40,14 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    protected function credentials(\Illuminate\Http\Request $request)
+     {
+        $user = User::where('email', $request->email)->first();
+        if (isset($user) && ($user->status == 0)) {
+            Session::flash('flashMessage', 'Account deactivated. Please contact with your admin.');
+        }
+        $credentials = $request->only($this->username(), 'password');
+        return Arr::add($credentials, 'status', '1');
+     }
 }

@@ -1,5 +1,9 @@
 @extends('layouts.admin.master-layout')
 
+@section('header-script')
+
+@endsection
+
 @section('main-content')
 <div class="container-fluid">
     <!-- Page Heading -->
@@ -7,19 +11,15 @@
     <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
     <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
     </div>
-    @role('admin')
-    I am a ADMIN!
+    @role('Super Admin')
+    I am a SUPER ADMIN!
     @endrole
 
-    @role('project-manager')
-    I am a Project Manager!
+    @role('Admin')
+    I am an ADMIN!
     @endrole
 
-    @role('team-lead')
-    I am a Team Lead!
-    @endrole
-
-    @role('user')
+    @role('User')
     I am a User!
     @endrole
     <!-- Content Row -->
@@ -210,4 +210,13 @@
     </div>
 
 </div>
+@endsection
+
+@section('footer-script')
+<!-- Page level plugins -->
+<script src="{{ asset('assets/vendor/chart.js/Chart.min.js') }}"></script>
+
+<!-- Page level custom scripts -->
+<script src="{{ asset('assets/js/demo/chart-area-demo.js') }}"></script>
+<script src="{{ asset('assets/js/demo/chart-pie-demo.js') }}"></script>
 @endsection

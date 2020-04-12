@@ -22,6 +22,7 @@
     <div class="sidebar-heading"> Interface </div>
 
     <!-- Nav Item - Pages Collapse Menu -->
+    @canany(['add-user', 'edit-user', 'delete-user'])
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
             <i class="fas fa-fw fa-user"></i>
@@ -29,11 +30,16 @@
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="buttons.html">ADD USER</a>
-            <a class="collapse-item" href="cards.html">MANAGE USER</a>
+            @can('add-user')
+            <a class="collapse-item" href="{{ url('/users/create') }}">ADD USER</a>
+            @endcan
+            @can('edit-user')
+            <a class="collapse-item" href="{{ url('/users') }}">MANAGE USER</a>
+            @endcan
             </div>
         </div>
     </li>
+    @endcanany
 
     <!-- Nav Item - Utilities Collapse Menu -->
     <li class="nav-item">
