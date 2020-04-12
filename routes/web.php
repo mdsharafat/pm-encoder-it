@@ -24,7 +24,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/', 'Admin\AdminController@index');
     Route::get('/users/create', 'Admin\UserController@create')->middleware('permission:add-user');
     Route::POST('/users', 'Admin\UserController@store')->middleware('permission:add-user');
-    Route::get('/users', 'Admin\UserController@index')->middleware('permission:edit-user');
+    Route::get('/users', 'Admin\UserController@index')->middleware('permission:view-user');
     Route::get('/users/{id}/edit', 'Admin\UserController@edit')->middleware('permission:edit-user');
     Route::PATCH('/users/{id}', 'Admin\UserController@update')->middleware('permission:edit-user');
     Route::DELETE('/users/{id}', 'Admin\UserController@destroy')->middleware('permission:delete-user');
@@ -32,3 +32,4 @@ Route::group(['middleware' => ['auth']], function () {
     Route::POST('/change-password', 'Admin\UserController@changePassword');
     Route::PATCH('/change-user-image', 'Admin\UserController@changeUserImage');
 });
+Route::resource('platforms', 'Admin\\PlatformsController');

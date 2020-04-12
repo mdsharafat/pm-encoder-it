@@ -35,58 +35,68 @@
                         <th>Email</th>
                         <th>Status</th>
                         <th>Role</th>
-                        <th>Updated By</th>
-                        <th>Action</th>
+                        @can('edit-user')
+                            <th>Updated By</th>
+                        @endcan
+                        @canany(['edit-user', 'delete-user'])
+                            <th>Action</th>
+                        @endcanany   
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($users as $item)
-                        <tr class="text-center">
-                            <td>{{ $loop->iteration }}</td>
-                            <td>
-                                @if($item->image != null)
-                                    <img style="width: 25px; height: 25px; margin: 0 auto; border-radius: 50%;" src="{{ asset('storage/users/'.$item->image) }}" alt="image">
-                                @else
-                                    <img style="width: 25px; height: 25px; margin: 0 auto; border: 1px solid #cecece; border-radius: 50%;" src="{{ asset('assets/img/user.jpg') }}" alt="image">
-                                @endif
-                            </td>
-                            <td>{{ $item->name }}</td>
-                            <td>{{ $item->email }}</td>
-                            <td>
-                                @if($item->status == 0)
-                                    <span class="badge bg-danger" style="color: #ffffff; padding: 5px; font-weight: bold;">Inactive</span>
-                                @else                        
-                                    <span class="badge bg-success" style="color: #ffffff; padding: 5px; font-weight: bold;">Active</span>
-                                @endif
-                            </td>
-                            <td>
-                                @foreach($item->getRoleNames() as $role)
-                                    @if($role == 'Super Admin')
-                                        <span class="badge bg-danger" style="color: #ffffff; padding: 5px; font-weight: bold;"> {{ $role }} </span>
-                                    @elseif($role == 'Admin')
-                                        <span class="badge bg-warning" style="color: #ffffff; padding: 5px; font-weight: bold;"> {{ $role }} </span>
+                        @foreach($users as $item)
+                            <tr class="text-center">
+                                <td>{{ $loop->iteration }}</td>
+                                <td>
+                                    @if($item->image != null)
+                                        <img style="width: 25px; height: 25px; margin: 0 auto; border-radius: 50%;" src="{{ asset('storage/users/'.$item->image) }}" alt="image">
                                     @else
-                                        <span class="badge bg-success" style="color: #ffffff; padding: 5px; font-weight: bold;"> {{ $role }} </span>
+                                        <img style="width: 25px; height: 25px; margin: 0 auto; border: 1px solid #cecece; border-radius: 50%;" src="{{ asset('assets/img/user.jpg') }}" alt="image">
                                     @endif
-                                @endforeach
-                            </td>
-                            <td>{{ $item->updated_by }}</td>
-                            <td>
-                                @if(Auth::user()->id != $item->id)
-                                    <a href="{{ url('/users/'.$item->id.'/edit') }}" class="btn btn-primary btn-sm">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    @can('delete-user')
-                                        <form method="POST" action="{{ url('/users' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
-                                            {{ method_field('DELETE') }}
-                                            @csrf
-                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm(&quot;Confirm delete?&quot;)"> <i class="fas fa-trash"></i> </button>
-                                        </form>
-                                    @endcan
-                                @endif                                
-                            </td>
-                        </tr>
-                    @endforeach
+                                </td>
+                                <td>{{ $item->name }}</td>
+                                <td>{{ $item->email }}</td>
+                                <td>
+                                    @if($item->status == 0)
+                                        <span class="badge bg-danger" style="color: #ffffff; padding: 5px; font-weight: bold;">Inactive</span>
+                                    @else                        
+                                        <span class="badge bg-success" style="color: #ffffff; padding: 5px; font-weight: bold;">Active</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    @foreach($item->getRoleNames() as $role)
+                                        @if($role == 'Super Admin')
+                                            <span class="badge bg-danger" style="color: #ffffff; padding: 5px; font-weight: bold;"> {{ $role }} </span>
+                                        @elseif($role == 'Admin')
+                                            <span class="badge bg-warning" style="color: #ffffff; padding: 5px; font-weight: bold;"> {{ $role }} </span>
+                                        @else
+                                            <span class="badge bg-success" style="color: #ffffff; padding: 5px; font-weight: bold;"> {{ $role }} </span>
+                                        @endif
+                                    @endforeach
+                                </td>
+                                @can('edit-user')
+                                    <td>{{ $item->updated_by }}</td>
+                                @endcan
+                                @canany(['edit-user', 'delete-user'])
+                                    <td> 
+                                        @can('edit-user')
+                                            <a href="{{ url('/users/'.$item->id.'/edit') }}" class="btn btn-primary btn-sm">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                        @endcan
+                                        @if(Auth::user()->id != $item->id)
+                                            @can('delete-user')
+                                                <form method="POST" action="{{ url('/users' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
+                                                    {{ method_field('DELETE') }}
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm(&quot;Confirm delete?&quot;)"> <i class="fas fa-trash-alt"></i> </button>
+                                                </form>
+                                            @endcan
+                                        @endif                                
+                                    </td>
+                                @endcanany  
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

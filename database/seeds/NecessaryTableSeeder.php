@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\User;
+use App\Platform;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -21,13 +22,21 @@ class NecessaryTableSeeder extends Seeder
 
         $permissionAddUser    = Permission::create(['name' => 'add-user']);
         $permissionEditUser   = Permission::create(['name' => 'edit-user']);
+        $permissionViewUser   = Permission::create(['name' => 'view-user']);
         $permissionDeleteUser = Permission::create(['name' => 'delete-user']);
 
+        $permissionAddPlatform    = Permission::create(['name' => 'add-platform']);
+        $permissionEditPlatform   = Permission::create(['name' => 'edit-platform']);
+        $permissionViewPlatform   = Permission::create(['name' => 'view-platform']);
+        $permissionDeletePlatform = Permission::create(['name' => 'delete-platform']);
+
         $roleSuperAdmin->syncPermissions(Permission::all());
-        $roleAdmin->givePermissionTo($permissionEditUser);
-        
+        $roleAdmin->syncPermissions([$permissionViewUser ,$permissionEditUser]);
+        $roleUser->givePermissionTo($permissionViewUser);
+
         $faker = Faker\Factory::create();
 
+        //user table
         $userArray = [
             0 => ['abir', 'abir@test.com', 'abir.jpg', 'Super Admin'],
             1 => ['shahed', 'shahed@test.com', 'shahed.jpg', 'Admin'],
@@ -43,6 +52,19 @@ class NecessaryTableSeeder extends Seeder
             $user->image = $item[2];
             $user->save();
             $user->assignRole($item[3]);
+        }
+
+        //platform table
+        $platformArray = [
+            0 => ['upwork', 5.0],
+            1 => ['freelance', 5.0]
+        ];
+
+        foreach($platformArray as $item){
+            $platform          = new Platform();
+            $platform->name    = $item[0];
+            $platform->ratings = $item[1];
+            $platform->save();
         }
     }
 }

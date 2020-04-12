@@ -20,7 +20,7 @@
     @endif
     <div class="form-style-5" style="padding-top: 0px; padding-bottom: 0px;">
         <fieldset>
-            <legend><span class="number"><i class="fas fa-table"></i></span> %%crudNameCap%% Table</legend>
+            <legend><span class="number"><i class="fas fa-table"></i></span> Platforms Table</legend>
         </fieldset>
     </div>
     <div class="card shadow mb-4">
@@ -30,23 +30,23 @@
                     <thead>
                         <tr class="text-center">
                             <th>#</th>
-                            %%formHeadingHtml%%
+                            <th>Name</th>
+                            <th>Ratings</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($%%crudName%% as $item)
+                        @foreach($platforms as $item)
                             <tr class="text-center">
                                 <td>{{ $loop->iteration }}</td>
-                                %%formBodyHtml%%
+                                <td>{{ $item->name }}</td>
+                                <td> <span class="text-warning"><i class="fas fa-star"></i></span> {{ number_format($item->ratings, 1) }}</td>
                                 <td>
-                                    <a href="{{ url('/%%routeGroup%%%%viewName%%/' . $item->%%primaryKey%%) }}" title="View %%modelName%%" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
-                                    <a href="{{ url('/%%routeGroup%%%%viewName%%/' . $item->%%primaryKey%% . '/edit') }}" title="Edit %%modelName%%" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-
-                                    <form method="POST" action="{{ url('/%%routeGroup%%%%viewName%%' . '/' . $item->%%primaryKey%%) }}" accept-charset="UTF-8" style="display:inline">
+                                    <a href="{{ url('/platforms/' . $item->id . '/edit') }}" title="Edit Platform" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                    <form method="POST" action="{{ url('/platforms' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
                                         {{ method_field('DELETE') }}
                                         @csrf
-                                        <button type="submit" class="btn btn-danger btn-sm" title="Delete %%modelName%%" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fas fa-trash-alt"></i></button>
+                                        <button type="submit" class="btn btn-danger btn-sm" title="Delete Platform" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fas fa-trash-alt"></i></button>
                                     </form>
                                 </td>
                             </tr>

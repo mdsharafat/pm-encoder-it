@@ -1,1 +1,2 @@
-<input class="form-control" name="%%itemName%%" type="%%fieldType%%" id="%%itemName%%" value="{{ isset($%%crudNameSingular%%->%%itemName%%) ? $%%crudNameSingular%%->%%itemName%% : ''}}" %%required%%>
+<label>%%itemName%%</label>
+<input type="%%fieldType%%" name="%%itemName%%" id="%%itemName%%" placeholder="%%itemName%% *" value="{{ isset($%%crudNameSingular%%->%%itemName%%) ? $%%crudNameSingular%%->%%itemName%% : ''}}" %%required%%>
