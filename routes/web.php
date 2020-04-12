@@ -18,7 +18,6 @@ use Illuminate\Support\Facades\Route;
 Auth::routes([
     'register' => false,
     'verify' => true,
-    'reset' => false
 ]);
 
 Route::group(['middleware' => ['auth']], function () {
