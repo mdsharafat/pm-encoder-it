@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateProjectStatusesTable extends Migration
+class CreateTaskStatusesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,9 +12,9 @@ class CreateProjectStatusesTable extends Migration
      */
     public function up()
     {
-        Schema::create('project_statuses', function (Blueprint $table) {
+        Schema::create('task_statuses', function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->id();
+            $table->id(); 
             $table->string('name')->nullable();
             $table->timestamps();
             });
@@ -27,6 +27,6 @@ class CreateProjectStatusesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('project_statuses');
+        Schema::drop('task_statuses');
     }
 }

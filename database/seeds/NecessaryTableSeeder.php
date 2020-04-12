@@ -5,6 +5,7 @@ use App\Client;
 use App\User;
 use App\Platform;
 use App\ProjectStatus;
+use App\TaskStatus;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -95,6 +96,20 @@ class NecessaryTableSeeder extends Seeder
             $projectStatus = new ProjectStatus();
             $projectStatus->name = $value;
             $projectStatus->save();
+        }
+
+        //task status table
+        $taskStatusesArray = [
+            'Pending',
+            'Working',
+            'Submit',
+            'Completed'
+        ];
+
+        foreach($taskStatusesArray as $key => $value){
+            $taskStatus = new TaskStatus();
+            $taskStatus->name = $value;
+            $taskStatus->save();
         }
     }
 }

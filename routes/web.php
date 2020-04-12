@@ -35,3 +35,4 @@ Route::group(['middleware' => ['auth']], function () {
 Route::resource('platforms', 'Admin\\PlatformsController');
 Route::resource('clients', 'Admin\\ClientsController');
 Route::resource('project-statuses', 'Admin\\ProjectStatusesController');
+Route::resource('task-statuses', 'Admin\\TaskStatusesController');

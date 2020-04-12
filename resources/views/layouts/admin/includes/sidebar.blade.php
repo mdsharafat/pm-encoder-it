@@ -71,11 +71,11 @@
             </div>
         </li>
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProjectStatus" aria-expanded="true" aria-controls="collapseProjectStatus">
                 <i class="fas fa-user-tie"></i>
                 <span>PROJECT STATUS</span>
             </a>
-            <div id="collapseFive" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div id="collapseProjectStatus" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <a class="collapse-item" href="{{ url('/project-statuses/create') }}">ADD NEW P.STATUS</a>
                     <a class="collapse-item" href="{{ url('/project-statuses') }}">MANAGE P.STATUS</a>
@@ -83,6 +83,27 @@
             </div>
         </li>
     @endrole
+
+    <hr class="sidebar-divider">
+
+    <div class="sidebar-heading"> Task & Reminder </div>
+
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTaskStatus" aria-expanded="true" aria-controls="collapseTaskStatus">
+            <i class="fas fa-user-tie"></i>
+            <span>TASK STATUS</span>
+        </a>
+        <div id="collapseTaskStatus" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="{{ url('/task-statuses/create') }}">ADD NEW T.STATUS</a>
+                <a class="collapse-item" href="{{ url('/task-statuses') }}">MANAGE T.STATUS</a>
+            </div>
+        </div>
+    </li>
+
+
+
+
     <!-- Nav Item - Charts -->
     <li class="nav-item">
     <a class="nav-link" href="charts.html">
