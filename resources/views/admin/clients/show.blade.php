@@ -47,7 +47,7 @@
             </div>
         </div>
         <p class="text-justify" style="margin-top: 10px;">{{ $client->desc }}</p>
-        <a class="btn btn-sm btn-primary client_edit_show_page" href="{{ url('/clients/' . $client->id) }}" title="Edir Client" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
+        <a class="btn btn-sm btn-primary client_edit_show_page" href="{{ url('/clients/' . $client->id.'/edit') }}" title="Edit Client" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
     </div>
 @endsection
 

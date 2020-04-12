@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 use App\Client;
 use App\User;
 use App\Platform;
+use App\ProjectStatus;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -76,6 +77,24 @@ class NecessaryTableSeeder extends Seeder
             $client->platform_id = mt_rand(1,2);
             $client->desc = $faker->paragraph;
             $client->save();
+        }
+
+        //project status table
+        $projectStatusesArray = [
+            'Requirements Collection',
+            'Planning',
+            'Defining',
+            'Design',
+            'Development',
+            'Testing & Integration',
+            'Client Feedback',
+            'Complete'
+        ];
+
+        foreach($projectStatusesArray as $key => $value){
+            $projectStatus = new ProjectStatus();
+            $projectStatus->name = $value;
+            $projectStatus->save();
         }
     }
 }

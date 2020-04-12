@@ -70,6 +70,18 @@
                 </div>
             </div>
         </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
+                <i class="fas fa-user-tie"></i>
+                <span>PROJECT STATUS</span>
+            </a>
+            <div id="collapseFive" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="{{ url('/project-statuses/create') }}">ADD NEW P.STATUS</a>
+                    <a class="collapse-item" href="{{ url('/project-statuses') }}">MANAGE P.STATUS</a>
+                </div>
+            </div>
+        </li>
     @endrole
     <!-- Nav Item - Charts -->
     <li class="nav-item">
