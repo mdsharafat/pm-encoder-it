@@ -2,6 +2,8 @@
 
 use Illuminate\Database\Seeder;
 use App\Client;
+use App\Department;
+use App\JobStatus;
 use App\User;
 use App\Platform;
 use App\ProjectStatus;
@@ -39,6 +41,7 @@ class NecessaryTableSeeder extends Seeder
 
         $faker = Faker\Factory::create();
 
+        // *************************
         //user table
         $userArray = [
             0 => ['abir', 'abir@test.com', 'abir.jpg', 'Super Admin'],
@@ -46,7 +49,6 @@ class NecessaryTableSeeder extends Seeder
             2 => ['sohan', 'sohan@test.com', 'sohan.jpg', 'User'],
             3 => ['salman', 'salman@test.com', 'salman.jpg', 'User']
         ];
-
         foreach($userArray as $item){
             $user = new User();
             $user->name = ucfirst(trans($item[0]));
@@ -56,19 +58,20 @@ class NecessaryTableSeeder extends Seeder
             $user->save();
             $user->assignRole($item[3]);
         }
+        // *************************
 
         //platform table
         $platformArray = [
             0 => ['upwork', 5.0],
             1 => ['freelance', 5.0]
         ];
-
         foreach($platformArray as $item){
             $platform          = new Platform();
             $platform->name    = $item[0];
             $platform->ratings = $item[1];
             $platform->save();
         }
+        // *************************
 
         //client table
         for ($i=1; $i <=5 ; $i++) { 
@@ -79,6 +82,7 @@ class NecessaryTableSeeder extends Seeder
             $client->desc = $faker->paragraph;
             $client->save();
         }
+        // *************************
 
         //project status table
         $projectStatusesArray = [
@@ -91,12 +95,12 @@ class NecessaryTableSeeder extends Seeder
             'Client Feedback',
             'Complete'
         ];
-
         foreach($projectStatusesArray as $key => $value){
             $projectStatus = new ProjectStatus();
             $projectStatus->name = $value;
             $projectStatus->save();
         }
+        // *************************
 
         //task status table
         $taskStatusesArray = [
@@ -105,11 +109,38 @@ class NecessaryTableSeeder extends Seeder
             'Submit',
             'Completed'
         ];
-
         foreach($taskStatusesArray as $key => $value){
             $taskStatus = new TaskStatus();
             $taskStatus->name = $value;
             $taskStatus->save();
+        }
+        // *************************
+
+        //job statuses table
+        $jobStatusesArray = [
+            'Internship',
+            'Provision',
+            'Parmanent'
+        ];
+        foreach($jobStatusesArray as $key => $value){
+            $jobStatus = new JobStatus();
+            $jobStatus->name = $value;
+            $jobStatus->save();
+        }
+        // *************************
+
+        //departments table
+        $departmentsArray = [
+            'Backend Development',
+            'Digital Marketing',
+            'Graphic Design',
+            'HRM',
+            'Frontend Development'   
+        ];
+        foreach($departmentsArray as $key => $value){
+            $department = new Department();
+            $department->name = $value;
+            $department->save();
         }
     }
 }

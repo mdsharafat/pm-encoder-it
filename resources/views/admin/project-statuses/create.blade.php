@@ -19,7 +19,7 @@
         <form action="{{ url('/project-statuses') }}" method="post" enctype="multipart/form-data">
             @csrf
             <fieldset>
-                <legend><span class="number"><i class="fas fa-plus"></i></span> Add New Project Status</legend>
+                <legend><span class="number"><i class="fas fa-plus"></i></span> Add Project Status</legend>
             </fieldset>
             <fieldset>
                 @include ('admin.project-statuses.form', ['formMode' => 'create'])

@@ -16,13 +16,14 @@
     @endif
 
     <div class="form-style-5">
-        <form action="{{ url('/platforms') }}" method="post" enctype="multipart/form-data">
+        <form action="{{ url('/departments/' . $department->id) }}" method="post" enctype="multipart/form-data">
+            {{ method_field('PATCH') }}
             @csrf
             <fieldset>
-                <legend><span class="number"><i class="fas fa-plus"></i></span> Add Platform</legend>
+                <legend><span class="number"><i class="fas fa-plus"></i></span> Edit Department ({{ $department->id }})</legend>
             </fieldset>
             <fieldset>
-                @include ('admin.platforms.form', ['formMode' => 'create'])
+                @include ('admin.departments.form', ['formMode' => 'edit'])
             </fieldset>
         </form>
     </div>

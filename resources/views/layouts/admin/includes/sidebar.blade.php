@@ -77,7 +77,7 @@
             </a>
             <div id="collapseProjectStatus" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="{{ url('/project-statuses/create') }}">ADD NEW P.STATUS</a>
+                    <a class="collapse-item" href="{{ url('/project-statuses/create') }}">ADD P.STATUS</a>
                     <a class="collapse-item" href="{{ url('/project-statuses') }}">MANAGE P.STATUS</a>
                 </div>
             </div>
@@ -95,8 +95,38 @@
         </a>
         <div id="collapseTaskStatus" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="{{ url('/task-statuses/create') }}">ADD NEW T.STATUS</a>
+                <a class="collapse-item" href="{{ url('/task-statuses/create') }}">ADD T.STATUS</a>
                 <a class="collapse-item" href="{{ url('/task-statuses') }}">MANAGE T.STATUS</a>
+            </div>
+        </div>
+    </li>
+
+    <hr class="sidebar-divider">
+
+    <div class="sidebar-heading"> Employee </div>
+
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDepartment" aria-expanded="true" aria-controls="collapseDepartment">
+            <i class="fas fa-user-tie"></i>
+            <span>DEPARTMENTS</span>
+        </a>
+        <div id="collapseDepartment" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="{{ url('/departments/create') }}">ADD DEPARTMENT</a>
+                <a class="collapse-item" href="{{ url('/departments') }}">MANAGE DEPARTMENT</a>
+            </div>
+        </div>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseJobStatus" aria-expanded="true" aria-controls="collapseJobStatus">
+            <i class="fas fa-user-tie"></i>
+            <span>JOB STATUS</span>
+        </a>
+        <div id="collapseJobStatus" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="{{ url('/job-statuses/create') }}">ADD JOB STATUS</a>
+                <a class="collapse-item" href="{{ url('/job-statuses') }}">MANAGE JOB STATUS</a>
             </div>
         </div>
     </li>

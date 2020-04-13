@@ -19,7 +19,7 @@
         <form action="{{ url('/users') }}" method="post">
             @csrf
             <fieldset>
-                <legend><span class="number"><i class="fas fa-plus"></i></span> Add New User</legend>
+                <legend><span class="number"><i class="fas fa-plus"></i></span> Add User</legend>
             </fieldset>
             <fieldset>
                 <div class="row">

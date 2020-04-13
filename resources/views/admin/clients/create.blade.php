@@ -19,7 +19,7 @@
         <form action="{{ url('/clients') }}" method="post" enctype="multipart/form-data">
             @csrf
             <fieldset>
-                <legend><span class="number"><i class="fas fa-plus"></i></span> Add New Client</legend>
+                <legend><span class="number"><i class="fas fa-plus"></i></span> Add Client</legend>
             </fieldset>
             <fieldset>
                 @include ('admin.clients.form', ['formMode' => 'create'])

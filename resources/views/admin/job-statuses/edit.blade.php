@@ -16,13 +16,14 @@
     @endif
 
     <div class="form-style-5">
-        <form action="{{ url('/platforms') }}" method="post" enctype="multipart/form-data">
+        <form action="{{ url('/job-statuses/' . $jobstatus->id) }}" method="post" enctype="multipart/form-data">
+            {{ method_field('PATCH') }}
             @csrf
             <fieldset>
-                <legend><span class="number"><i class="fas fa-plus"></i></span> Add Platform</legend>
+                <legend><span class="number"><i class="fas fa-plus"></i></span> Edit Job Status ({{ $jobstatus->id }})</legend>
             </fieldset>
             <fieldset>
-                @include ('admin.platforms.form', ['formMode' => 'create'])
+                @include ('admin.job-statuses.form', ['formMode' => 'edit'])
             </fieldset>
         </form>
     </div>

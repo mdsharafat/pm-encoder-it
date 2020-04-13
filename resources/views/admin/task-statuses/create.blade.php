@@ -19,7 +19,7 @@
         <form action="{{ url('/task-statuses') }}" method="post" enctype="multipart/form-data">
             @csrf
             <fieldset>
-                <legend><span class="number"><i class="fas fa-plus"></i></span> Add New Task Status</legend>
+                <legend><span class="number"><i class="fas fa-plus"></i></span> Add Task Status</legend>
             </fieldset>
             <fieldset>
                 @include ('admin.task-statuses.form', ['formMode' => 'create'])
