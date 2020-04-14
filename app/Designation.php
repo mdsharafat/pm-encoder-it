@@ -4,14 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ProjectStatus extends Model
+class Designation extends Model
 {
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'project_statuses';
+    protected $table = 'designations';
 
     /**
     * The database primary key value.
@@ -27,8 +27,5 @@ class ProjectStatus extends Model
      */
     protected $fillable = ['name'];
 
-    public function projects()
-    {
-        return $this->hasMany(Project::class, 'project_status_id');
-    }
+    
 }

@@ -31,5 +31,10 @@ class Platform extends Model
     {
         return $this->hasMany(Client::class, 'platform_id');
     }
+
+    public function projects()
+    {
+        return $this->hasMany(Project::class, 'platform_id');
+    }
     
 }

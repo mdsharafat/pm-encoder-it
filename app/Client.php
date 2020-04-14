@@ -31,5 +31,10 @@ class Client extends Model
     {
         return $this->belongsTo(Platform::class, 'platform_id');
     }
+
+    public function projects()
+    {
+        return $this->hasMany(Project::class, 'project_id');
+    }
     
 }

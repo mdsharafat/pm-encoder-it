@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use App\Client;
 use App\Department;
+use App\Designation;
 use App\JobStatus;
 use App\User;
 use App\Platform;
@@ -62,8 +63,9 @@ class NecessaryTableSeeder extends Seeder
 
         //platform table
         $platformArray = [
-            0 => ['upwork', 5.0],
-            1 => ['freelance', 5.0]
+            0 => ['Upwork', 5.0],
+            1 => ['Freelancer', 5.0],
+            2 => ['Local', 5.0]
         ];
         foreach($platformArray as $item){
             $platform          = new Platform();
@@ -141,6 +143,21 @@ class NecessaryTableSeeder extends Seeder
             $department = new Department();
             $department->name = $value;
             $department->save();
+        }
+        // *************************
+
+        //designation table
+        $designationsArray = [
+            'Frontend Developer',
+            'Graphic Designer',
+            'Laravel Developer',
+            'Nodejs Developer',
+            'Wordpress Developer'  
+        ];
+        foreach($designationsArray as $key => $value){
+            $designation = new Designation();
+            $designation->name = $value;
+            $designation->save();
         }
     }
 }

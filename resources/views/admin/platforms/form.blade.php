@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-4">
         <label>Name</label>
-        <input type="text" name="name" id="name" placeholder="name *" value="{{ isset($platform->name) ? $platform->name : ''}}" >
+        <input required type="text" name="name" id="name" placeholder="name *" value="{{ isset($platform->name) ? $platform->name : ''}}" >
     </div>
     <div class="col-md-4">
         <label>Ratings</label>

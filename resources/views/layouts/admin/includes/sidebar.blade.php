@@ -44,11 +44,11 @@
 
     @canany(['add-platform', 'edit-platform', 'view-platform', 'delete-platform'])
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePlatform" aria-expanded="true" aria-controls="collapsePlatform">
                 <i class="fas fa-fw fa-folder"></i>
                 <span>PLATFORMS</span>
             </a>
-            <div id="collapseThree" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div id="collapsePlatform" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <a class="collapse-item" href="{{ url('/platforms/create') }}">ADD PLATFORM</a>
                     <a class="collapse-item" href="{{ url('/platforms') }}">MANAGE PLATFORMS</a>
@@ -59,11 +59,11 @@
 
     @role('Super Admin')
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseClient" aria-expanded="true" aria-controls="collapseClient">
                 <i class="fas fa-user-tie"></i>
                 <span>CLIENTS</span>
             </a>
-            <div id="collapseFour" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div id="collapseClient" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <a class="collapse-item" href="{{ url('/clients/create') }}">ADD CLIENT</a>
                     <a class="collapse-item" href="{{ url('/clients') }}">MANAGE CLIENT</a>
@@ -79,6 +79,18 @@
                 <div class="bg-white py-2 collapse-inner rounded">
                     <a class="collapse-item" href="{{ url('/project-statuses/create') }}">ADD P.STATUS</a>
                     <a class="collapse-item" href="{{ url('/project-statuses') }}">MANAGE P.STATUS</a>
+                </div>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProject" aria-expanded="true" aria-controls="collapseProject">
+                <i class="fas fa-user-tie"></i>
+                <span>PROJECTS</span>
+            </a>
+            <div id="collapseProject" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="{{ url('/projects/create') }}">ADD PROJECT</a>
+                    <a class="collapse-item" href="{{ url('/projects') }}">MANAGE PROJECT</a>
                 </div>
             </div>
         </li>
@@ -114,6 +126,18 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="{{ url('/departments/create') }}">ADD DEPARTMENT</a>
                 <a class="collapse-item" href="{{ url('/departments') }}">MANAGE DEPARTMENT</a>
+            </div>
+        </div>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDesignation" aria-expanded="true" aria-controls="collapseDesignation">
+            <i class="fas fa-user-tie"></i>
+            <span>DESIGNATIONS</span>
+        </a>
+        <div id="collapseDesignation" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="{{ url('/designations/create') }}">ADD DESIGNATION</a>
+                <a class="collapse-item" href="{{ url('/designations') }}">MANAGE DESIGNATION</a>
             </div>
         </div>
     </li>

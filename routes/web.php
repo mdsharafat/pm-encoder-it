@@ -38,3 +38,5 @@ Route::resource('project-statuses', 'Admin\\ProjectStatusesController');
 Route::resource('task-statuses', 'Admin\\TaskStatusesController');
 Route::resource('job-statuses', 'Admin\\JobStatusesController');
 Route::resource('departments', 'Admin\\DepartmentsController');
+Route::resource('designations', 'Admin\\DesignationsController');
+Route::resource('projects', 'Admin\\ProjectsController');

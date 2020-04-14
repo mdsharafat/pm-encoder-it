@@ -13,9 +13,10 @@ class CreateDepartmentsTable extends Migration
     public function up()
     {
         Schema::create('departments', function (Blueprint $table) {
-            $table->increments('id');
-            $table->timestamps();
+            $table->engine = 'InnoDB';
+            $table->id();
             $table->string('name')->nullable();
+            $table->timestamps();
             });
     }
 
