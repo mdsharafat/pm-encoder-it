@@ -94,6 +94,18 @@
                 </div>
             </div>
         </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProjectNotes" aria-expanded="true" aria-controls="collapseProjectNotes">
+                <i class="fas fa-user-tie"></i>
+                <span>PROJECT NOTES</span>
+            </a>
+            <div id="collapseProjectNotes" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="{{ url('/project-notes/create') }}">ADD NOTE</a>
+                    <a class="collapse-item" href="{{ url('/project-notes') }}">MANAGE NOTE</a>
+                </div>
+            </div>
+        </li>
     @endrole
 
     <hr class="sidebar-divider">

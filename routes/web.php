@@ -40,3 +40,5 @@ Route::resource('job-statuses', 'Admin\\JobStatusesController');
 Route::resource('departments', 'Admin\\DepartmentsController');
 Route::resource('designations', 'Admin\\DesignationsController');
 Route::resource('projects', 'Admin\\ProjectsController');
+Route::resource('project-notes', 'Admin\\ProjectNotesController');
+Route::DELETE('/delete-all-project-notes-for-particular-project/{id}', 'Admin\\ProjectNotesController@deleteAllNotesForParticularProject');

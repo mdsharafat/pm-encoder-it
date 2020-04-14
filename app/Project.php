@@ -41,4 +41,10 @@ class Project extends Model
     {
         return $this->belongsTo(ProjectStatus::class, 'project_status_id');
     }
+
+    public function projectNotes()
+    {
+        return $this->hasMany(ProjectNote::class, 'project_id');
+    }
+
 }
