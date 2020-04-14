@@ -53,6 +53,10 @@ class Handler extends ExceptionHandler
         if ($exception instanceof \Spatie\Permission\Exceptions\UnauthorizedException) {
             return response()->view('admin.errors.403', [], 403);
         }
+
+        if ($exception instanceof \Illuminate\Session\TokenMismatchException) {
+            return redirect('/login');
+        }
         return parent::render($request, $exception);
     }
 }

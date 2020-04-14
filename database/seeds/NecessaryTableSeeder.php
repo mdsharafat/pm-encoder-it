@@ -4,14 +4,17 @@ use Illuminate\Database\Seeder;
 use App\Client;
 use App\Department;
 use App\Designation;
-use App\JobStatus;
+use App\JobType;
 use App\User;
 use App\Platform;
+use App\Project;
+use App\ProjectNote;
 use App\ProjectStatus;
 use App\TaskStatus;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Carbon\Carbon;
 
 class NecessaryTableSeeder extends Seeder
 {
@@ -118,16 +121,16 @@ class NecessaryTableSeeder extends Seeder
         }
         // *************************
 
-        //job statuses table
-        $jobStatusesArray = [
+        //job types table
+        $jobTypesArray = [
             'Internship',
             'Provision',
             'Parmanent'
         ];
-        foreach($jobStatusesArray as $key => $value){
-            $jobStatus = new JobStatus();
-            $jobStatus->name = $value;
-            $jobStatus->save();
+        foreach($jobTypesArray as $key => $value){
+            $jobType       = new JobType();
+            $jobType->name = $value;
+            $jobType->save();
         }
         // *************************
 
@@ -158,6 +161,36 @@ class NecessaryTableSeeder extends Seeder
             $designation = new Designation();
             $designation->name = $value;
             $designation->save();
+        }
+        // *************************
+
+        //project table
+        for ($i=1; $i <=10 ; $i++) { 
+            $project = new Project();
+            $project->title = $faker->word;
+            $project->client_id = mt_rand(1,5);
+            $project->platform_id = mt_rand(1,3);
+            $project->budget = mt_rand(1000,5000);
+            $project->project_status_id = mt_rand(1,8);
+            $project->deadline = Carbon::parse($faker->date)->format('Y/m/d');;
+            $project->desc = $faker->paragraph;
+            $project->git_repo = "https://github.com/mdsharafat/pm-encoder-it";
+            $project->trello_link = "https://github.com/mdsharafat/pm-encoder-it";
+            $project->gd_link = "https://github.com/mdsharafat/pm-encoder-it";
+            $project->demo_web_link = "https://github.com/mdsharafat/pm-encoder-it";
+            $project->live_project_link = "https://github.com/mdsharafat/pm-encoder-it";
+            $project->save();
+        }
+        // *************************
+
+        //project-notes table
+        for ($i=1; $i <=10 ; $i++) {
+            for ($j=1; $j <=mt_rand(2,10) ; $j++) { 
+                $projectNote = new ProjectNote();
+                $projectNote->project_id = $i;
+                $projectNote->note = $faker->paragraph;
+                $projectNote->save();        
+            }
         }
     }
 }

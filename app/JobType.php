@@ -4,14 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class JobStatus extends Model
+class JobType extends Model
 {
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'job_statuses';
+    protected $table = 'job_types';
 
     /**
     * The database primary key value.

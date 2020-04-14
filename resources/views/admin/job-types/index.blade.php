@@ -35,17 +35,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($jobstatuses as $item)
+                        @foreach($jobTypes as $item)
                             <tr class="text-center">
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->name }}</td>
                                 <td>
-                                    <a href="{{ url('/job-statuses/' . $item->id . '/edit') }}" title="Edit JobStatus" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                    <a href="{{ url('/job-types/' . $item->id . '/edit') }}" title="Edit Job Type" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
 
-                                    <form method="POST" action="{{ url('/job-statuses' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
+                                    <form method="POST" action="{{ url('/job-types' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
                                         {{ method_field('DELETE') }}
                                         @csrf
-                                        <button type="submit" class="btn btn-danger btn-sm" title="Delete JobStatus" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fas fa-trash-alt"></i></button>
+                                        <button type="submit" class="btn btn-danger btn-sm" title="Delete Job Type" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fas fa-trash-alt"></i></button>
                                     </form>
                                 </td>
                             </tr>

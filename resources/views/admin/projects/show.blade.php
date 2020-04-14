@@ -7,7 +7,7 @@
 @section('main-content')
     <div class="form-style-5" style="padding-top: 0px; padding-bottom: 0px;">
         <fieldset>
-            <legend><span class="number"><i class="fas fa-table"></i></span> Details 0f Projects {{ $project->title }}</legend>
+            <legend><span class="number"><i class="fas fa-table"></i></span> Details 0f Projects "{{ ucfirst($project->title) }}"</legend>
         </fieldset>
     </div>
     <div class="container">
@@ -50,19 +50,15 @@
                     <br>
                     <div class="label">Git</div>
                     <div class="description" spellcheck="false">{{ $project->git_repo }}</div>
-
                     <br>
                     <div class="label">Trello</div>
                     <div class="description" spellcheck="false">{{ $project->trello_link }}</div>
-
                     <br>
                     <div class="label">Google Drive</div>
                     <div class="description" spellcheck="false">{{ $project->gd_link }}</div>
-
                     <br>
                     <div class="label">Demo Website</div>
                     <div class="description" spellcheck="false">{{ $project->demo_web_link }}</div>
-
                     <br>
                     <div class="label">Live Project</div>
                     <div class="description" spellcheck="false">{{ $project->live_project_link }}</div>

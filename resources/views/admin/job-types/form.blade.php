@@ -2,7 +2,7 @@
     <div class="col-md-6">
         <div class="form-group {{ $errors->has('name') ? 'has-error' : ''}}">
             <label for="name" class="control-label">{{ 'Name' }}</label>
-            <input required type="text" name="name" id="name" placeholder="name *" value="{{ isset($jobstatus->name) ? $jobstatus->name : ''}}" >
+            <input required type="text" name="name" id="name" placeholder="name *" value="{{ isset($jobType->name) ? $jobType->name : ''}}" >
             {!! $errors->first('name', '<p class="help-block">:message</p>') !!}
         </div>
     </div>

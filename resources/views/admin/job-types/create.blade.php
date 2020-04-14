@@ -16,13 +16,13 @@
     @endif
 
     <div class="form-style-5">
-        <form action="{{ url('/job-statuses') }}" method="post" enctype="multipart/form-data">
+        <form action="{{ url('/job-types') }}" method="post" enctype="multipart/form-data">
             @csrf
             <fieldset>
-                <legend><span class="number"><i class="fas fa-plus"></i></span> Add Job Status</legend>
+                <legend><span class="number"><i class="fas fa-plus"></i></span> Add Job Type</legend>
             </fieldset>
             <fieldset>
-                @include ('admin.job-statuses.form', ['formMode' => 'create'])
+                @include ('admin.job-types.form', ['formMode' => 'create'])
             </fieldset>
         </form>
     </div>

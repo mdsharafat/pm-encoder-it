@@ -42,7 +42,7 @@
                         @foreach($projects as $item)
                             <tr class="text-center">
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $item->title }}</td>
+                                <td>{{ ucfirst($item->title) }}</td>
                                 <td>{{ $item->client->name }}</td>
                                 <td>{{ $item->platform->name }}</td>
                                 <td>{{ $item->deadline }}</td>

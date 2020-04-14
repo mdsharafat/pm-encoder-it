@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateJobStatusesTable extends Migration
+class CreateJobTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,7 @@ class CreateJobStatusesTable extends Migration
      */
     public function up()
     {
-        Schema::create('job_statuses', function (Blueprint $table) {
+        Schema::create('job_types', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->id();
             $table->string('name')->nullable();
@@ -27,6 +27,6 @@ class CreateJobStatusesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('job_statuses');
+        Schema::drop('job_types');
     }
 }

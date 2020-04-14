@@ -23,13 +23,16 @@
     <div class="container">
         <div class="form-style-5" style="padding-top: 0px; padding-bottom: 0px;">
             <fieldset>
-                <legend><span class="number"><i class="fas fa-table"></i></span>All Notes for <span class="font-weight-bold">"{{ $project->title }}"</span></legend>
+                <legend><span class="number"><i class="fas fa-table"></i></span>All Notes for <span class="font-weight-bold">"{{ ucfirst($project->title) }}"</span></legend>
             </fieldset>
         </div>
         @foreach($project->projectNotes as $item)
             <div class="card">
                 <div class="row">
-                    <div class="col-md-12 text-right">
+                    <div class="col-md-6 text-left">
+                        <p><u>created at: {{ $item->created_at }} </u></p>
+                    </div>
+                    <div class="col-md-6 text-right">
                         <a href="{{ url('/project-notes/' . $item->id . '/edit') }}" title="Back"><button class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></button></a>
                         <form method="POST" action="{{ url('/project-notes' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
                             {{ method_field('DELETE') }}
