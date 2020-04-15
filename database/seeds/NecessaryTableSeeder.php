@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 use App\Client;
 use App\Department;
 use App\Designation;
+use App\Employee;
 use App\JobType;
 use App\User;
 use App\Platform;
@@ -79,7 +80,7 @@ class NecessaryTableSeeder extends Seeder
         // *************************
 
         //client table
-        for ($i=1; $i <=5 ; $i++) { 
+        for ($i=1; $i <=5 ; $i++) {
             $client = new Client();
             $client->name = $faker->name;
             $client->email = 'client_'.$i.'@test.com';
@@ -140,7 +141,7 @@ class NecessaryTableSeeder extends Seeder
             'Digital Marketing',
             'Graphic Design',
             'HRM',
-            'Frontend Development'   
+            'Frontend Development'
         ];
         foreach($departmentsArray as $key => $value){
             $department = new Department();
@@ -155,7 +156,7 @@ class NecessaryTableSeeder extends Seeder
             'Graphic Designer',
             'Laravel Developer',
             'Nodejs Developer',
-            'Wordpress Developer'  
+            'Wordpress Developer'
         ];
         foreach($designationsArray as $key => $value){
             $designation = new Designation();
@@ -165,7 +166,7 @@ class NecessaryTableSeeder extends Seeder
         // *************************
 
         //project table
-        for ($i=1; $i <=10 ; $i++) { 
+        for ($i=1; $i <=10 ; $i++) {
             $project = new Project();
             $project->title = $faker->word;
             $project->client_id = mt_rand(1,5);
@@ -185,12 +186,42 @@ class NecessaryTableSeeder extends Seeder
 
         //project-notes table
         for ($i=1; $i <=10 ; $i++) {
-            for ($j=1; $j <=mt_rand(2,10) ; $j++) { 
+            for ($j=1; $j <=mt_rand(2,10) ; $j++) {
                 $projectNote = new ProjectNote();
                 $projectNote->project_id = $i;
                 $projectNote->note = $faker->paragraph;
-                $projectNote->save();        
+                $projectNote->save();
             }
         }
+
+        //employees table
+        for ($i=1; $i <=10 ; $i++) {
+            $user           = new User();
+            $user->name     = $faker->userName;
+            $user->email    = 'user_'.$i.'@test.com';
+            $user->password = Hash::make('12345678');
+            $user->save();
+            $user->assignRole('User');
+
+            $employee                    = new Employee();
+            $employee->user_id           = $user->id;
+            $employee->department_id     = mt_rand(1,5);
+            $employee->designation_id    = mt_rand(1,5);
+            $employee->job_type_id       = mt_rand(1,3);
+            $employee->full_name         = $faker->name;
+            $employee->date_of_join      = $faker->date($format = 'Y/m/d', $max = 'now');
+            $employee->phone             = $faker->randomNumber;
+            $employee->email_personal    = $faker->email;
+            $employee->nid               = $faker->numberBetween($min = 1000000000000, $max = 9000000000000);
+            $employee->date_of_birth     = $faker->date($format = 'Y/m/d', $max = 'now');
+            $employee->present_address   = $faker->address;
+            $employee->permanent_address = $faker->address;
+            $employee->marital_status    = mt_rand(0,1);
+            $employee->desc              = $faker->text;
+            $employee->current_salary    = mt_rand(180, 250);
+            $employee->updated_by        = 'abir@test.com';
+            $employee->save();
+        }
+        // *************************
     }
 }

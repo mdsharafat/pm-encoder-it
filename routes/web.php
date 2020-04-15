@@ -42,3 +42,5 @@ Route::resource('designations', 'Admin\\DesignationsController');
 Route::resource('projects', 'Admin\\ProjectsController');
 Route::resource('project-notes', 'Admin\\ProjectNotesController');
 Route::DELETE('/delete-all-project-notes-for-particular-project/{id}', 'Admin\\ProjectNotesController@deleteAllNotesForParticularProject');
+Route::resource('employees', 'Admin\\EmployeesController');
+Route::POST('/delete-certificate', 'Admin\EmployeesController@deleteCertificate');

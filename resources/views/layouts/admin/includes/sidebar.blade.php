@@ -23,7 +23,7 @@
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
                 <i class="fas fa-fw fa-user"></i>
-                <span>USERS</span>
+                <span>USER</span>
             </a>
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
@@ -46,7 +46,7 @@
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePlatform" aria-expanded="true" aria-controls="collapsePlatform">
                 <i class="fas fa-fw fa-folder"></i>
-                <span>PLATFORMS</span>
+                <span>PLATFORM</span>
             </a>
             <div id="collapsePlatform" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
@@ -61,7 +61,7 @@
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseClient" aria-expanded="true" aria-controls="collapseClient">
                 <i class="fas fa-user-tie"></i>
-                <span>CLIENTS</span>
+                <span>CLIENT</span>
             </a>
             <div id="collapseClient" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
@@ -85,7 +85,7 @@
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProject" aria-expanded="true" aria-controls="collapseProject">
                 <i class="fas fa-user-tie"></i>
-                <span>PROJECTS</span>
+                <span>PROJECT</span>
             </a>
             <div id="collapseProject" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
@@ -97,7 +97,7 @@
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProjectNotes" aria-expanded="true" aria-controls="collapseProjectNotes">
                 <i class="fas fa-user-tie"></i>
-                <span>PROJECT NOTES</span>
+                <span>PROJECT NOTE</span>
             </a>
             <div id="collapseProjectNotes" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
@@ -132,7 +132,7 @@
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDepartment" aria-expanded="true" aria-controls="collapseDepartment">
             <i class="fas fa-user-tie"></i>
-            <span>DEPARTMENTS</span>
+            <span>DEPARTMENT</span>
         </a>
         <div id="collapseDepartment" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
@@ -144,12 +144,24 @@
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDesignation" aria-expanded="true" aria-controls="collapseDesignation">
             <i class="fas fa-user-tie"></i>
-            <span>DESIGNATIONS</span>
+            <span>DESIGNATION</span>
         </a>
         <div id="collapseDesignation" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="{{ url('/designations/create') }}">ADD DESIGNATION</a>
                 <a class="collapse-item" href="{{ url('/designations') }}">MANAGE DESIGNATION</a>
+            </div>
+        </div>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseEmployee" aria-expanded="true" aria-controls="collapseEmployee">
+            <i class="fas fa-user-tie"></i>
+            <span>EMPLOYEE</span>
+        </a>
+        <div id="collapseEmployee" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="{{ url('/employees/create') }}">ADD EMPLOYEE</a>
+                <a class="collapse-item" href="{{ url('/employees') }}">MANAGE EMPLOYEE</a>
             </div>
         </div>
     </li>

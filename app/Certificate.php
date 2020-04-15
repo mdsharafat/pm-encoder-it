@@ -4,14 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class JobType extends Model
+class Certificate extends Model
 {
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'job_types';
+    protected $table = 'certificates';
 
     /**
     * The database primary key value.
@@ -25,11 +25,10 @@ class JobType extends Model
      *
      * @var array
      */
-    protected $fillable = ['name'];
+    protected $fillable = ['emp_id' , 'institute', 'certificate', 'image'];
 
-    public function employees()
+    public function employee()
     {
-        return $this->hasMany(Employee::class, 'job_type_id');
+        return $this->belongsTo(Employee::class, 'emp_id');
     }
-    
 }
