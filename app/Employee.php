@@ -73,4 +73,8 @@ class Employee extends Model
         return $this->hasMany(Certificate::class, 'emp_id');
     }
 
+    public function leaves()
+    {
+        return $this->hasMany(LeaveManagement::class, 'emp_id');
+    }
 }

@@ -18,3 +18,10 @@
 .custom-card-body {
     padding: 10px;
 }
+
+.my-custom-badge {
+    color: #ffffff;
+    padding: 5px;
+    font-size: 15px;
+    font-weight: bolder;
+}

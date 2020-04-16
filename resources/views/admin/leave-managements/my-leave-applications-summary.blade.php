@@ -20,7 +20,7 @@
     @endif
     <div class="form-style-5" style="padding-top: 0px; padding-bottom: 0px;">
         <fieldset>
-            <legend><span class="number"><i class="fas fa-table"></i></span> Platforms Table</legend>
+            <legend><span class="number"><i class="fas fa-table"></i></span>My Leave Applications</legend>
         </fieldset>
     </div>
     <div class="card shadow mb-4">
@@ -30,25 +30,26 @@
                     <thead>
                         <tr class="text-center">
                             <th>#</th>
-                            <th>Name</th>
-                            <th>Ratings</th>
-                            <th>Action</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Category</th>
+                            <th>Reason</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($platforms as $item)
+                        @foreach($leaveApplications as $item)
                             <tr class="text-center">
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $item->name }}</td>
-                                <td> <span class="text-warning"><i class="fas fa-star"></i></span> {{ number_format($item->ratings, 1) }}</td>
+                                <td>{{ $item->date }}</td>
                                 <td>
-                                    <a href="{{ url('/platforms/' . $item->id . '/edit') }}" title="Edit Platform" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                    <form method="POST" action="{{ url('/platforms' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
-                                        {{ method_field('DELETE') }}
-                                        @csrf
-                                        <button type="submit" class="btn btn-danger btn-sm" title="Delete Platform" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fas fa-trash-alt"></i></button>
-                                    </form>
+                                    @if($item->status == 2)
+                                    <span class="badge bg-success my-custom-badge">{{ $item->statusName($item->status) }}</span>
+                                    @else
+                                    <span class="badge bg-danger my-custom-badge">{{ $item->statusName($item->status) }}</span>
+                                    @endif
                                 </td>
+                                <td>{{ $item->categoryName($item->category) }}</td>
+                                <td>{{ $item->reason }}</td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -65,7 +66,11 @@
     <!-- Page level custom scripts -->
     <script>
         $(document).ready(function() {
-            $('#dataTable').DataTable();
+            $('#dataTable').DataTable({
+                "columnDefs": [
+                    { "width": "450px", "targets": 4 },
+                ],
+            });
         });
     </script>
 @endsection

@@ -165,6 +165,26 @@
             </div>
         </div>
     </li>
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLeaveManagement" aria-expanded="true" aria-controls="collapseLeaveManagement">
+            <i class="fas fa-user-tie"></i>
+            <span>LEAVE MANAGEMENT</span>
+        </a>
+        <div id="collapseLeaveManagement" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                @role('Admin|User')
+                    <a class="collapse-item" href="{{ url('/leave-managements/create') }}">APPLY</a>
+                    <a class="collapse-item" href="{{ url('/my-leave-applications-pending') }}">MY APPLICATION</a>
+                    <a class="collapse-item" href="{{ url('/my-leave-applications-summary') }}">SUMMARY</a>
+                @endrole
+                @can('view-leave')
+                    <a class="collapse-item" href="{{ url('/leave-managements') }}">PENDING LIST</a>
+                    <a class="collapse-item" href="{{ url('/approved-leave-lists') }}">APPROVED LIST</a>
+                    <a class="collapse-item" href="{{ url('/rejected-leave-lists') }}">REJECTED LIST</a>
+                @endcan
+            </div>
+        </div>
+    </li>
 
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseJobStatus" aria-expanded="true" aria-controls="collapseJobStatus">

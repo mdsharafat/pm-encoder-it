@@ -15,9 +15,7 @@ class ProjectNotesController extends Controller
     public function index(Request $request)
     {
         $projectNotes = ProjectNote::select('project_id')->distinct()->pluck('project_id')->toArray();
-        // dd($projectNotes);
-        // $projects = Project::withcount('projectNotes')->with('projectNotes')->get();
-        $projects = Project::whereIn('id', $projectNotes)->get();
+        $projects     = Project::whereIn('id', $projectNotes)->get();
         return view('admin.project-notes.index', compact('projects'));
     }
 
@@ -30,9 +28,9 @@ class ProjectNotesController extends Controller
 
     public function store(Request $request)
     {
-        
+
         $requestData = $request->all();
-        
+
         ProjectNote::create($requestData);
 
         return redirect('project-notes')->with('flashMessage', 'ProjectNote added!');
@@ -55,9 +53,9 @@ class ProjectNotesController extends Controller
 
     public function update(Request $request, $id)
     {
-        
+
         $requestData = $request->all();
-        
+
         $projectnote = ProjectNote::findOrFail($id);
         $projectnote->update($requestData);
 

@@ -20,7 +20,7 @@
     @endif
     <div class="form-style-5" style="padding-top: 0px; padding-bottom: 0px;">
         <fieldset>
-            <legend><span class="number"><i class="fas fa-table"></i></span> Platforms Table</legend>
+            <legend><span class="number"><i class="fas fa-table"></i></span> Rejected Leave List</legend>
         </fieldset>
     </div>
     <div class="card shadow mb-4">
@@ -30,23 +30,27 @@
                     <thead>
                         <tr class="text-center">
                             <th>#</th>
-                            <th>Name</th>
-                            <th>Ratings</th>
+                            <th>Applicant</th>
+                            <th>Department</th>
+                            <th>Total</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($platforms as $item)
+                        @foreach($employeesLeave as $item)
                             <tr class="text-center">
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $item->name }}</td>
-                                <td> <span class="text-warning"><i class="fas fa-star"></i></span> {{ number_format($item->ratings, 1) }}</td>
+                                <td>{{ $item->employee->full_name }}</td>
+                                <td>{{ $item->employee->department->name }}</td>
                                 <td>
-                                    <a href="{{ url('/platforms/' . $item->id . '/edit') }}" title="Edit Platform" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                    <form method="POST" action="{{ url('/platforms' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
+                                    <a href="{{ url('/leave-rejected-unique-user/' . $item->emp_id) }}"><span class="badge bg-success my-custom-badge">{{ $item->totalPending }}</span></a>
+                                </td>
+                                <td>
+                                    <a href="{{ url('/leave-rejected-unique-user/' . $item->emp_id) }}" title="View LeaveManagement" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
+                                    <form method="POST" action="{{ url('/leave-managements' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
                                         {{ method_field('DELETE') }}
                                         @csrf
-                                        <button type="submit" class="btn btn-danger btn-sm" title="Delete Platform" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fas fa-trash-alt"></i></button>
+                                        <button type="submit" class="btn btn-danger btn-sm" title="Delete LeaveManagement" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fas fa-trash-alt"></i></button>
                                     </form>
                                 </td>
                             </tr>

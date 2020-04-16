@@ -17,7 +17,7 @@
     @endif
     @if(Session::has('flashMessage'))
         <h4 class="text-center text-success">{{ Session::get('flashMessage') }}</h4>
-    @endif    
+    @endif
     <div class="form-style-5" style="padding-top: 0px; padding-bottom: 0px;">
         <fieldset>
             <legend><span class="number"><i class="fas fa-table"></i></span> User Table</legend>
@@ -40,7 +40,7 @@
                         @endcan
                         @canany(['edit-user', 'delete-user'])
                             <th>Action</th>
-                        @endcanany   
+                        @endcanany
                     </tr>
                     </thead>
                     <tbody>
@@ -59,7 +59,7 @@
                                 <td>
                                     @if($item->status == 0)
                                         <span class="badge bg-danger" style="color: #ffffff; padding: 5px; font-weight: bold;">Inactive</span>
-                                    @else                        
+                                    @else
                                         <span class="badge bg-success" style="color: #ffffff; padding: 5px; font-weight: bold;">Active</span>
                                     @endif
                                 </td>
@@ -78,7 +78,7 @@
                                     <td>{{ $item->updated_by }}</td>
                                 @endcan
                                 @canany(['edit-user', 'delete-user'])
-                                    <td> 
+                                    <td>
                                         @can('edit-user')
                                             <a href="{{ url('/users/'.$item->id.'/edit') }}" class="btn btn-primary btn-sm">
                                                 <i class="fas fa-edit"></i>
@@ -92,9 +92,9 @@
                                                     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm(&quot;Confirm delete?&quot;)"> <i class="fas fa-trash-alt"></i> </button>
                                                 </form>
                                             @endcan
-                                        @endif                                
+                                        @endif
                                     </td>
-                                @endcanany  
+                                @endcanany
                             </tr>
                         @endforeach
                     </tbody>
@@ -110,5 +110,9 @@
     <script src="{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 
     <!-- Page level custom scripts -->
-    <script src="{{ asset('assets/js/demo/datatables-demo.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#dataTable').DataTable();
+        });
+    </script>
 @endsection

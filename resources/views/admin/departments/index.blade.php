@@ -31,6 +31,7 @@
                         <tr class="text-center">
                             <th>#</th>
                             <th>Name</th>
+                            <th>Total Employees</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -39,6 +40,7 @@
                             <tr class="text-center">
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->name }}</td>
+                                <td><span class="badge bg-success my-custom-badge">{{ $item->employees->count() }}</span></td>
                                 <td>
                                     <a href="{{ url('/departments/' . $item->id . '/edit') }}" title="Edit Department" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
 
@@ -62,5 +64,9 @@
     <script src="{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 
     <!-- Page level custom scripts -->
-    <script src="{{ asset('assets/js/demo/datatables-demo.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#dataTable').DataTable();
+        });
+    </script>
 @endsection

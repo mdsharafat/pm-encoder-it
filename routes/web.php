@@ -32,6 +32,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::POST('/change-password', 'Admin\UserController@changePassword');
     Route::PATCH('/change-user-image', 'Admin\UserController@changeUserImage');
 });
+
 Route::resource('platforms', 'Admin\\PlatformsController');
 Route::resource('clients', 'Admin\\ClientsController');
 Route::resource('project-statuses', 'Admin\\ProjectStatusesController');
@@ -44,3 +45,26 @@ Route::resource('project-notes', 'Admin\\ProjectNotesController');
 Route::DELETE('/delete-all-project-notes-for-particular-project/{id}', 'Admin\\ProjectNotesController@deleteAllNotesForParticularProject');
 Route::resource('employees', 'Admin\\EmployeesController');
 Route::POST('/delete-certificate', 'Admin\EmployeesController@deleteCertificate');
+Route::resource('leave-managements', 'Admin\\LeaveManagementsController');
+
+Route::get('/leave-managements', 'Admin\LeaveManagementsController@index')->middleware('permission:view-leave');
+Route::get('/leave-managements/create', 'Admin\LeaveManagementsController@create');
+Route::POST('/leave-managements', 'Admin\LeaveManagementsController@store');
+Route::get('/leave-managements/{unique_key}/edit', 'Admin\LeaveManagementsController@edit');
+Route::PATCH('/leave-managements/{unique_key}', 'Admin\LeaveManagementsController@update');
+Route::DELETE('/leave-managements/{unique_key}', 'Admin\LeaveManagementsController@destroy');
+Route::get('/my-leave-applications-pending', 'Admin\LeaveManagementsController@myLeaveApplicationPending');
+Route::get('/my-leave-applications-summary', 'Admin\LeaveManagementsController@myLeaveApplicationSummary');
+
+Route::get('/leave-pending-unique-user/{emp_id}', 'Admin\LeaveManagementsController@leavePendingUniqueUser')->middleware('permission:view-leave');
+Route::get('/leave-approved-unique-user/{emp_id}', 'Admin\LeaveManagementsController@leaveApprovedUniqueUser')->middleware('permission:view-leave');
+Route::get('/leave-rejected-unique-user/{emp_id}', 'Admin\LeaveManagementsController@leaveRejectedUniqueUser')->middleware('permission:view-leave');
+
+Route::get('/approve-leave-single/{id}/{emp_id}', 'Admin\LeaveManagementsController@approveLeaveSingle')->middleware('permission:approval-leave');
+Route::get('/reject-leave-single/{id}/{emp_id}', 'Admin\LeaveManagementsController@rejectLeaveSingle')->middleware('permission:approval-leave');
+Route::get('/approve-leave-all/{emp_id}', 'Admin\LeaveManagementsController@approveLeaveAll')->middleware('permission:approval-leave');
+Route::get('/reject-leave-all/{emp_id}', 'Admin\LeaveManagementsController@rejectLeaveAll')->middleware('permission:approval-leave');
+
+Route::get('/approved-leave-lists', 'Admin\LeaveManagementsController@approvedLeaveList')->middleware('permission:view-leave');
+Route::get('/rejected-leave-lists', 'Admin\LeaveManagementsController@rejectedLeaveList')->middleware('permission:view-leave');
+

@@ -6,6 +6,7 @@ use App\Department;
 use App\Designation;
 use App\Employee;
 use App\JobType;
+use App\LeaveManagement;
 use App\User;
 use App\Platform;
 use App\Project;
@@ -16,6 +17,7 @@ use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class NecessaryTableSeeder extends Seeder
 {
@@ -41,28 +43,23 @@ class NecessaryTableSeeder extends Seeder
         $permissionViewPlatform   = Permission::create(['name' => 'view-platform']);
         $permissionDeletePlatform = Permission::create(['name' => 'delete-platform']);
 
+        $permissionViewLeave    = Permission::create(['name' => 'view-leave']);
+        $permissionApproveLeave = Permission::create(['name' => 'approval-leave']);
+
         $roleSuperAdmin->syncPermissions(Permission::all());
         $roleAdmin->syncPermissions([$permissionViewUser ,$permissionEditUser]);
 
         $faker = Faker\Factory::create();
 
         // *************************
-        //user table
-        $userArray = [
-            0 => ['abir', 'abir@test.com', 'abir.jpg', 'Super Admin'],
-            1 => ['shahed', 'shahed@test.com', 'shahed.jpg', 'Admin'],
-            2 => ['sohan', 'sohan@test.com', 'sohan.jpg', 'User'],
-            3 => ['salman', 'salman@test.com', 'salman.jpg', 'User']
-        ];
-        foreach($userArray as $item){
-            $user = new User();
-            $user->name = ucfirst(trans($item[0]));
-            $user->email = $item[1];
-            $user->password = Hash::make('11111111');
-            $user->image = $item[2];
-            $user->save();
-            $user->assignRole($item[3]);
-        }
+        //user table (super admin user)
+        $user = new User();
+        $user->name = "Abir";
+        $user->email = 'abir@test.com';
+        $user->password = Hash::make('11111111');
+        $user->image = 'abir.jpg';
+        $user->save();
+        $user->assignRole('Super Admin');
         // *************************
 
         //platform table
@@ -173,7 +170,7 @@ class NecessaryTableSeeder extends Seeder
             $project->platform_id = mt_rand(1,3);
             $project->budget = mt_rand(1000,5000);
             $project->project_status_id = mt_rand(1,8);
-            $project->deadline = Carbon::parse($faker->date)->format('Y/m/d');;
+            $project->deadline = Carbon::parse($faker->date)->format('Y/m/d');
             $project->desc = $faker->paragraph;
             $project->git_repo = "https://github.com/mdsharafat/pm-encoder-it";
             $project->trello_link = "https://github.com/mdsharafat/pm-encoder-it";
@@ -195,20 +192,33 @@ class NecessaryTableSeeder extends Seeder
         }
 
         //employees table
-        for ($i=1; $i <=10 ; $i++) {
+        $employeeArray = [
+            0 => ['shahed', 'Shahed Romel', 'shahed@test.com', 'Admin'],
+            1 => ['sohan', 'Sharafat Hossain', 'sohan@test.com', 'User'],
+            2 => ['salman', 'Salman Khan', 'salman@test.com', 'User'],
+            3 => ['sajal', 'Sajal Kundu', 'sajal@test.com', 'User'],
+            4 => ['saifullah', 'Saiful Islam', 'saifullah@test.com', 'User'],
+            5 => ['ismam', 'Ismam Hasan', 'ismam@test.com', 'User'],
+            6 => ['ben', 'Benamin Mukammel', 'ben@test.com', 'User'],
+            7 => ['tkc', 'Tanvie Khan', 'tkc@test.com', 'User'],
+            8 => ['ibnul', 'Ibnul Hasan', 'ibnul@test.com', 'User'],
+            9 => ['tanin', 'Tanin Ansari', 'tanin@test.com', 'User'],
+        ];
+
+        foreach($employeeArray as $item){
             $user           = new User();
-            $user->name     = $faker->userName;
-            $user->email    = 'user_'.$i.'@test.com';
-            $user->password = Hash::make('12345678');
+            $user->name     = ucfirst(trans($item[0]));
+            $user->email    = $item[2];
+            $user->password = Hash::make('11111111');
             $user->save();
-            $user->assignRole('User');
+            $user->assignRole($item[3]);
 
             $employee                    = new Employee();
             $employee->user_id           = $user->id;
             $employee->department_id     = mt_rand(1,5);
             $employee->designation_id    = mt_rand(1,5);
             $employee->job_type_id       = mt_rand(1,3);
-            $employee->full_name         = $faker->name;
+            $employee->full_name         = $item[1];
             $employee->date_of_join      = $faker->date($format = 'Y/m/d', $max = 'now');
             $employee->phone             = $faker->randomNumber;
             $employee->email_personal    = $faker->email;
@@ -223,5 +233,19 @@ class NecessaryTableSeeder extends Seeder
             $employee->save();
         }
         // *************************
+
+        //leave-managements table
+        for ($i=1; $i <= 10; $i++) {
+            for ($j=1; $j <=mt_rand(1,7) ; $j++) {
+                $leaveApplication             = new LeaveManagement();
+                $leaveApplication->emp_id     = $i;
+                $leaveApplication->unique_key = Str::random(40);
+                $leaveApplication->status     = 1;
+                $leaveApplication->category   = mt_rand(1,4);
+                $leaveApplication->date       = Carbon::parse($faker->date)->format('Y/m/d');
+                $leaveApplication->reason     = $faker->text;
+                $leaveApplication->save();
+            }
+        }
     }
 }
