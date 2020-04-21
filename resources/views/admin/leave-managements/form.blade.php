@@ -11,7 +11,7 @@
         <div class="form-group {{ $errors->has('category') ? 'has-error' : ''}}">
             <label for="category" class="control-label">{{ 'Category' }}</label>
             <select required id="category" name="category" >
-                <option disabled selected>Select category</option>
+                <option disabled selected>Select Category</option>
                 @foreach (json_decode('{"1": "Casual Leave", "2": "Medical Leave", "3": "Paternity Leave", "4": "Maternity Leave"}', true) as $optionKey => $optionValue)
                     <option value="{{ $optionKey }}" {{ (isset($leavemanagement->category) && $leavemanagement->category == $optionKey) ? 'selected' : ''}}>{{ $optionValue }}</option>
                 @endforeach

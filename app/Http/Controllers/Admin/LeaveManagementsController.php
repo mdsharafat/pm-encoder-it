@@ -46,6 +46,11 @@ class LeaveManagementsController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'date' => 'required|date',
+            'category' => 'required|integer|between:1,4',
+            'reason' => 'required',
+        ]);
         $leaveApplication             = new LeaveManagement();
         $leaveApplication->emp_id     = Auth::user()->employee->id;
         $leaveApplication->unique_key = $this->generateUniqueKey();
@@ -54,7 +59,7 @@ class LeaveManagementsController extends Controller
         $leaveApplication->category   = $request->category;
         $leaveApplication->reason     = $request->reason;
         $leaveApplication->save();
-        return redirect('leave-managements')->with('flashMessage', 'LeaveManagement added!');
+        return redirect('/my-leave-applications-pending')->with('flashMessage', 'Leave Application Sent For Approval.');
     }
 
     protected function generateUniqueKey()

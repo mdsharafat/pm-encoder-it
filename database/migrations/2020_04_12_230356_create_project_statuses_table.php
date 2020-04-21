@@ -17,7 +17,7 @@ class CreateProjectStatusesTable extends Migration
             $table->id();
             $table->string('name')->nullable();
             $table->timestamps();
-            });
+        });
     }
 
     /**

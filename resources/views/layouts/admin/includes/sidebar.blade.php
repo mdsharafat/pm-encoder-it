@@ -110,7 +110,31 @@
 
     <hr class="sidebar-divider">
 
-    <div class="sidebar-heading"> Task & Reminder </div>
+    <div class="sidebar-heading"> TASK ASSIGNMENTS </div>
+
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTaskAssignments" aria-expanded="true" aria-controls="collapseTaskAssignments">
+            <i class="fas fa-tasks"></i>
+            <span>TASK ASSIGNMENTS</span>
+        </a>
+        <div id="collapseTaskAssignments" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                @can('add-task')
+                    <a class="collapse-item" href="{{ url('/tasks/create') }}">NEW TASK</a>
+                @endcan
+                @can('view-task')
+                    <a class="collapse-item" href="{{ url('/tasks') }}">ASSIGNED TASK</a>
+                    <a class="collapse-item" href="{{ url('/pending-feedback-tasks') }}">PENDING FEEDBACK</a>
+                    <a class="collapse-item" href="{{ url('/completed-tasks') }}">COMPLETED TASK</a>
+                @endcan
+                @role('Admin|User')
+                    <a class="collapse-item" href="{{ url('/my-assigned-tasks') }}">ASSIGNED TASKS</a>
+                    <a class="collapse-item" href="{{ url('/my-in-progress-tasks') }}">IN PROGRESS TASKS</a>
+                    <a class="collapse-item" href="{{ url('/my-completed-tasks') }}">COMPLETED TASKS</a>
+                @endrole
+            </div>
+        </div>
+    </li>
 
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTaskStatus" aria-expanded="true" aria-controls="collapseTaskStatus">
@@ -162,6 +186,18 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="{{ url('/employees/create') }}">ADD EMPLOYEE</a>
                 <a class="collapse-item" href="{{ url('/employees') }}">MANAGE EMPLOYEE</a>
+            </div>
+        </div>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseReview" aria-expanded="true" aria-controls="collapseReview">
+            <i class="fas fa-user-tie"></i>
+            <span>REVIEW</span>
+        </a>
+        <div id="collapseReview" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="{{ url('/reviews/create') }}">ADD REVIEW</a>
+                <a class="collapse-item" href="{{ url('/reviews') }}">MANAGE REVIEW</a>
             </div>
         </div>
     </li>

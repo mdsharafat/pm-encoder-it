@@ -12,7 +12,7 @@ use App\Platform;
 use App\Project;
 use App\ProjectNote;
 use App\ProjectStatus;
-use App\TaskStatus;
+use App\Task;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -45,6 +45,12 @@ class NecessaryTableSeeder extends Seeder
 
         $permissionViewLeave    = Permission::create(['name' => 'view-leave']);
         $permissionApproveLeave = Permission::create(['name' => 'approval-leave']);
+
+        $permissionAddTask      = Permission::create(['name' => 'add-task']);
+        $permissionViewTask     = Permission::create(['name' => 'view-task']);
+        $permissionFeedbackTask = Permission::create(['name' => 'feedback-task']);
+        $permissionUpdateTask   = Permission::create(['name' => 'update-task']);
+        $permissionDeleteTask   = Permission::create(['name' => 'delete-task']);
 
         $roleSuperAdmin->syncPermissions(Permission::all());
         $roleAdmin->syncPermissions([$permissionViewUser ,$permissionEditUser]);
@@ -105,20 +111,6 @@ class NecessaryTableSeeder extends Seeder
         }
         // *************************
 
-        //task status table
-        $taskStatusesArray = [
-            'Pending',
-            'Working',
-            'Submit',
-            'Completed'
-        ];
-        foreach($taskStatusesArray as $key => $value){
-            $taskStatus = new TaskStatus();
-            $taskStatus->name = $value;
-            $taskStatus->save();
-        }
-        // *************************
-
         //job types table
         $jobTypesArray = [
             'Internship',
@@ -162,35 +154,6 @@ class NecessaryTableSeeder extends Seeder
         }
         // *************************
 
-        //project table
-        for ($i=1; $i <=10 ; $i++) {
-            $project = new Project();
-            $project->title = $faker->word;
-            $project->client_id = mt_rand(1,5);
-            $project->platform_id = mt_rand(1,3);
-            $project->budget = mt_rand(1000,5000);
-            $project->project_status_id = mt_rand(1,8);
-            $project->deadline = Carbon::parse($faker->date)->format('Y/m/d');
-            $project->desc = $faker->paragraph;
-            $project->git_repo = "https://github.com/mdsharafat/pm-encoder-it";
-            $project->trello_link = "https://github.com/mdsharafat/pm-encoder-it";
-            $project->gd_link = "https://github.com/mdsharafat/pm-encoder-it";
-            $project->demo_web_link = "https://github.com/mdsharafat/pm-encoder-it";
-            $project->live_project_link = "https://github.com/mdsharafat/pm-encoder-it";
-            $project->save();
-        }
-        // *************************
-
-        //project-notes table
-        for ($i=1; $i <=10 ; $i++) {
-            for ($j=1; $j <=mt_rand(2,10) ; $j++) {
-                $projectNote = new ProjectNote();
-                $projectNote->project_id = $i;
-                $projectNote->note = $faker->paragraph;
-                $projectNote->save();
-            }
-        }
-
         //employees table
         $employeeArray = [
             0 => ['shahed', 'Shahed Romel', 'shahed@test.com', 'Admin'],
@@ -200,7 +163,7 @@ class NecessaryTableSeeder extends Seeder
             4 => ['saifullah', 'Saiful Islam', 'saifullah@test.com', 'User'],
             5 => ['ismam', 'Ismam Hasan', 'ismam@test.com', 'User'],
             6 => ['ben', 'Benamin Mukammel', 'ben@test.com', 'User'],
-            7 => ['tkc', 'Tanvie Khan', 'tkc@test.com', 'User'],
+            7 => ['tkc', 'Tanvir Khan', 'tkc@test.com', 'User'],
             8 => ['ibnul', 'Ibnul Hasan', 'ibnul@test.com', 'User'],
             9 => ['tanin', 'Tanin Ansari', 'tanin@test.com', 'User'],
         ];
@@ -227,12 +190,45 @@ class NecessaryTableSeeder extends Seeder
             $employee->present_address   = $faker->address;
             $employee->permanent_address = $faker->address;
             $employee->marital_status    = mt_rand(0,1);
+            $employee->gender            = 1;
             $employee->desc              = $faker->text;
             $employee->current_salary    = mt_rand(180, 250);
             $employee->updated_by        = 'abir@test.com';
             $employee->save();
         }
         // *************************
+
+        //project table
+        for ($i=1; $i <=10 ; $i++) {
+            $project                    = new Project();
+            $project->title             = $faker->sentence;
+            $project->client_id         = mt_rand(1,5);
+            $project->platform_id       = mt_rand(1,3);
+            $project->budget            = mt_rand(1000,5000);
+            $project->project_status_id = mt_rand(1,8);
+            $project->deadline          = Carbon::parse($faker->date)->format('Y/m/d');
+            $project->desc              = $faker->paragraph;
+            $project->git_repo          = "https://github.com/mdsharafat/pm-encoder-it";
+            $project->trello_link       = "https://github.com/mdsharafat/pm-encoder-it";
+            $project->gd_link           = "https://github.com/mdsharafat/pm-encoder-it";
+            $project->demo_web_link     = "https://github.com/mdsharafat/pm-encoder-it";
+            $project->live_project_link = "https://github.com/mdsharafat/pm-encoder-it";
+            $project->save();
+
+            $empArray = [mt_rand(2,4), mt_rand(5,8), mt_rand(9,10),];
+            $project->employees()->sync($empArray);
+        }
+        // *************************
+
+        //project-notes table
+        for ($i=1; $i <=10 ; $i++) {
+            for ($j=1; $j <=mt_rand(2,10) ; $j++) {
+                $projectNote = new ProjectNote();
+                $projectNote->project_id = $i;
+                $projectNote->note = $faker->paragraph;
+                $projectNote->save();
+            }
+        }
 
         //leave-managements table
         for ($i=1; $i <= 10; $i++) {
@@ -245,6 +241,23 @@ class NecessaryTableSeeder extends Seeder
                 $leaveApplication->date       = Carbon::parse($faker->date)->format('Y/m/d');
                 $leaveApplication->reason     = $faker->text;
                 $leaveApplication->save();
+            }
+        }
+        // *************************
+
+        //task table
+        for ($i=1; $i <10 ; $i++) {
+            for ($j=1; $j <= mt_rand(5,20) ; $j++) {
+                $task              = new Task();
+                $task->assigned_to = $i;
+                $task->assigned_by = 1;
+                $task->project_id  = mt_rand(1,10);
+                $task->unique_key  = Str::random(40);
+                $task->status      = mt_rand(1,4);
+                $task->deadline    = Carbon::parse($faker->dateTime)->format('Y/m/d H:i');
+                $task->total_point = mt_rand(1,20);
+                $task->task        = $faker->text;
+                $task->save();
             }
         }
     }

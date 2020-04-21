@@ -4,14 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TaskStatus extends Model
+class Review extends Model
 {
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'task_statuses';
+    protected $table = 'reviews';
 
     /**
     * The database primary key value.
@@ -25,7 +25,16 @@ class TaskStatus extends Model
      *
      * @var array
      */
-    protected $fillable = ['name'];
+    protected $fillable = ['emp_id', 'reviewed_by', 'note', 'point'];
 
-    
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class, 'emp_id');
+    }
+
+    public function reviewedBy()
+    {
+        return $this->belongsTo(User::class, 'reviewed_by');
+    }
+
 }

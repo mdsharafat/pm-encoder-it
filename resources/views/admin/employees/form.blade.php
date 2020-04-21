@@ -110,6 +110,18 @@
 </div>
 
 <div class="row">
+    <div class="col-md-4">
+        <label for="gender" class="control-label">{{ 'Gender' }}</label>
+        <select required id="gender" name="gender" >
+            @foreach (json_decode('{"1": "Male", "2": "Female", "3": "Others"}', true) as $optionKey => $optionValue)
+                <option value="{{ $optionKey }}" {{ (isset($employee->gender) && $employee->gender == $optionKey) ? 'selected' : ''}}>{{ $optionValue }}</option>
+            @endforeach
+        </select>
+        {!! $errors->first('gender', '<p class="help-block">:message</p>') !!}
+    </div>
+</div>
+
+<div class="row">
     <div class="col-md-12">
         <label for="desc" class="control-label">{{ 'Description' }}</label>
         <textarea class="form-control" rows="5" name="desc" type="textarea" id="desc" >{{ isset($employee->desc) ? $employee->desc : ''}}</textarea>

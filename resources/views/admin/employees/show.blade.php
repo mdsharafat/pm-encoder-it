@@ -132,11 +132,17 @@
                                     </div>
                                     <div class="col-md-6">
                                         <p>
-                                            @if($employee->marital_status == 1)
-                                            {{ 'Married' }}
-                                            @else
-                                            {{ 'Unmarried' }}
-                                            @endif
+                                            {{ $employee->maritalStatus($employee->marital_status) }}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Gender</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>
+                                            {{ $employee->genderName($employee->gender) }}
                                         </p>
                                     </div>
                                 </div>

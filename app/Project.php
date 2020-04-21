@@ -47,4 +47,13 @@ class Project extends Model
         return $this->hasMany(ProjectNote::class, 'project_id');
     }
 
+    public function tasks()
+    {
+        return $this->belongsTo(Task::class, 'project_id');
+    }
+
+    public function employees()
+    {
+        return $this->belongsToMany(Employee::class, 'employee_project', 'project_id', 'emp_id')->withTimestamps();
+    }
 }

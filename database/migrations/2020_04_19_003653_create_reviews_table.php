@@ -2,9 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Carbon\Carbon;
 
-class CreateLeaveManagementsTable extends Migration
+class CreateReviewsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +12,16 @@ class CreateLeaveManagementsTable extends Migration
      */
     public function up()
     {
-        Schema::create('leave_managements', function (Blueprint $table) {
+        Schema::create('reviews', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->id();
             $table->unsignedBigInteger('emp_id')->nullable();
-            $table->string('unique_key');
-            $table->tinyInteger('status')->nullable();
-            $table->tinyInteger('category')->default(1);
-            $table->date('date')->default(Carbon::now());
-            $table->text('reason')->nullable();
-            $table->string('action_by')->nullable();
+            $table->unsignedBigInteger('reviewed_by')->nullable();
+            $table->text('note')->nullable();
+            $table->float('point')->default(0.00);
             $table->timestamps();
             $table->foreign('emp_id')->references('id')->on('employees')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('reviewed_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
@@ -35,6 +32,6 @@ class CreateLeaveManagementsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('leave_managements');
+        Schema::drop('reviews');
     }
 }

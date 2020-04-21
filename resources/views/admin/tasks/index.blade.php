@@ -20,7 +20,7 @@
     @endif
     <div class="form-style-5" style="padding-top: 0px; padding-bottom: 0px;">
         <fieldset>
-            <legend><span class="number"><i class="fas fa-table"></i></span> Projects Table</legend>
+            <legend><span class="number"><i class="fas fa-table"></i></span> Assigned/Reassigned/In progress - Tasks </legend>
         </fieldset>
     </div>
     <div class="card shadow mb-4">
@@ -30,32 +30,31 @@
                     <thead>
                         <tr class="text-center">
                             <th>#</th>
-                            <th>Title</th>
-                            <th>Client</th>
-                            <th>Platform</th>
+                            <th>To</th>
+                            <th>Project</th>
+                            <th>Task</th>
                             <th>Deadline</th>
-                            <th>Budget</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($projects as $item)
+                        @foreach($tasks as $item)
                             <tr class="text-center">
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ ucfirst($item->title) }}</td>
-                                <td>{{ $item->client->name }}</td>
-                                <td>{{ $item->platform->name }}</td>
+                                <td>{{ $item->assignedTo->full_name }}</td>
+                                <td>{{ Str::limit($item->project->title, 15) }}</td>
+                                <td>{{ Str::limit($item->task, 30) }}</td>
                                 <td>{{ $item->deadline }}</td>
-                                <td>{{ $item->budget." $" }}</td>
-
+                                <td> <span class="badge @if($item->status ==1 ) {{ 'bg-primary' }} @elseif($item->status ==2) {{ 'bg-danger' }} @elseif($item->status ==3) {{ 'bg-info' }} @elseif($item->status ==4) {{ 'bg-warning' }} @else {{ 'bg-success' }} @endif my-custom-badge"> {{ $item->statusName($item->status) }} </span> </td>
                                 <td>
-                                    <a href="{{ url('/projects/' . $item->id) }}" title="View Project" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
-                                    <a href="{{ url('/projects/' . $item->id . '/edit') }}" title="Edit Project" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                    <a href="{{ url('/tasks/' . $item->unique_key) }}" title="View Task" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
+                                    <a href="{{ url('/tasks/' . $item->id . '/edit') }}" title="Edit Task" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
 
-                                    <form method="POST" action="{{ url('/projects' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
+                                    <form method="POST" action="{{ url('/tasks' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
                                         {{ method_field('DELETE') }}
                                         @csrf
-                                        <button type="submit" class="btn btn-danger btn-sm" title="Delete Project" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fas fa-trash-alt"></i></button>
+                                        <button type="submit" class="btn btn-danger btn-sm" title="Delete Task" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fas fa-trash-alt"></i></button>
                                     </form>
                                 </td>
                             </tr>
@@ -77,7 +76,10 @@
             $('#dataTable').DataTable({
                 "columnDefs": [
                     { "width": "20px", "targets": 0 },
-                    { "width": "200px", "targets": 1 },
+                    { "width": "60px", "targets": 1 },
+                    { "width": "130px", "targets": 2 },
+                    { "width": "100px", "targets": 4 },
+                    { "width": "50px", "targets": 5 },
                     { "width": "100px", "targets": 6 },
                 ],
             });

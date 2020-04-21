@@ -40,6 +40,7 @@ class Employee extends Model
         'present_address',
         'permanent_address',
         'marital_status',
+        'gender',
         'desc',
         'current_salary',
         'updated_by',
@@ -47,6 +48,24 @@ class Employee extends Model
         'date_of_resign',
         'reason_of_resign'
     ];
+
+    public function genderName($id)
+    {
+        $genderArray = [
+            1 => 'Male',
+            2 => 'Female',
+            3 => 'Others'
+        ];
+        return isset($id) ? $genderArray[$id] : '';
+    }
+    public function maritalStatus($id)
+    {
+        $maritalStatusArray = [
+            0 => 'Unmarried',
+            1 => 'Married',
+        ];
+        return isset($id) ? $maritalStatusArray[$id] : '';
+    }
 
     public function user()
     {
@@ -76,5 +95,20 @@ class Employee extends Model
     public function leaves()
     {
         return $this->hasMany(LeaveManagement::class, 'emp_id');
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'emp_id');
+    }
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class, 'assigned_to');
+    }
+
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class, 'employee_project', 'emp_id', 'project_id')->withTimestamps();
     }
 }

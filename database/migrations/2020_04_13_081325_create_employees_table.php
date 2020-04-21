@@ -29,6 +29,7 @@ class CreateEmployeesTable extends Migration
             $table->string('present_address')->nullable();
             $table->string('permanent_address')->nullable();
             $table->boolean('marital_status')->default(0);
+            $table->tinyInteger('gender')->default(1);
             $table->text('desc')->nullable();
             $table->integer('current_salary')->default(0);
             $table->string('updated_by')->nullable();

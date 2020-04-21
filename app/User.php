@@ -43,4 +43,14 @@ class User extends Authenticatable
         return $this->hasOne(Employee::class, 'user_id');
     }
 
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'reviewed_by');
+    }
+
+    public function tasks()
+    {
+        return $this->belongsTo(Task::class, 'assigned_by');
+    }
+
 }

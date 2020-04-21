@@ -60,6 +60,7 @@ class EmployeesController extends Controller
         $employee->present_address   = $request->present_address;
         $employee->permanent_address = $request->permanent_address;
         $employee->marital_status    = $request->marital_status;
+        $employee->gender            = $request->gender;
         $employee->desc              = $request->desc;
         $employee->current_salary    = $request->current_salary;
         $employee->updated_by        = Auth::user()->email;
@@ -129,6 +130,7 @@ class EmployeesController extends Controller
         $requestEmployeeData['nid']               = $request->nid;
         $requestEmployeeData['date_of_birth']     = Carbon::parse($request->date_of_birth)->format('Y/m/d');
         $requestEmployeeData['marital_status']    = $request->marital_status;
+        $requestEmployeeData['gender']            = $request->gender;
         $requestEmployeeData['present_address']   = $request->present_address;
         $requestEmployeeData['permanent_address'] = $request->permanent_address;
         $requestEmployeeData['current_salary']    = $request->current_salary;
