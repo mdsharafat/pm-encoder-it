@@ -136,18 +136,6 @@
         </div>
     </li>
 
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTaskStatus" aria-expanded="true" aria-controls="collapseTaskStatus">
-            <i class="fas fa-user-tie"></i>
-            <span>TASK STATUS</span>
-        </a>
-        <div id="collapseTaskStatus" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="{{ url('/task-statuses/create') }}">ADD T.STATUS</a>
-                <a class="collapse-item" href="{{ url('/task-statuses') }}">MANAGE T.STATUS</a>
-            </div>
-        </div>
-    </li>
 
     <hr class="sidebar-divider">
 
@@ -237,6 +225,39 @@
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
+
+    <div class="sidebar-heading"> Accounts </div>
+
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCredit" aria-expanded="true" aria-controls="collapseCredit">
+            <i class="fas fa-money-bill-alt"></i>
+            <span>CREDIT</span>
+        </a>
+        <div id="collapseCredit" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="{{ url('/credits/create') }}">ADD CREDIT</a>
+                <a class="collapse-item" href="{{ url('/credits') }}">MANAGE CREDIT</a>
+            </div>
+        </div>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseExpense" aria-expanded="true" aria-controls="collapseExpense">
+          <i class="fas fa-hand-holding-usd"></i>
+          <span>EXPENSES</span>
+        </a>
+        <div id="collapseExpense" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">SALARY EXPENSE</h6>
+            <a class="collapse-item" href="{{ url('/salary-expenses/create') }}">ADD SALARY</a>
+            <a class="collapse-item" href="{{ url('/salary-expenses') }}">MANAGE SALARY</a>
+            <div class="collapse-divider"></div>
+            <h6 class="collapse-header">MISCELLANEOUS</h6>
+            <a class="collapse-item" href="{{ url('/miscellaneous-expenses/create') }}">ADD EXPENSE</a>
+            <a class="collapse-item" href="{{ url('/miscellaneous-expenses') }}">MANAGE EXPENSE</a>
+          </div>
+        </div>
+      </li>
 
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">

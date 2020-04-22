@@ -111,4 +111,9 @@ class Employee extends Model
     {
         return $this->belongsToMany(Project::class, 'employee_project', 'emp_id', 'project_id')->withTimestamps();
     }
+
+    public function salaries()
+    {
+        return $this->hasMany(SalaryExpense::class, 'emp_id');
+    }
 }

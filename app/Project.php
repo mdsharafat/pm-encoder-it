@@ -56,4 +56,9 @@ class Project extends Model
     {
         return $this->belongsToMany(Employee::class, 'employee_project', 'project_id', 'emp_id')->withTimestamps();
     }
+
+    public function credits()
+    {
+        return $this->hasMany(Credit::class, 'project_id');
+    }
 }

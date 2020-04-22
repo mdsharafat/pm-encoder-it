@@ -12,6 +12,7 @@ use App\Platform;
 use App\Project;
 use App\ProjectNote;
 use App\ProjectStatus;
+use App\SalaryExpense;
 use App\Task;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
@@ -199,9 +200,10 @@ class NecessaryTableSeeder extends Seeder
         // *************************
 
         //project table
-        for ($i=1; $i <=10 ; $i++) {
+        $projectNameArray = ['Econosurance', 'Claimnwin', 'Mkhdom', 'Bumble Bee Baby Sitter', 'Lullabysleep', 'The idries Shah Foundation', 'Ecomed', 'My Money Life', 'Twilio SMS Manager', 'Blog For Sea Fish'];
+        for ($i=0; $i <10 ; $i++) {
             $project                    = new Project();
-            $project->title             = $faker->sentence;
+            $project->title             = $projectNameArray[$i];
             $project->client_id         = mt_rand(1,5);
             $project->platform_id       = mt_rand(1,3);
             $project->budget            = mt_rand(1000,5000);
@@ -258,6 +260,20 @@ class NecessaryTableSeeder extends Seeder
                 $task->total_point = mt_rand(1,20);
                 $task->task        = $faker->text;
                 $task->save();
+            }
+        }
+        // *************************
+
+        //salary expenses table
+        $dateArray = ['1/5/2020', '2/5/2020', '3/4/2020', '4/5/2020', '5/3/2020'];
+        for ($i=1; $i <=10 ; $i++) {
+            for ($j=0; $j < 5; $j++) {
+                $salaryExpense = new SalaryExpense();
+                $salaryExpense->emp_id = $i;
+                $salaryExpense->amount = mt_rand(150, 250);
+                // $salaryExpense->date   = $dateArray[$j];
+                $salaryExpense->date   = Carbon::parse($dateArray[$j])->format('Y/m/d');
+                $salaryExpense->save();
             }
         }
     }

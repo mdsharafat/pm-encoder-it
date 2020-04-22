@@ -85,6 +85,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/my-completed-tasks', 'Admin\TasksController@myCompletedTasks');
     Route::PATCH('/tasks/{unique_key}/submit', 'Admin\TasksController@taskSubmit');
 
+    Route::resource('salary-expenses', 'Admin\\SalaryExpensesController');
+    Route::resource('miscellaneous-expenses', 'Admin\\MiscellaneousExpensesController');
+    Route::resource('credits', 'Admin\\CreditsController');
 });
+
+
+
 
 
