@@ -18,7 +18,7 @@ class CreateEmployeesTable extends Migration
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('department_id')->nullable();
             $table->unsignedBigInteger('designation_id')->nullable();
-            $table->unsignedBigInteger('job_type_id')->nullable();
+            $table->tinyInteger('job_type_id')->default(1);
             $table->string('full_name')->nullable();
             $table->date('date_of_join')->nullable();
             $table->string('phone')->nullable();
@@ -40,7 +40,6 @@ class CreateEmployeesTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('department_id')->references('id')->on('departments')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('designation_id')->references('id')->on('designations')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('job_type_id')->references('id')->on('job_types')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

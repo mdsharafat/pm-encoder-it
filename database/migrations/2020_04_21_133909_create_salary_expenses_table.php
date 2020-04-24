@@ -16,7 +16,7 @@ class CreateSalaryExpensesTable extends Migration
             $table->engine = 'InnoDB';
             $table->id();
             $table->unsignedBigInteger('emp_id')->nullable();
-            $table->integer('amount')->nullable();
+            $table->double('amount')->nullable();
             $table->date('date')->nullable();
             $table->timestamps();
             $table->foreign('emp_id')->references('id')->on('employees')->onDelete('cascade')->onUpdate('cascade');

@@ -55,35 +55,6 @@
         </select>
         {!! $errors->first('total_point', '<p class="help-block">:message</p>') !!}
     </div>
-    {{-- <div class="col-md-4">
-        <label for="received_point">Received Points</label>
-        <select id="received_point" name="received_point" required >
-            <option value="0.50" @if($task->received_point == 00.00) {{ 'selected' }} @endif>00.00</option>
-            <option value="0.50" @if($task->received_point == 01.00) {{ 'selected' }} @endif>01.00</option>
-            <option value="1.00" @if($task->received_point == 02.00) {{ 'selected' }} @endif>02.00</option>
-            <option value="1.50" @if($task->received_point == 03.00) {{ 'selected' }} @endif>03.00</option>
-            <option value="2.00" @if($task->received_point == 04.00) {{ 'selected' }} @endif>04.00</option>
-            <option value="2.50" @if($task->received_point == 05.00) {{ 'selected' }} @endif>05.00</option>
-            <option value="3.00" @if($task->received_point == 06.00) {{ 'selected' }} @endif>06.00</option>
-            <option value="3.50" @if($task->received_point == 07.00) {{ 'selected' }} @endif>07.00</option>
-            <option value="4.00" @if($task->received_point == 08.00) {{ 'selected' }} @endif>08.00</option>
-            <option value="4.50" @if($task->received_point == 09.00) {{ 'selected' }} @endif>09.00</option>
-            <option value="5.00" @if($task->received_point == 10.00) {{ 'selected' }} @endif>10.00</option>
-            <option value="0.00" @if($task->received_point == 11.00) {{ 'selected' }} @endif>11.00</option>
-            <option value="0.00" @if($task->received_point == 12.00) {{ 'selected' }} @endif>12.00</option>
-            <option value="0.00" @if($task->received_point == 13.00) {{ 'selected' }} @endif>13.00</option>
-            <option value="0.00" @if($task->received_point == 14.00) {{ 'selected' }} @endif>14.00</option>
-            <option value="0.00" @if($task->received_point == 15.00) {{ 'selected' }} @endif>15.00</option>
-            <option value="0.00" @if($task->received_point == 16.00) {{ 'selected' }} @endif>16.00</option>
-            <option value="0.00" @if($task->received_point == 17.00) {{ 'selected' }} @endif>17.00</option>
-            <option value="0.00" @if($task->received_point == 18.00) {{ 'selected' }} @endif>18.00</option>
-            <option value="0.00" @if($task->received_point == 19.00) {{ 'selected' }} @endif>19.00</option>
-            <option value="0.00" @if($task->received_point == 20.00) {{ 'selected' }} @endif>20.00</option>
-        </select>
-        {!! $errors->first('received_point', '<p class="help-block">:message</p>') !!}
-
-
-    </div> --}}
 </div>
 
 <div class="row">

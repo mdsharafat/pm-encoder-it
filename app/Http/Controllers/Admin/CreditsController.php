@@ -9,6 +9,7 @@ use App\Credit;
 use App\Project;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use DB;
 
 class CreditsController extends Controller
 {
@@ -27,6 +28,9 @@ class CreditsController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'amount' => 'required|numeric|gt:0',
+        ]);
         $credit             = new Credit();
         $credit->project_id = $request->project_id;
         $credit->amount     = $request->amount;
@@ -58,13 +62,13 @@ class CreditsController extends Controller
             $requestData['date']   = Carbon::parse($request->date)->format('Y/m/d');
         }
         $credit->update($requestData);
+
         return redirect('credits')->with('flashMessage', 'Credit updated!');
     }
 
     public function destroy($id)
     {
         Credit::destroy($id);
-
         return redirect('credits')->with('flashMessage', 'Credit deleted!');
     }
 }

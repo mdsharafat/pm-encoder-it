@@ -66,4 +66,16 @@ class SalaryExpensesController extends Controller
         SalaryExpense::destroy($id);
         return redirect('salary-expenses')->with('flashMessage', 'Salary Expense deleted!');
     }
+
+    public function employeeViewSalaryExpense()
+    {
+        $employees = Employee::all();
+        return view('admin.salary-expenses.employee-view', compact('employees'));
+    }
+
+    public function employeeViewSalaryExpensesShowDetails($id)
+    {
+        $employee = Employee::where('id', $id)->first();
+        return view('admin.salary-expenses.employee-view-show-details', compact('employee'));
+    }
 }

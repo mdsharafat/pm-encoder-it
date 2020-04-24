@@ -79,8 +79,25 @@ class TasksController extends Controller
             return redirect()->back()->with('flashMessage', 'Feedback point cannot be greater than total point.');
         }else{
             DB::table('tasks')
-              ->where('unique_key', $request->unique_key)
-              ->update(['received_point' => $request->received_point, 'status' => 5]);
+                ->where('unique_key', $request->unique_key)
+                ->update(['received_point' => $request->received_point, 'status' => 5]);
+
+            $allTasks = Task::where('project_id', $task->project_id)->get();
+            $isCompleted = true;
+
+            foreach ($allTasks as $allTask) {
+                if($allTask->status != 5){
+                    $isCompleted = false;
+                    break;
+                }
+            }
+
+            if($isCompleted == true){
+                DB::table('projects')
+                    ->where('id', $task->project_id)
+                    ->update(['status' => 1]);
+            }
+
             return redirect()->back()->with('flashMessage', 'Feedback given successfully');
         }
     }
@@ -89,7 +106,12 @@ class TasksController extends Controller
     {
         DB::table('tasks')
             ->where('unique_key', $unique_key)
-            ->update(['status' => 2]);
+            ->update(['status' => 2, 'received_point' => null ]);
+        $task = Task::where('unique_key', $unique_key)->first();
+
+        DB::table('projects')
+            ->where('id', $task->project_id)
+            ->update(['status' => 0]);
         return redirect()->back()->with('flashMessage', 'Task Reassigned');
     }
 
@@ -113,6 +135,10 @@ class TasksController extends Controller
         $task->total_point = $request->total_point;
         $task->task        = $request->task;
         $task->save();
+
+        DB::table('projects')
+            ->where('id', $request->project_id)
+            ->update(['status' => 0]);
         return redirect('tasks')->with('flashMessage', 'Task added!');
     }
 
@@ -161,6 +187,7 @@ class TasksController extends Controller
         $requestData['total_point'] = $request->total_point;
         $requestData['task']        = $request->task;
         $task->update($requestData);
+
         if($request->session()->get('currentTaskPageUrl')){
             return redirect($request->session()->get('currentTaskPageUrl'))->with('flashMessage', 'Task updated!');
         }else{

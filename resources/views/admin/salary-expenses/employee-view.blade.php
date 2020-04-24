@@ -20,7 +20,7 @@
     @endif
     <div class="form-style-5" style="padding-top: 0px; padding-bottom: 0px;">
         <fieldset>
-            <legend><span class="number"><i class="fas fa-table"></i></span> Job Status Table</legend>
+            <legend><span class="number"><i class="fas fa-table"></i></span> Salary Expenses Employee View</legend>
         </fieldset>
     </div>
     <div class="card shadow mb-4">
@@ -30,23 +30,23 @@
                     <thead>
                         <tr class="text-center">
                             <th>#</th>
-                            <th>Name</th>
+                            <th>Employee</th>
+                            <th>Department</th>
+                            <th>Designation</th>
+                            <th>Total Count</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($jobTypes as $item)
+                        @foreach($employees as $item)
                             <tr class="text-center">
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $item->name }}</td>
+                                <td>{{ $item->full_name }}</td>
+                                <td>{{ $item->department->name }}</td>
+                                <td>{{ $item->designation->name }}</td>
+                                <td> <a href="{{ url('/employee-view-salary-expenses-show-details/'.$item->id) }}"><span class="badge my-custom-badge bg-success">{{ $item->salaries->count() }}</span></a></td>
                                 <td>
-                                    <a href="{{ url('/job-types/' . $item->id . '/edit') }}" title="Edit Job Type" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-
-                                    <form method="POST" action="{{ url('/job-types' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
-                                        {{ method_field('DELETE') }}
-                                        @csrf
-                                        <button type="submit" class="btn btn-danger btn-sm" title="Delete Job Type" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fas fa-trash-alt"></i></button>
-                                    </form>
+                                    <a href="{{ url('/employee-view-salary-expenses-show-details/'.$item->id) }}" title="View Salary Expense" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
                                 </td>
                             </tr>
                         @endforeach
@@ -61,10 +61,17 @@
     <script src="{{ asset('assets/vendor/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 
-    <!-- Page level custom scripts -->
     <script>
         $(document).ready(function() {
-            $('#dataTable').DataTable();
+            $('#dataTable').DataTable({
+                "columnDefs": [
+                    { "width": "20px", "targets": 0 },
+                    { "width": "200px", "targets": 1 },
+                    { "width": "200px", "targets": 2 },
+                    { "width": "200px", "targets": 3 },
+                    { "width": "100px", "targets": 5 },
+                ],
+            });
         });
     </script>
 @endsection

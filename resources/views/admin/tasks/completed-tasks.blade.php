@@ -48,6 +48,7 @@
                                 <td>{{ $item->deadline }}</td>
                                 <td> <span class="badge bg-success my-custom-badge"> {{ $item->statusName($item->status) }} </span> </td>
                                 <td>
+                                    <a href="{{ url('/reassign-task/' . $item->unique_key) }}" title="Reassign" class="btn btn-warning btn-sm"><i class="fas fa-redo-alt"></i></a>
                                     <a href="{{ url('/tasks/' . $item->unique_key) }}" title="View Task" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
                                     <a href="{{ url('/tasks/' . $item->id . '/edit') }}" title="Edit Task" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
 
@@ -77,10 +78,10 @@
                 "columnDefs": [
                     { "width": "20px", "targets": 0 },
                     { "width": "60px", "targets": 1 },
-                    { "width": "100px", "targets": 2 },
-                    { "width": "130px", "targets": 3 },
-                    { "width": "100px", "targets": 4 },
+                    { "width": "120px", "targets": 2 },
+                    { "width": "150px", "targets": 4 },
                     { "width": "50px", "targets": 5 },
+                    { "width": "130px", "targets": 6 },
                 ],
             });
         });

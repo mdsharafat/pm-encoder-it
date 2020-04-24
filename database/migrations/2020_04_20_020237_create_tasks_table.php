@@ -23,7 +23,7 @@ class CreateTasksTable extends Migration
             $table->dateTime('deadline')->nullable();
             $table->tinyInteger('status')->nullable();
             $table->float('total_point')->default(1.00);
-            $table->float('received_point')->nullable();
+            $table->float('received_point')->default(0.00);
             $table->timestamps();
             $table->foreign('assigned_to')->references('id')->on('employees')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('assigned_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');

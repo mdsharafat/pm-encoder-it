@@ -20,7 +20,32 @@
     @endif
     <div class="form-style-5" style="padding-top: 0px; padding-bottom: 0px;">
         <fieldset>
-            <legend><span class="number"><i class="fas fa-table"></i></span> Project Status Table</legend>
+            <legend><span class="number"><i class="fas fa-table"></i></span> Salary Expenses Table</legend>
+            <hr>
+            <div class="row text-left">
+                <div class="col-md-2">
+                    <h5 clas="text-center">Name</h5>
+                </div>
+                <div class="col-md-10">
+                    <h5 clas="text-center">: <span class="font-weight-bold">{{ $employee->full_name }}</span></h5>
+                </div>
+            </div>
+            <div class="row text-left">
+                <div class="col-md-2">
+                    <h5 clas="text-center">Department</h5>
+                </div>
+                <div class="col-md-10">
+                    <h5 clas="text-center">: <span class="font-weight-bold">{{ $employee->department->name }}</span></h5>
+                </div>
+            </div>
+            <div class="row text-left">
+                <div class="col-md-2">
+                    <h5 clas="text-center">Designation</h5>
+                </div>
+                <div class="col-md-10">
+                    <h5 clas="text-center">: <span class="font-weight-bold">{{ $employee->designation->name }}</span></h5>
+                </div>
+            </div>
         </fieldset>
     </div>
     <div class="card shadow mb-4">
@@ -30,23 +55,16 @@
                     <thead>
                         <tr class="text-center">
                             <th>#</th>
-                            <th>Name</th>
-                            <th>Action</th>
+                            <th>Date</th>
+                            <th>Amount ($)</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($projectstatuses as $item)
+                        @foreach($employee->salaries as $item)
                             <tr class="text-center">
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $item->name }}</td>
-                                <td>
-                                    <a href="{{ url('/project-statuses/' . $item->id . '/edit') }}" title="Edit ProjectStatus" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                    <form method="POST" action="{{ url('/project-statuses' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
-                                        {{ method_field('DELETE') }}
-                                        @csrf
-                                        <button type="submit" class="btn btn-danger btn-sm" title="Delete ProjectStatus" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fas fa-trash-alt"></i></button>
-                                    </form>
-                                </td>
+                                <td>{{ Carbon\Carbon::parse($item->date)->format('jS \\of F, Y') }}</td>
+                                <td>{{ $item->amount }}</td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -60,10 +78,13 @@
     <script src="{{ asset('assets/vendor/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 
-    <!-- Page level custom scripts -->
     <script>
         $(document).ready(function() {
-            $('#dataTable').DataTable();
+            $('#dataTable').DataTable({
+                "columnDefs": [
+                    { "width": "20px", "targets": 0 },
+                ],
+            });
         });
     </script>
 @endsection

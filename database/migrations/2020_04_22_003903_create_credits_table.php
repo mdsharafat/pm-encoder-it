@@ -16,7 +16,7 @@ class CreateCreditsTable extends Migration
             $table->engine = 'InnoDB';
             $table->id();
             $table->unsignedBigInteger('project_id')->nullable();
-            $table->integer('amount')->nullable();
+            $table->double('amount')->nullable();
             $table->date('date')->nullable();
             $table->timestamps();
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade')->onUpdate('cascade');

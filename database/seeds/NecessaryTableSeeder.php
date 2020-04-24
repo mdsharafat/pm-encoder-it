@@ -1,17 +1,18 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Credit;
 use App\Client;
 use App\Department;
 use App\Designation;
 use App\Employee;
-use App\JobType;
 use App\LeaveManagement;
 use App\User;
+use App\MiscellaneousExpense;
 use App\Platform;
 use App\Project;
 use App\ProjectNote;
-use App\ProjectStatus;
+use App\Review;
 use App\SalaryExpense;
 use App\Task;
 use Illuminate\Support\Facades\Hash;
@@ -94,37 +95,6 @@ class NecessaryTableSeeder extends Seeder
         }
         // *************************
 
-        //project status table
-        $projectStatusesArray = [
-            'Requirements Collection',
-            'Planning',
-            'Defining',
-            'Design',
-            'Development',
-            'Testing & Integration',
-            'Client Feedback',
-            'Complete'
-        ];
-        foreach($projectStatusesArray as $key => $value){
-            $projectStatus = new ProjectStatus();
-            $projectStatus->name = $value;
-            $projectStatus->save();
-        }
-        // *************************
-
-        //job types table
-        $jobTypesArray = [
-            'Internship',
-            'Provision',
-            'Parmanent'
-        ];
-        foreach($jobTypesArray as $key => $value){
-            $jobType       = new JobType();
-            $jobType->name = $value;
-            $jobType->save();
-        }
-        // *************************
-
         //departments table
         $departmentsArray = [
             'Backend Development',
@@ -157,16 +127,16 @@ class NecessaryTableSeeder extends Seeder
 
         //employees table
         $employeeArray = [
-            0 => ['shahed', 'Shahed Romel', 'shahed@test.com', 'Admin'],
-            1 => ['sohan', 'Sharafat Hossain', 'sohan@test.com', 'User'],
-            2 => ['salman', 'Salman Khan', 'salman@test.com', 'User'],
-            3 => ['sajal', 'Sajal Kundu', 'sajal@test.com', 'User'],
-            4 => ['saifullah', 'Saiful Islam', 'saifullah@test.com', 'User'],
-            5 => ['ismam', 'Ismam Hasan', 'ismam@test.com', 'User'],
-            6 => ['ben', 'Benamin Mukammel', 'ben@test.com', 'User'],
-            7 => ['tkc', 'Tanvir Khan', 'tkc@test.com', 'User'],
-            8 => ['ibnul', 'Ibnul Hasan', 'ibnul@test.com', 'User'],
-            9 => ['tanin', 'Tanin Ansari', 'tanin@test.com', 'User'],
+            0 => ['shahed', 'Shahed Romel', 'shahed@test.com', 'Admin', 250],
+            1 => ['sohan', 'Sharafat Hossain', 'sohan@test.com', 'User', 200],
+            2 => ['salman', 'Salman Khan', 'salman@test.com', 'User', 300],
+            3 => ['sajal', 'Sajal Kundu', 'sajal@test.com', 'User', 220],
+            4 => ['saifullah', 'Saiful Islam', 'saifullah@test.com', 'User', 180],
+            5 => ['ismam', 'Ismam Hasan', 'ismam@test.com', 'User', 150],
+            6 => ['ben', 'Benamin Mukammel', 'ben@test.com', 'User', 230],
+            7 => ['tkc', 'Tanvir Khan', 'tkc@test.com', 'User', 230],
+            8 => ['ibnul', 'Ibnul Hasan', 'ibnul@test.com', 'User', 200],
+            9 => ['tanin', 'Tanin Ansari', 'tanin@test.com', 'User', 200],
         ];
 
         foreach($employeeArray as $item){
@@ -181,7 +151,7 @@ class NecessaryTableSeeder extends Seeder
             $employee->user_id           = $user->id;
             $employee->department_id     = mt_rand(1,5);
             $employee->designation_id    = mt_rand(1,5);
-            $employee->job_type_id       = mt_rand(1,3);
+            $employee->job_type_id       = mt_rand(1,4);
             $employee->full_name         = $item[1];
             $employee->date_of_join      = $faker->date($format = 'Y/m/d', $max = 'now');
             $employee->phone             = $faker->randomNumber;
@@ -200,14 +170,24 @@ class NecessaryTableSeeder extends Seeder
         // *************************
 
         //project table
-        $projectNameArray = ['Econosurance', 'Claimnwin', 'Mkhdom', 'Bumble Bee Baby Sitter', 'Lullabysleep', 'The idries Shah Foundation', 'Ecomed', 'My Money Life', 'Twilio SMS Manager', 'Blog For Sea Fish'];
+        $projectNameArray = [
+            0 => ['Econosurance', 2000, 100],
+            1 => ['Claimnwin', 1000, 50],
+            2 => ['Mkhdom', 2000, 100],
+            3 => ['Bumble Bee Baby Sitter', 3000, 100],
+            4 => ['Lullabysleep', 2000, 50],
+            5 => ['The idries Shah Foundation', 2000, 50],
+            6 => ['Ecomed', 500, 100],
+            7 => ['My Money Life', 500, 30],
+            8 => ['Twilio SMS Manager', 1500, 50],
+            9 => ['Blog For Sea Fish', 500, 20]
+        ];
         for ($i=0; $i <10 ; $i++) {
             $project                    = new Project();
-            $project->title             = $projectNameArray[$i];
+            $project->title             = $projectNameArray[$i][0];
             $project->client_id         = mt_rand(1,5);
             $project->platform_id       = mt_rand(1,3);
-            $project->budget            = mt_rand(1000,5000);
-            $project->project_status_id = mt_rand(1,8);
+            $project->budget            = $projectNameArray[$i][1];
             $project->deadline          = Carbon::parse($faker->date)->format('Y/m/d');
             $project->desc              = $faker->paragraph;
             $project->git_repo          = "https://github.com/mdsharafat/pm-encoder-it";
@@ -216,9 +196,6 @@ class NecessaryTableSeeder extends Seeder
             $project->demo_web_link     = "https://github.com/mdsharafat/pm-encoder-it";
             $project->live_project_link = "https://github.com/mdsharafat/pm-encoder-it";
             $project->save();
-
-            $empArray = [mt_rand(2,4), mt_rand(5,8), mt_rand(9,10),];
-            $project->employees()->sync($empArray);
         }
         // *************************
 
@@ -234,7 +211,7 @@ class NecessaryTableSeeder extends Seeder
 
         //leave-managements table
         for ($i=1; $i <= 10; $i++) {
-            for ($j=1; $j <=mt_rand(1,7) ; $j++) {
+            for ($j=1; $j <= 10 ; $j++) {
                 $leaveApplication             = new LeaveManagement();
                 $leaveApplication->emp_id     = $i;
                 $leaveApplication->unique_key = Str::random(40);
@@ -248,32 +225,80 @@ class NecessaryTableSeeder extends Seeder
         // *************************
 
         //task table
-        for ($i=1; $i <10 ; $i++) {
-            for ($j=1; $j <= mt_rand(5,20) ; $j++) {
+        for ($i=1; $i <=10 ; $i++) {
+            for ($j=1; $j <= mt_rand(9,10) ; $j++) {
                 $task              = new Task();
                 $task->assigned_to = $i;
                 $task->assigned_by = 1;
-                $task->project_id  = mt_rand(1,10);
+                $task->project_id  = $j;
                 $task->unique_key  = Str::random(40);
                 $task->status      = mt_rand(1,4);
                 $task->deadline    = Carbon::parse($faker->dateTime)->format('Y/m/d H:i');
-                $task->total_point = mt_rand(1,20);
+                $task->total_point = mt_rand(10,20);
                 $task->task        = $faker->text;
                 $task->save();
+
+                $employee = Employee::where('id', $i)->first();
+                $employee->projects()->attach($j);
             }
         }
         // *************************
 
         //salary expenses table
-        $dateArray = ['1/5/2020', '2/5/2020', '3/4/2020', '4/5/2020', '5/3/2020'];
-        for ($i=1; $i <=10 ; $i++) {
+        $dateArray = ['12/10/2019', '1/10/2020', '2/10/2020', '3/10/2020', '4/10/2020'];
+
+        for ($i=0; $i < 10 ; $i++) {
             for ($j=0; $j < 5; $j++) {
-                $salaryExpense = new SalaryExpense();
-                $salaryExpense->emp_id = $i;
-                $salaryExpense->amount = mt_rand(150, 250);
-                // $salaryExpense->date   = $dateArray[$j];
+                $salaryExpense         = new SalaryExpense();
+                $salaryExpense->emp_id = $i+1;
+                $salaryExpense->amount = $employeeArray[$i][4];
                 $salaryExpense->date   = Carbon::parse($dateArray[$j])->format('Y/m/d');
                 $salaryExpense->save();
+            }
+        }
+        // *************************
+
+        //miscellaneous expenses table
+        $miscellExpenseArray = [
+            0 => ['House Rent', 250],
+            1 => ['Internet', 50],
+            2 => ['Food', 300],
+            3 => ['Mobile Bill', 10]
+        ];
+
+        for ($i=0; $i < 5 ; $i++) {
+            for ($j=0; $j < 4 ; $j++) {
+                $miscellExpense         = new MiscellaneousExpense();
+                $miscellExpense->name   = $miscellExpenseArray[$j][0];
+                $miscellExpense->amount = $miscellExpenseArray[$j][1];
+                $miscellExpense->date   = Carbon::parse($dateArray[$i])->format('Y/m/d');
+                $miscellExpense->save();
+            }
+        }
+        // *************************
+
+        //credits table
+        for ($i=0; $i < 10 ; $i++) {
+            for ($j=0; $j < 5; $j++) {
+                $credit             = new Credit();
+                $credit->project_id = $i+1;
+                $credit->amount     = $projectNameArray[$i][2];
+                $credit->date       = Carbon::parse($dateArray[$j])->format('Y/m/d');
+                $credit->save();
+            }
+        }
+
+        // *************************
+
+        //reviews table
+        for ($i=1; $i <= 10; $i++) {
+            for ($j=0; $j < 25; $j++) {
+                $review              = new Review();
+                $review->emp_id      = $i;
+                $review->point       = mt_rand(0,5);
+                $review->note        = $faker->sentence;
+                $review->reviewed_by = 1;
+                $review->save();
             }
         }
     }

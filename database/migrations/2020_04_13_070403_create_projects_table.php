@@ -18,8 +18,8 @@ class CreateProjectsTable extends Migration
             $table->string('title')->nullable();
             $table->unsignedBigInteger('client_id')->nullable();
             $table->unsignedBigInteger('platform_id')->nullable();
-            $table->integer('budget')->default(0);
-            $table->unsignedBigInteger('project_status_id')->default(1);
+            $table->double('budget')->default(0);
+            $table->boolean('status')->default(0);
             $table->date('deadline')->nullable();
             $table->text('desc')->nullable();
             $table->string('git_repo')->nullable();
@@ -29,12 +29,9 @@ class CreateProjectsTable extends Migration
             $table->string('live_project_link')->nullable();
             $table->float('feedback_from_client')->default(0.00);
             $table->float('feedback_to_client')->default(0.00);
-            $table->tinyInteger('payment_status')->default(1);
-            $table->integer('payment_received')->default(0);
             $table->timestamps();
             $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
             $table->foreign('platform_id')->references('id')->on('platforms')->onDelete('cascade');
-            $table->foreign('project_status_id')->references('id')->on('project_statuses')->onDelete('cascade');
             });
     }
 

@@ -7,7 +7,6 @@ use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
 use App\Department;
 use App\Designation;
-use App\JobType;
 use App\Employee;
 use App\User;
 use App\Certificate;
@@ -33,8 +32,7 @@ class EmployeesController extends Controller
         $employee     = new Employee();
         $departments  = Department::all();
         $designations = Designation::all();
-        $jobTypes     = JobType::all();
-        return view('admin.employees.create', compact('departments', 'designations', 'employee', 'jobTypes'));
+        return view('admin.employees.create', compact('departments', 'designations', 'employee'));
     }
 
     public function store(Request $request)
@@ -105,9 +103,8 @@ class EmployeesController extends Controller
     {
         $departments  = Department::all();
         $designations = Designation::all();
-        $jobTypes     = JobType::all();
         $employee     = Employee::findOrFail($id);
-        return view('admin.employees.edit', compact('departments', 'designations', 'employee', 'jobTypes'));
+        return view('admin.employees.edit', compact('departments', 'designations', 'employee'));
     }
 
     public function update(Request $request, $id)

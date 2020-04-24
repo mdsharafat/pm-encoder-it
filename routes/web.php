@@ -34,16 +34,25 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::resource('platforms', 'Admin\\PlatformsController');
     Route::resource('clients', 'Admin\\ClientsController');
-    Route::resource('project-statuses', 'Admin\\ProjectStatusesController');
-    Route::resource('job-types', 'Admin\\JobTypesController');
     Route::resource('departments', 'Admin\\DepartmentsController');
     Route::resource('designations', 'Admin\\DesignationsController');
     Route::resource('projects', 'Admin\\ProjectsController');
     Route::resource('project-notes', 'Admin\\ProjectNotesController');
     Route::DELETE('/delete-all-project-notes-for-particular-project/{id}', 'Admin\\ProjectNotesController@deleteAllNotesForParticularProject');
-    Route::resource('employees', 'Admin\\EmployeesController');
+
     Route::POST('/delete-certificate', 'Admin\EmployeesController@deleteCertificate');
     Route::resource('leave-managements', 'Admin\\LeaveManagementsController');
+
+
+    Route::get('/employees', 'Admin\EmployeesController@index');
+    Route::get('/employees/create', 'Admin\EmployeesController@create');
+    Route::POST('/employees', 'Admin\EmployeesController@store');
+    Route::get('/employees/{id}/edit', 'Admin\EmployeesController@edit');
+    Route::PATCH('/employees/{id}', 'Admin\EmployeesController@update');
+    Route::DELETE('/employees/{id}', 'Admin\EmployeesController@destroy');
+    Route::get('/employees/{id}', 'Admin\EmployeesController@show');
+
+
 
     Route::get('/leave-managements', 'Admin\LeaveManagementsController@index')->middleware('permission:view-leave');
     Route::get('/leave-managements/create', 'Admin\LeaveManagementsController@create');
@@ -86,8 +95,16 @@ Route::group(['middleware' => ['auth']], function () {
     Route::PATCH('/tasks/{unique_key}/submit', 'Admin\TasksController@taskSubmit');
 
     Route::resource('salary-expenses', 'Admin\\SalaryExpensesController');
+    Route::get('/employee-view-salary-expenses', 'Admin\SalaryExpensesController@employeeViewSalaryExpense');
+    Route::get('/employee-view-salary-expenses-show-details/{id}', 'Admin\SalaryExpensesController@employeeViewSalaryExpensesShowDetails');
+
     Route::resource('miscellaneous-expenses', 'Admin\\MiscellaneousExpensesController');
-    Route::resource('credits', 'Admin\\CreditsController');
+
+    Route::get('/credits', 'Admin\CreditsController@index');
+    Route::get('/credits/create', 'Admin\CreditsController@create');
+    Route::POST('/credits', 'Admin\CreditsController@store');
+    Route::DELETE('/credits/{id}', 'Admin\CreditsController@destroy');
+
 });
 
 

@@ -16,7 +16,7 @@ class CreateMiscellaneousExpensesTable extends Migration
             $table->engine = 'InnoDB';
             $table->id();
             $table->text('name')->nullable();
-            $table->integer('amount')->nullable();
+            $table->double('amount')->nullable();
             $table->date('date')->nullable();
             $table->timestamps();
             });

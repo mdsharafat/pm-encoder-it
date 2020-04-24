@@ -28,9 +28,9 @@
     cursor: pointer;
 }
 .proile-rating{
-    font-size: 12px;
+    font-size: 1rem;
     color: #818182;
-    margin-top: 5%;
+    margin-top: 1%;
 }
 .proile-rating span{
     color: #495057;

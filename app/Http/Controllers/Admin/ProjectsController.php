@@ -8,7 +8,6 @@ use App\Http\Requests;
 use App\Client;
 use Carbon\Carbon;
 use App\Project;
-use App\ProjectStatus;
 use Illuminate\Http\Request;
 
 class ProjectsController extends Controller
@@ -23,8 +22,7 @@ class ProjectsController extends Controller
     {
         $clients = Client::all();
         $project  = new Project();
-        $projectStatuses = ProjectStatus::all();
-        return view('admin.projects.create', compact('clients', 'project', 'projectStatuses'));
+        return view('admin.projects.create', compact('clients', 'project'));
     }
 
     public function store(Request $request)
@@ -44,7 +42,6 @@ class ProjectsController extends Controller
         $project->client_id            = $request->client_id;
         $project->platform_id          = $client->platform->id;
         $project->budget               = $request->budget;
-        $project->project_status_id    = $request->project_status_id;
         $project->deadline             = Carbon::parse($request->deadline)->format('Y/m/d');
         $project->desc                 = $request->desc;
         $project->git_repo             = $request->git_repo;
@@ -54,7 +51,6 @@ class ProjectsController extends Controller
         $project->live_project_link    = $request->live_project_link;
         $project->feedback_from_client = $request->feedback_from_client;
         $project->feedback_to_client   = $request->feedback_to_client;
-        $project->payment_status       = $request->payment_status;
         $project->save();
         return redirect('projects')->with('flashMessage', 'Project added!');
     }
@@ -70,9 +66,7 @@ class ProjectsController extends Controller
     {
         $clients = Client::all();
         $project = Project::findOrFail($id);
-        $projectStatuses = ProjectStatus::all();
-
-        return view('admin.projects.edit', compact('clients', 'project', 'projectStatuses'));
+        return view('admin.projects.edit', compact('clients', 'project'));
     }
 
     public function update(Request $request, $id)
@@ -86,7 +80,6 @@ class ProjectsController extends Controller
         $requestData['client_id']            = $request->client_id;
         $requestData['platform_id']          = $client->platform_id;
         $requestData['budget']               = $request->budget;
-        $requestData['project_status_id']    = $request->project_status_id;
         $requestData['deadline']             = Carbon::parse($request->deadline)->format('Y/m/d');
         $requestData['desc']                 = $request->desc;
         $requestData['git_repo']             = $request->git_repo;
@@ -96,7 +89,6 @@ class ProjectsController extends Controller
         $requestData['live_project_link']    = $request->live_project_link;
         $requestData['feedback_from_client'] = $request->feedback_from_client;
         $requestData['feedback_to_client']   = $request->feedback_to_client;
-        $requestData['payment_status']       = $request->payment_status;       
         $project->update($requestData);
 
         return redirect('projects')->with('flashMessage', 'Project updated!');

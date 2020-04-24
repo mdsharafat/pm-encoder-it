@@ -30,7 +30,6 @@
                     <thead>
                         <tr class="text-center">
                             <th>#</th>
-                            <th>Image</th>
                             <th>Name</th>
                             <th>Department</th>
                             <th>Designation</th>
@@ -43,20 +42,12 @@
                         @foreach($employees as $item)
                             <tr class="text-center">
                                 <td>{{ $loop->iteration }}</td>
-                                <td>
-                                    @if($item->image)
-                                        <img style="width: 25px; height: 25px; margin: 0 auto; border-radius: 50%;" src="{{ asset('storage/employees/'.$item->image) }}" alt="image">
-                                    @else
-                                        <img style="width: 45px; height: 45px; margin: 0 auto; border-radius: 50%;" id="blah" class="uploaded-img-preview" src="{{ asset('assets/img/user.jpg') }}" alt="{{ $item->full_name }}" />
-                                    @endif
-                                </td>
                                 <td>{{ $item->full_name }}</td>
                                 <td>{{ $item->department->name }}</td>
                                 <td>{{ $item->designation->name }}</td>
-                                <td>{{ $item->designation->name }}</td>
+                                <td><a href="#"><span class="badge bg-success my-custom-badge">{{ $item->projects->where('status', 0)->count() }}</span></a></td>
                                 <td><a href="#"><span class="badge bg-success my-custom-badge">{{ $item->tasks->whereIn('status', [1,2,3])->count() }}</span></a></td>
                                 <td>
-                                    <a href="{{ url('/employees/' . $item->id) }}" title="View Employee" class="btn btn-warning btn-sm"><i class="fas fa-star"></i></a>
                                     <a href="{{ url('/employees/' . $item->id) }}" title="View Employee" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
                                     <a href="{{ url('/employees/' . $item->id . '/edit') }}" title="Edit Employee" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
 
@@ -82,7 +73,14 @@
     <!-- Page level custom scripts -->
     <script>
         $(document).ready(function() {
-            $('#dataTable').DataTable();
+            $('#dataTable').DataTable({
+                "columnDefs": [
+                    { "width": "20px", "targets": 0 },
+                    { "width": "150px", "targets": 1 },
+                    { "width": "150px", "targets": 2 },
+                    { "width": "150px", "targets": 6 },
+                ],
+            });
         });
     </script>
 @endsection

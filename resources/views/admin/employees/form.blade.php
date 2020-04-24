@@ -57,13 +57,14 @@
         {!! $errors->first('designation_id', '<p class="help-block">:message</p>') !!}
     </div>
     <div class="col-md-4">
-        <label for="job_type_id">Job Type</label>
-        <select required id="job_type_id" name="job_type_id">
-            @foreach($jobTypes as $jobType)
-                <option value="{{ $jobType->id }}" @if($employee->job_type_id == $jobType->id) {{ 'selected' }} @endif>{{ $jobType->name }}</option>
+        <label for="job_type_id" class="control-label">{{ 'Job Type' }}</label>
+        <select required id="job_type_id" name="job_type_id" >
+            @foreach (json_decode('{"1": "Parmanent", "2": "Provision", "3": "Part Time", "4": "Internship"}', true) as $optionKey => $optionValue)
+                <option value="{{ $optionKey }}" {{ (isset($employee->job_type_id) && $employee->job_type_id == $optionKey) ? 'selected' : ''}}>{{ $optionValue }}</option>
             @endforeach
         </select>
         {!! $errors->first('job_type_id', '<p class="help-block">:message</p>') !!}
+
     </div>
 </div>
 

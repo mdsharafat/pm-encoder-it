@@ -13,7 +13,7 @@
             @foreach($clients as $client)
                 <option value="{{ $client->id }}" @if($project->client_id == $client->id) {{ 'selected' }} @endif>{{ $client->name }}</option>
             @endforeach
-        </select> 
+        </select>
         {!! $errors->first('client_id', '<p class="help-block">:message</p>') !!}
     </div>
     <div class="col-md-4">
@@ -27,13 +27,12 @@
 
 <div class="row">
     <div class="col-md-4">
-        <label for="project_status_id">Project Status</label>
-        <select id="project_status_id" name="project_status_id" required>
-            @foreach($projectStatuses as $projectStatus)
-                <option value="{{ $projectStatus->id }}" @if($project->project_status_id == $projectStatus->id) {{ 'selected' }} @endif>{{ $projectStatus->name }}</option>
-            @endforeach
-        </select> 
-        {!! $errors->first('project_status_id', '<p class="help-block">:message</p>') !!}
+        <label for="payment_status">Payment Status</label>
+        <select id="payment_status" name="payment_status">
+            <option value="1" @if($project->payment_status == 1) {{ 'selected' }} @endif>Pending</option>
+            <option value="2" @if($project->payment_status == 2) {{ 'selected' }} @endif>Partially Paid</option>
+            <option value="3" @if($project->payment_status == 3) {{ 'selected' }} @endif>Full Paid</option>
+        </select>
     </div>
     <div class="col-md-4">
         <label>Deadline </label>
@@ -108,7 +107,7 @@
             <option value="4.0" @if($project->feedback_from_client == 4.00) {{ 'selected' }} @endif>4.0</option>
             <option value="4.5" @if($project->feedback_from_client == 4.50) {{ 'selected' }} @endif>4.5</option>
             <option value="5.0" @if($project->feedback_from_client == 5.00) {{ 'selected' }} @endif>5.0</option>
-        </select> 
+        </select>
         {!! $errors->first('feedback_from_client', '<p class="help-block">:message</p>') !!}
     </div>
     <div class="col-md-4">
@@ -125,22 +124,11 @@
             <option value="4.0" @if($project->feedback_to_client == 4.00) {{ 'selected' }} @endif>4.0</option>
             <option value="4.5" @if($project->feedback_to_client == 4.50) {{ 'selected' }} @endif>4.5</option>
             <option value="5.0" @if($project->feedback_to_client == 5.00) {{ 'selected' }} @endif>5.0</option>
-        </select> 
+        </select>
         {!! $errors->first('feedback_to_client', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <label for="payment_status">Payment Status</label>
-        <select id="payment_status" name="payment_status">
-            <option value="1" @if($project->payment_status == 1) {{ 'selected' }} @endif>Pending</option>
-            <option value="2" @if($project->payment_status == 2) {{ 'selected' }} @endif>Partially Paid</option>
-            <option value="3" @if($project->payment_status == 3) {{ 'selected' }} @endif>Full Paid</option>
-        </select>
-    </div>
-    <div class="col-md-4 mg-t-30">
-        <button type="submit" class="customButton">{{ $formMode === 'edit' ? 'Update' : 'Create' }}</button>   
-    </div>
-</div>
+<button type="submit" class="customButton">{{ $formMode === 'edit' ? 'Update' : 'Create' }}</button>
+
 
