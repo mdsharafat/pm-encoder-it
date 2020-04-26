@@ -57,7 +57,9 @@
                             <th>Category</th>
                             <th>Date</th>
                             <th>Reason</th>
+                            @can('approval-leave')
                             <th>Action</th>
+                            @endcan
                         </tr>
                     </thead>
                     <tbody>
@@ -66,6 +68,7 @@
                                 <td>{{ $item->categoryName($item->category) }}</td>
                                 <td>{{ $item->date }}</td>
                                 <td>{{ $item->reason }}</td>
+                                @can('approval-leave')
                                 <td>
                                     <a href="{{ url('/approve-leave-single/'.$item->id.'/'. $item->emp_id) }}" title="Approve" class="btn btn-success btn-sm"><i class="fa fa-check"></i></a>
                                     <a href="{{ url('/reject-leave-single/'.$item->id.'/'. $item->emp_id) }}" title="Reject" class="btn btn-warning btn-sm"><i class="fas fa-times"></i></a>
@@ -75,6 +78,7 @@
                                         <button type="submit" class="btn btn-danger btn-sm" title="Delete Leave Application" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fas fa-trash-alt"></i></button>
                                     </form>
                                 </td>
+                                @endcan
                             </tr>
                         @endforeach
                     </tbody>

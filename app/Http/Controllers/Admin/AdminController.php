@@ -9,9 +9,20 @@ use App\Task;
 use App\SalaryExpense;
 use Carbon\Carbon;
 use DB;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            if (!Auth::user()->hasRole('Admin')) {
+                return redirect('/employee-dashboard');
+            }
+            return $next($request);
+        });
+    }
+
     public function index()
     {
         $completedStatus         = 0.00;
@@ -19,8 +30,6 @@ class AdminController extends Controller
         $percentageTaskCompleted = 0.00;
         $totalExpense            = 0.00;
         $totalEarning            = 0.00;
-
-
 
         $projects = Project::where('status', 0)->get();
         $tasks    = DB::table('tasks')

@@ -31,7 +31,7 @@
                         <label>Email</label>
                         <input type="email" name="email" placeholder="User Email *" required value="{{ $user->email }}">
                     </div>
-                    @role('Super Admin')
+                    @role('Admin')
                         <div class="col-md-4">
                             <label>Role</label>
                             <select id="role" name="role" required>
@@ -39,7 +39,7 @@
                                 @foreach($roles as $role)
                                     <option value="{{ $role->id }}" @if($user->getRoleNames()->first() == $role->name) {{ 'selected' }} @endif>{{ $role->name }}</option>
                                 @endforeach
-                            </select>  
+                            </select>
                         </div>
                     @endrole
                 </div>

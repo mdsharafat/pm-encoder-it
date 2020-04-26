@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use App\Employee;
 use App\SalaryExpense;
 use Illuminate\Http\Request;
+use DB;
 
 class SalaryExpensesController extends Controller
 {
@@ -16,6 +17,31 @@ class SalaryExpensesController extends Controller
     {
         $salaryexpenses = SalaryExpense::latest()->get();
         return view('admin.salary-expenses.index', compact('salaryexpenses'));
+    }
+
+    public function salaryViewByMonth()
+    {
+        $salaryExpenses = DB::table("salary_expenses")
+                    ->select("date" ,DB::raw("(COUNT(*)) as count"),DB::raw("(SUM(amount)) as sum"))
+                    ->orderBy('date')
+                    ->groupBy(DB::raw("MONTH(date)"))
+                    ->get();
+        return view('admin.salary-expenses.view-by-month', compact('salaryExpenses'));
+    }
+
+    public function salaryViewByMonthDetails($date)
+    {
+        $salaryExpenses = DB::table('salary_expenses')
+                    ->join('employees', 'employees.id', '=', 'salary_expenses.emp_id')
+                    ->select('salary_expenses.*', 'employees.full_name as name')
+                    ->whereMonth('date', Carbon::parse($date)->format('m'))
+                    ->whereYear('date', Carbon::parse($date)->format('Y'))
+                    ->get();
+        $totalAmount = DB::table("salary_expenses")
+                    ->select(DB::raw("(SUM(amount)) as sum"))
+                    ->whereMonth('date', Carbon::parse($date)->format('m'))
+                    ->first();
+        return view('admin.salary-expenses.month-view-details', compact('salaryExpenses', 'totalAmount'));
     }
 
     public function create()

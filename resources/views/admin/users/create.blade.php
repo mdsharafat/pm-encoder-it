@@ -23,22 +23,13 @@
             </fieldset>
             <fieldset>
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <label>Name</label>
                         <input type="text" name="name" placeholder="User Name *" required value="{{ old('name') }}">
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <label>Email</label>
                         <input type="email" name="email" placeholder="User Email *" required value="{{ old('email') }}">
-                    </div>
-                    <div class="col-md-4">
-                        <label>Role</label>
-                        <select id="role" name="role" required>
-                            <option disabled selected>Select Role</option>
-                            @foreach($roles as $role)
-                                <option value="{{ $role->id }}">{{ $role->name }}</option>
-                            @endforeach
-                        </select>  
                     </div>
                 </div>
             </fieldset>

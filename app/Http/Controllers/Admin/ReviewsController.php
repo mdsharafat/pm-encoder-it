@@ -14,20 +14,20 @@ class ReviewsController extends Controller
 {
     public function index(Request $request)
     {
-        $keyword = $request->get('search');
-        $perPage = 25;
-
-        if (!empty($keyword)) {
-            $reviews = Review::where('emp_id', 'LIKE', "%$keyword%")
-                ->orWhere('reviewed_by', 'LIKE', "%$keyword%")
-                ->orWhere('note', 'LIKE', "%$keyword%")
-                ->orWhere('point', 'LIKE', "%$keyword%")
-                ->latest()->paginate($perPage);
-        } else {
-            $reviews = Review::latest()->paginate($perPage);
-        }
-
+        $reviews = Review::latest()->get();
         return view('admin.reviews.index', compact('reviews'));
+    }
+
+    public function viewByEmployee()
+    {
+        $employees = Employee::all();
+        return view('admin.reviews.employee-view', compact('employees'));
+    }
+
+    public function allReviewUniqueEmployee($id)
+    {
+        $reviews = Review::where('emp_id', $id)->get();
+        return view('admin.reviews.all-reviews-unique-user', compact('reviews'));
     }
 
     public function create()
@@ -46,12 +46,6 @@ class ReviewsController extends Controller
         $review->reviewed_by = Auth::user()->id;
         $review->save();
         return redirect('reviews')->with('flashMessage', 'Review added!');
-    }
-
-    public function show($id)
-    {
-        $review = Review::findOrFail($id);
-        return view('admin.reviews.show', compact('review'));
     }
 
     public function edit($id)

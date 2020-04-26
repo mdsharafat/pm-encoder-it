@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\MiscellaneousExpense;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use DB;
 
 class MiscellaneousExpensesController extends Controller
 {
@@ -15,6 +16,30 @@ class MiscellaneousExpensesController extends Controller
     {
         $miscellaneousExpenses = MiscellaneousExpense::latest()->get();
         return view('admin.miscellaneous-expenses.index', compact('miscellaneousExpenses'));
+    }
+
+    public function miscellaneousViewByMonth()
+    {
+        $miscellaneous = DB::table("miscellaneous_expenses")
+                    ->select("date" ,DB::raw("(COUNT(*)) as count"),DB::raw("(SUM(amount)) as sum"))
+                    ->orderBy('date')
+                    ->groupBy(DB::raw("MONTH(date)"))
+                    ->get();
+        return view('admin.miscellaneous-expenses.view-by-month', compact('miscellaneous'));
+    }
+
+    public function miscellaneousViewByMonthDetails($date)
+    {
+        $miscellaneous = DB::table('miscellaneous_expenses')
+                    ->select('miscellaneous_expenses.*')
+                    ->whereMonth('date', Carbon::parse($date)->format('m'))
+                    ->whereYear('date', Carbon::parse($date)->format('Y'))
+                    ->get();
+        $totalAmount = DB::table("miscellaneous_expenses")
+                    ->select(DB::raw("(SUM(amount)) as sum"))
+                    ->whereMonth('date', Carbon::parse($date)->format('m'))
+                    ->first();
+        return view('admin.miscellaneous-expenses.month-view-details', compact('miscellaneous', 'totalAmount'));
     }
 
     public function create()

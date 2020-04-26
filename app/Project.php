@@ -31,8 +31,7 @@ class Project extends Model
     {
         $statusArray = [
             0 => 'In Progress',
-            1 => 'Completed',
-
+            1 => 'Completed'
         ];
         return isset($id) ? $statusArray[$id] : '';
     }

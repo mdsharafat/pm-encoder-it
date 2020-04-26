@@ -12,16 +12,7 @@ class DepartmentsController extends Controller
 {
     public function index(Request $request)
     {
-        $keyword = $request->get('search');
-        $perPage = 25;
-
-        if (!empty($keyword)) {
-            $departments = Department::where('name', 'LIKE', "%$keyword%")
-                ->latest()->paginate($perPage);
-        } else {
-            $departments = Department::latest()->paginate($perPage);
-        }
-
+        $departments = Department::latest()->get();
         return view('admin.departments.index', compact('departments'));
     }
 
@@ -32,43 +23,29 @@ class DepartmentsController extends Controller
 
     public function store(Request $request)
     {
-        
+
         $requestData = $request->all();
-        
         Department::create($requestData);
-
         return redirect('departments')->with('flashMessage', 'Department added!');
-    }
-
-    public function show($id)
-    {
-        $department = Department::findOrFail($id);
-
-        return view('admin.departments.show', compact('department'));
     }
 
     public function edit($id)
     {
         $department = Department::findOrFail($id);
-
         return view('admin.departments.edit', compact('department'));
     }
 
     public function update(Request $request, $id)
     {
-        
         $requestData = $request->all();
-        
-        $department = Department::findOrFail($id);
+        $department  = Department::findOrFail($id);
         $department->update($requestData);
-
         return redirect('departments')->with('flashMessage', 'Department updated!');
     }
 
     public function destroy($id)
     {
         Department::destroy($id);
-
         return redirect('departments')->with('flashMessage', 'Department deleted!');
     }
 }

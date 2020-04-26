@@ -20,7 +20,7 @@
     @endif
     <div class="form-style-5" style="padding-top: 0px; padding-bottom: 0px;">
         <fieldset>
-            <legend><span class="number"><i class="fas fa-table"></i></span> Miscellaneous Expenses Table</legend>
+            <legend><span class="number"><i class="fas fa-table"></i></span> All Reviews</legend>
         </fieldset>
     </div>
     <div class="card shadow mb-4">
@@ -30,27 +30,28 @@
                     <thead>
                         <tr class="text-center">
                             <th>#</th>
-                            <th>Name</th>
-                            <th>Amount ($)</th>
-                            <th>Date</th>
+                            <th>Employee</th>
+                            <th>Reviewed By</th>
+                            <th>Note</th>
+                            <th><span class="text-warning"><i class="fas fa-star"></i></span></th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($miscellaneousExpenses as $item)
+                        @foreach($reviews as $item)
                             <tr class="text-center">
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $item->name }}</td>
-                                <td>{{ $item->amount }}</td>
-                                <td>{{ $item->date }}</td>
+                                <td>{{ $item->employee->full_name }}</td>
+                                <td>{{ $item->reviewedBy->name }}</td>
+                                <td>{{ $item->note }}</td>
+                                <td>{{ $item->point }}</td>
                                 <td>
-                                    <a href="{{ url('/miscellaneous-expenses/' . $item->id) }}" title="View MiscellaneousExpense" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
-                                    <a href="{{ url('/miscellaneous-expenses/' . $item->id . '/edit') }}" title="Edit MiscellaneousExpense" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                    <a href="{{ url('/reviews/' . $item->id . '/edit') }}" title="Edit Review" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
 
-                                    <form method="POST" action="{{ url('/miscellaneous-expenses' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
+                                    <form method="POST" action="{{ url('/reviews' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
                                         {{ method_field('DELETE') }}
                                         @csrf
-                                        <button type="submit" class="btn btn-danger btn-sm" title="Delete MiscellaneousExpense" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fas fa-trash-alt"></i></button>
+                                        <button type="submit" class="btn btn-danger btn-sm" title="Delete Review" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fas fa-trash-alt"></i></button>
                                     </form>
                                 </td>
                             </tr>
@@ -70,9 +71,7 @@
         $(document).ready(function() {
             $('#dataTable').DataTable({
                 "columnDefs": [
-                    { "width": "20px", "targets": 0 },
-                    { "width": "500px", "targets": 1 },
-                    { "width": "100px", "targets": 4 },
+                    { "width": "450px", "targets": 3 },
                 ],
             });
         });

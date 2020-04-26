@@ -30,32 +30,40 @@ class NecessaryTableSeeder extends Seeder
      */
     public function run()
     {
-        $roleSuperAdmin = Role::create(['name' => 'Super Admin']);
         $roleAdmin      = Role::create(['name' => 'Admin']);
         $roleUser       = Role::create(['name' => 'User']);
-        $roleClient     = Role::create(['name' => 'Client']);
 
-        $permissionAddUser    = Permission::create(['name' => 'add-user']);
-        $permissionEditUser   = Permission::create(['name' => 'edit-user']);
-        $permissionViewUser   = Permission::create(['name' => 'view-user']);
-        $permissionDeleteUser = Permission::create(['name' => 'delete-user']);
+        Permission::create(['name' => 'add-department']);
+        Permission::create(['name' => 'edit-department']);
+        Permission::create(['name' => 'view-department']);
+        Permission::create(['name' => 'delete-department']);
 
-        $permissionAddPlatform    = Permission::create(['name' => 'add-platform']);
-        $permissionEditPlatform   = Permission::create(['name' => 'edit-platform']);
-        $permissionViewPlatform   = Permission::create(['name' => 'view-platform']);
-        $permissionDeletePlatform = Permission::create(['name' => 'delete-platform']);
+        Permission::create(['name' => 'add-designation']);
+        Permission::create(['name' => 'edit-designation']);
+        Permission::create(['name' => 'view-designation']);
+        Permission::create(['name' => 'delete-designation']);
 
-        $permissionViewLeave    = Permission::create(['name' => 'view-leave']);
-        $permissionApproveLeave = Permission::create(['name' => 'approval-leave']);
+        Permission::create(['name' => 'add-employee']);
+        Permission::create(['name' => 'edit-employee']);
+        Permission::create(['name' => 'view-employee-list']);
+        Permission::create(['name' => 'view-employee-details']);
+        Permission::create(['name' => 'delete-employee']);
 
-        $permissionAddTask      = Permission::create(['name' => 'add-task']);
-        $permissionViewTask     = Permission::create(['name' => 'view-task']);
-        $permissionFeedbackTask = Permission::create(['name' => 'feedback-task']);
-        $permissionUpdateTask   = Permission::create(['name' => 'update-task']);
-        $permissionDeleteTask   = Permission::create(['name' => 'delete-task']);
+        Permission::create(['name' => 'view-leave']);
+        Permission::create(['name' => 'approval-leave']);
 
-        $roleSuperAdmin->syncPermissions(Permission::all());
-        $roleAdmin->syncPermissions([$permissionViewUser ,$permissionEditUser]);
+        Permission::create(['name' => 'add-review']);
+        Permission::create(['name' => 'edit-review']);
+        Permission::create(['name' => 'view-review']);
+        Permission::create(['name' => 'delete-review']);
+
+        Permission::create(['name' => 'add-task']);
+        Permission::create(['name' => 'view-task']);
+        Permission::create(['name' => 'feedback-task']);
+        Permission::create(['name' => 'update-task']);
+        Permission::create(['name' => 'delete-task']);
+
+        $roleAdmin->syncPermissions(Permission::all());
 
         $faker = Faker\Factory::create();
 
@@ -67,7 +75,7 @@ class NecessaryTableSeeder extends Seeder
         $user->password = Hash::make('11111111');
         $user->image = 'abir.jpg';
         $user->save();
-        $user->assignRole('Super Admin');
+        $user->assignRole('admin');
         // *************************
 
         //platform table
@@ -127,7 +135,7 @@ class NecessaryTableSeeder extends Seeder
 
         //employees table
         $employeeArray = [
-            0 => ['shahed', 'Shahed Romel', 'shahed@test.com', 'Admin', 250],
+            0 => ['shahed', 'Shahed Romel', 'shahed@test.com', 'User', 250],
             1 => ['sohan', 'Sharafat Hossain', 'sohan@test.com', 'User', 200],
             2 => ['salman', 'Salman Khan', 'salman@test.com', 'User', 300],
             3 => ['sajal', 'Sajal Kundu', 'sajal@test.com', 'User', 220],

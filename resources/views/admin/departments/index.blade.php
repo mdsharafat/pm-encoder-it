@@ -32,7 +32,9 @@
                             <th>#</th>
                             <th>Name</th>
                             <th>Total Employees</th>
+                            @canany(['edit-department', 'delete-department'])
                             <th>Action</th>
+                            @endcanany
                         </tr>
                     </thead>
                     <tbody>
@@ -41,15 +43,20 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->name }}</td>
                                 <td><span class="badge bg-success my-custom-badge">{{ $item->employees->count() }}</span></td>
-                                <td>
-                                    <a href="{{ url('/departments/' . $item->id . '/edit') }}" title="Edit Department" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-
-                                    <form method="POST" action="{{ url('/departments' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
-                                        {{ method_field('DELETE') }}
-                                        @csrf
-                                        <button type="submit" class="btn btn-danger btn-sm" title="Delete Department" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fas fa-trash-alt"></i></button>
-                                    </form>
-                                </td>
+                                @canany(['edit-department', 'delete-department'])
+                                    <td>
+                                        @can('edit-department')
+                                        <a href="{{ url('/departments/' . $item->id . '/edit') }}" title="Edit Department" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                        @endcan
+                                        @can('delete-department')
+                                        <form method="POST" action="{{ url('/departments' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
+                                            {{ method_field('DELETE') }}
+                                            @csrf
+                                            <button type="submit" class="btn btn-danger btn-sm" title="Delete Department" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fas fa-trash-alt"></i></button>
+                                        </form>
+                                        @endcan
+                                    </td>
+                                @endcanany
                             </tr>
                         @endforeach
                     </tbody>

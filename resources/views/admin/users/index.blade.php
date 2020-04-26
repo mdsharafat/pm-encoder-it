@@ -35,12 +35,8 @@
                         <th>Email</th>
                         <th>Status</th>
                         <th>Role</th>
-                        @can('edit-user')
-                            <th>Updated By</th>
-                        @endcan
-                        @canany(['edit-user', 'delete-user'])
-                            <th>Action</th>
-                        @endcanany
+                        <th>Updated By</th>
+                        <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -65,36 +61,27 @@
                                 </td>
                                 <td>
                                     @foreach($item->getRoleNames() as $role)
-                                        @if($role == 'Super Admin')
+                                        @if($role == 'Admin')
                                             <span class="badge bg-danger" style="color: #ffffff; padding: 5px; font-weight: bold;"> {{ $role }} </span>
-                                        @elseif($role == 'Admin')
-                                            <span class="badge bg-warning" style="color: #ffffff; padding: 5px; font-weight: bold;"> {{ $role }} </span>
                                         @else
                                             <span class="badge bg-success" style="color: #ffffff; padding: 5px; font-weight: bold;"> {{ $role }} </span>
                                         @endif
                                     @endforeach
                                 </td>
-                                @can('edit-user')
                                     <td>{{ $item->updated_by }}</td>
-                                @endcan
-                                @canany(['edit-user', 'delete-user'])
                                     <td>
-                                        @can('edit-user')
-                                            <a href="{{ url('/users/'.$item->id.'/edit') }}" class="btn btn-primary btn-sm">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                        @endcan
+                                        <a href="{{ url('/users/'.$item->id.'/edit') }}" class="btn btn-primary btn-sm" title="Edit"><i class="fas fa-edit"></i></a>
+                                        @if($item->roles->first()->name != 'Admin')
+                                            <a href="{{ url('/permission-management/'.$item->id) }}" class="btn btn-warning btn-sm" title="Permission"><i class="fas fa-shield-alt"></i></a>
+                                        @endif
                                         @if(Auth::user()->id != $item->id)
-                                            @can('delete-user')
                                                 <form method="POST" action="{{ url('/users' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
                                                     {{ method_field('DELETE') }}
                                                     @csrf
-                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm(&quot;Confirm delete?&quot;)"> <i class="fas fa-trash-alt"></i> </button>
+                                                    <button title="Delete" type="submit" class="btn btn-danger btn-sm" onclick="return confirm(&quot;Confirm delete?&quot;)"> <i class="fas fa-trash-alt"></i> </button>
                                                 </form>
-                                            @endcan
                                         @endif
                                     </td>
-                                @endcanany
                             </tr>
                         @endforeach
                     </tbody>

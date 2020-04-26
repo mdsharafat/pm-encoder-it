@@ -19,6 +19,31 @@ class CreditsController extends Controller
         return view('admin.credits.index', compact('credits'));
     }
 
+    public function creditesViewByMonth()
+    {
+        $credits = DB::table("credits")
+                    ->select("date" ,DB::raw("(COUNT(*)) as count"),DB::raw("(SUM(amount)) as sum"))
+                    ->orderBy('date')
+                    ->groupBy(DB::raw("MONTH(date)"))
+                    ->get();
+        return view('admin.credits.view-by-month', compact('credits'));
+    }
+
+    public function creditesViewByMonthDetails($date)
+    {
+        $credits = DB::table('credits')
+                    ->join('projects', 'projects.id', '=', 'credits.project_id')
+                    ->select('credits.*', 'projects.title as title')
+                    ->whereMonth('date', Carbon::parse($date)->format('m'))
+                    ->whereYear('date', Carbon::parse($date)->format('Y'))
+                    ->get();
+        $totalAmount = DB::table("credits")
+                    ->select(DB::raw("(SUM(amount)) as sum"))
+                    ->whereMonth('date', Carbon::parse($date)->format('m'))
+                    ->first();
+        return view('admin.credits.month-view-details', compact('credits', 'totalAmount'));
+    }
+
     public function create()
     {
         $credit   = new Credit();

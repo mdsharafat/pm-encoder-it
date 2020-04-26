@@ -17,16 +17,8 @@ class UserController extends Controller
 {
     public function index()
     {
-        $user = Auth::user();
-        if ($user->hasRole('Super Admin')) {
-            $users = User::latest()->get();
-            return view('admin.users.index', compact('users'));
-        } else {
-            $users = User::whereHas('roles', function($role) {
-                        $role->where('name', '=', 'User');
-                    })->latest()->get();
-            return view('admin.users.index', compact('users'));
-        }
+        $users = User::latest()->get();
+        return view('admin.users.index', compact('users'));
     }
 
     public function create()
@@ -40,7 +32,6 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|min:3|max:10',
             'email' => 'required|email|unique:users',
-            'role' => 'required',
         ]);
 
         $user           = new User();
@@ -49,7 +40,7 @@ class UserController extends Controller
         $user->password = Hash::make('12345678');
         $user->save();
 
-        $role = Role::where('id', $request->role)->first();
+        $role = Role::where('id', 1)->first();
         $user->roles()->attach($role);
 
         return redirect('/users')->with('flashMessage', 'User added successfully');

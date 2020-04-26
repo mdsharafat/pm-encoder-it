@@ -22,9 +22,9 @@
 	border: none;
 }
 .form-style-5 legend {
-	font-size: 1.4em;
-	margin-bottom: 30px;
-    text-align: center;
+  font-size: 1.4em;
+	margin-bottom: 20px;
+  text-align: center;
 }
 .form-style-5 label {
 	display: block;
@@ -50,9 +50,9 @@
 	outline: 0;
 	padding: 10px;
 	width: 100%;
-	box-sizing: border-box; 
+	box-sizing: border-box;
 	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box; 
+	-moz-box-sizing: border-box;
 	background-color: #ffffff;
 	color:#000000;
 	-webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
@@ -251,7 +251,7 @@
   transform: rotate(45deg);
 }
 
-input[type="number"]::-webkit-outer-spin-button, 
+input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;

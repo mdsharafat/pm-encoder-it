@@ -42,7 +42,7 @@
                 <h1 class="text-success" style="font-size: 20px; margin-top: 10px; font-weight: bold;">{{ "Assigned To ".$task->assignedTo->full_name }}</h1>
                 <p class="title">Status: <span class="badge my-custom-badge @if($task->status ==1 ) {{ 'bg-primary' }} @elseif($task->status ==2) {{ 'bg-danger' }} @elseif($task->status ==3) {{ 'bg-info' }} @else {{ 'bg-success' }} @endif"> {{ $task->statusName($task->status) }} </span></p>
                 <p class="title">Project: {{ ucfirst($task->project->title) }}</p>
-                @role('Super Admin')
+                @role('Admin')
                 <p class="title">Total Point: {{ $task->total_point }}</p>
                 <p class="title">Received Point: {{ $task->received_point }}</p>
                 @endrole

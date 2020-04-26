@@ -46,14 +46,16 @@
                                     <a href="{{ url('/leave-pending-unique-user/' . $item->emp_id) }}"><span class="badge bg-success my-custom-badge">{{ $item->totalPending }}</span></a>
                                 </td>
                                 <td>
-                                    <a href="{{ url('/approve-leave-all/'. $item->emp_id) }}" title="Approve All" class="btn btn-success btn-sm"><i class="fa fa-check"></i></a>
-                                    <a href="{{ url('/reject-leave-all/'. $item->emp_id) }}" title="Reject All" class="btn btn-warning btn-sm"><i class="fas fa-times"></i></a>
-                                    <a href="{{ url('/leave-pending-unique-user/' . $item->emp_id) }}" title="View Leave Applications" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
-                                    <form method="POST" action="{{ url('/leave-managements' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
-                                        {{ method_field('DELETE') }}
-                                        @csrf
-                                        <button type="submit" class="btn btn-danger btn-sm" title="Delete Leave Application" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fas fa-trash-alt"></i></button>
-                                    </form>
+                                    <a href="{{ url('/leave-pending-unique-user/' . $item->emp_id) }}" title="View All Leave Applications" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
+                                    @can('approval-leave')
+                                        <a href="{{ url('/approve-leave-all/'. $item->emp_id) }}" title="Approve All" class="btn btn-success btn-sm"><i class="fa fa-check"></i></a>
+                                        <a href="{{ url('/reject-leave-all/'. $item->emp_id) }}" title="Reject All" class="btn btn-warning btn-sm"><i class="fas fa-times"></i></a>
+                                        <form method="POST" action="{{ url('/leave-managements' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
+                                            {{ method_field('DELETE') }}
+                                            @csrf
+                                            <button type="submit" class="btn btn-danger btn-sm" title="Delete Leave Application" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fas fa-trash-alt"></i></button>
+                                        </form>
+                                    @endcan
                                 </td>
                             </tr>
                         @endforeach

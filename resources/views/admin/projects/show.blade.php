@@ -13,9 +13,11 @@
                 </div>
             </div>
             <div class="col-md-2">
-                <a href="{{ url('/projects/' . $project->id . '/edit') }}">
-                    <button type="button" class="customButton" name="btnAddMore">Edit Project</button>
-                </a>
+                @role('Admin')
+                    <a href="{{ url('/projects/' . $project->id . '/edit') }}">
+                        <button type="button" class="customButton" name="btnAddMore">Edit Project</button>
+                    </a>
+                @endrole
             </div>
         </div>
         <div class="row">
@@ -28,6 +30,7 @@
                         <li class="nav-item">
                             <a class="nav-link" id="link-tab" data-toggle="tab" href="#link" role="tab" aria-controls="link" aria-selected="true">Links</a>
                         </li>
+                        @role('Admin')
                         <li class="nav-item">
                             <a class="nav-link" id="developer-tab" data-toggle="tab" href="#developer" role="tab" aria-controls="developer" aria-selected="false">Developers</a>
                         </li>
@@ -37,6 +40,7 @@
                         <li class="nav-item">
                             <a class="nav-link" id="payment-tab" data-toggle="tab" href="#payment" role="tab" aria-controls="tasks" aria-selected="false">Payments</a>
                         </li>
+                        @endrole
                     </ul>
                 </div>
             </div>
@@ -51,15 +55,11 @@
                                 <td style="min-width:20px;"><p>:</p></td>
                                 <td><p class="font-weight-bold text-success">{{ number_format($project->percentageOfCompletion(), 2) }} % </p></td>
                             </tr>
+                            @role('Admin')
                             <tr>
                                 <th style="min-width:150px;"><p class="font-weight-bold">Deadline</p></th>
                                 <td style="min-width:20px;"><p>:</p></td>
                                 <td><p>{{ $project->deadline }}</p></td>
-                            </tr>
-                            <tr>
-                                <th style="min-width:150px;"><p class="font-weight-bold">Status</p></th>
-                                <td style="min-width:20px;"><p>:</p></td>
-                                <td><p>{{ $project->statusName($project->status) }}</p></td>
                             </tr>
                             <tr>
                                 <th style="min-width:150px;"><p class="font-weight-bold">Budget</p></th>
@@ -85,6 +85,12 @@
                                 <th style="min-width:150px;"><p class="font-weight-bold">Our Feedback</p></th>
                                 <td style="min-width:20px;"><p>:</p></td>
                                 <td><p>{{ $project->feedback_to_client }} <span class="text-warning" style="font-size:14px;"><i class="fas fa-star"></i></span></p></td>
+                            </tr>
+                            @endrole
+                            <tr>
+                                <th style="min-width:150px;"><p class="font-weight-bold">Status</p></th>
+                                <td style="min-width:20px;"><p>:</p></td>
+                                <td><p>{{ $project->statusName($project->status) }}</p></td>
                             </tr>
                             <tr>
                                 <th style="min-width:150px;"><p class="font-weight-bold">Description</p></th>
@@ -122,6 +128,7 @@
                             </tr>
                         </table>
                     </div>
+                    @role('Admin')
                     <div class="tab-pane fade" id="developer" role="tabpanel" aria-labelledby="developer-tab">
                         @foreach ($project->tasks()->groupBy('assigned_to')->get() as $task )
                             <div class="card">
@@ -195,6 +202,7 @@
                             </tr>
                         </table>
                     </div>
+                    @endrole
                 </div>
             </div>
         </div>

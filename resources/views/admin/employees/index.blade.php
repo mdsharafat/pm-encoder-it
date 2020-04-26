@@ -35,7 +35,9 @@
                             <th>Designation</th>
                             <th>Projects <span class="text-success font-weight-bold"><i class="fas fa-running"></i></span></th>
                             <th>Tasks <span class="text-success font-weight-bold"><i class="fas fa-running"></i></span></th>
+                            @canany(['edit-employee', 'view-employee-details', 'delete-employee'])
                             <th>Action</th>
+                            @endcanany
                         </tr>
                     </thead>
                     <tbody>
@@ -47,16 +49,23 @@
                                 <td>{{ $item->designation->name }}</td>
                                 <td><a href="#"><span class="badge bg-success my-custom-badge">{{ $item->projects->where('status', 0)->count() }}</span></a></td>
                                 <td><a href="#"><span class="badge bg-success my-custom-badge">{{ $item->tasks->whereIn('status', [1,2,3])->count() }}</span></a></td>
+                                @canany(['edit-employee', 'view-employee-details', 'delete-employee'])
                                 <td>
+                                    @can('view-employee-details')
                                     <a href="{{ url('/employees/' . $item->id) }}" title="View Employee" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
+                                    @endcan
+                                    @can('edit-employee')
                                     <a href="{{ url('/employees/' . $item->id . '/edit') }}" title="Edit Employee" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-
+                                    @endcan
+                                    @can('delete-employee')
                                     <form method="POST" action="{{ url('/employees' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
                                         {{ method_field('DELETE') }}
                                         @csrf
                                         <button type="submit" class="btn btn-danger btn-sm" title="Delete Employee" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fas fa-trash-alt"></i></button>
                                     </form>
+                                    @endcan
                                 </td>
+                                @endcanany
                             </tr>
                         @endforeach
                     </tbody>

@@ -193,4 +193,46 @@ class EmployeesController extends Controller
             return response()->json(['msg'=>'error']);
     }
 
+    public function employeeDashboard()
+    {
+        $projects = DB::table('employee_project')
+                ->join('projects', 'projects.id', '=', 'employee_project.project_id')
+                ->select(DB::raw('count(*) as count'))
+                ->where('employee_project.emp_id', '=', Auth::user()->employee->id)
+                ->where('projects.status', '!=', 1)
+                ->first();
+
+        $assignedTasks = DB::table('tasks')
+                ->where('assigned_to', '=', Auth::user()->employee->id)
+                ->whereNotIn('status', [3, 4, 5])
+                ->select(DB::raw('count(*) as count'))
+                ->first();
+
+        $inProgressTasks = DB::table('tasks')
+                ->where('assigned_to', '=', Auth::user()->employee->id)
+                ->where('status', '=', 3)
+                ->select(DB::raw('count(*) as count'))
+                ->first();
+
+        $submittedTasks = DB::table('tasks')
+                ->where('assigned_to', '=', Auth::user()->employee->id)
+                ->whereIn('status', [4, 5])
+                ->select(DB::raw('count(*) as count'))
+                ->first();
+
+        $appliedLeaves = DB::table('leave_managements')
+                ->where('emp_id', '=', Auth::user()->employee->id)
+                ->where('status', '=', 1)
+                ->select(DB::raw('count(*) as count'))
+                ->first();
+
+        $approvedLeaves = DB::table('leave_managements')
+                ->where('emp_id', '=', Auth::user()->employee->id)
+                ->where('status', '=', 2)
+                ->select(DB::raw('count(*) as count'))
+                ->first();
+
+        return view('admin.employees.employee-dashboard', compact('projects', 'assignedTasks', 'inProgressTasks', 'submittedTasks', 'appliedLeaves', 'approvedLeaves'));
+    }
+
 }

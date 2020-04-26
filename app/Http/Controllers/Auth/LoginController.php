@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\User;
 use Session;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -29,7 +30,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    // protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
      * Create a new controller instance.
@@ -42,12 +43,23 @@ class LoginController extends Controller
     }
 
     protected function credentials(\Illuminate\Http\Request $request)
-     {
+    {
         $user = User::where('email', $request->email)->first();
         if (isset($user) && ($user->status == 0)) {
             Session::flash('flashMessage', 'Account deactivated. Please contact with your admin.');
         }
         $credentials = $request->only($this->username(), 'password');
         return Arr::add($credentials, 'status', '1');
-     }
+    }
+
+    protected function authenticated()
+    {
+        $role = Auth::user()->roles->first();
+
+        if ($role->name == "Admin") {
+            return redirect('/') ;
+        } else {
+            return redirect('/employee-dashboard');
+        }
+    }
 }
