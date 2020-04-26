@@ -144,8 +144,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/approved-leave-lists', 'Admin\LeaveManagementsController@approvedLeaveList')->middleware('permission:view-leave');
     Route::get('/rejected-leave-lists', 'Admin\LeaveManagementsController@rejectedLeaveList')->middleware('permission:view-leave');
 
-
-    Route::resource('reviews', 'Admin\\ReviewsController');
     // reviews
     Route::get('/reviews', 'Admin\ReviewsController@index')->middleware('permission:view-review');
     Route::get('/reviews/create', 'Admin\ReviewsController@create')->middleware('permission:add-review');

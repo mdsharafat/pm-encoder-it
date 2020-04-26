@@ -22,6 +22,9 @@
         <fieldset>
             <legend><span class="number"><i class="fas fa-table"></i></span>My Leave Applications</legend>
         </fieldset>
+        <a href="{{ url('/leave-managements/create') }}">
+            <button class="customButton font-weight-bold">APPLY FOR LEAVE</button>
+        </a>
     </div>
     <div class="card shadow mb-4">
         <div class="card-body">

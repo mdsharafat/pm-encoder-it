@@ -22,6 +22,9 @@
         <fieldset>
             <legend><span class="number"><i class="fas fa-table"></i></span> Salary Expenses Employee View</legend>
         </fieldset>
+        <a href="{{ url('/salary-expenses/create') }}">
+            <button class="customButton font-weight-bold">ADD SALARY EXPENSE</button>
+        </a>
     </div>
     <div class="card shadow mb-4">
         <div class="card-body">

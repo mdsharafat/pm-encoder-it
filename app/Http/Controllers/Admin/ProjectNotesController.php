@@ -33,7 +33,7 @@ class ProjectNotesController extends Controller
 
         ProjectNote::create($requestData);
 
-        return redirect('project-notes')->with('flashMessage', 'ProjectNote added!');
+        return redirect('project-notes')->with('flashMessage', 'Project Note added!');
     }
 
     public function show($id)
@@ -59,14 +59,14 @@ class ProjectNotesController extends Controller
         $projectnote = ProjectNote::findOrFail($id);
         $projectnote->update($requestData);
 
-        return redirect('project-notes')->with('flashMessage', 'ProjectNote updated!');
+        return redirect('project-notes')->with('flashMessage', 'Project Note updated!');
     }
 
     public function destroy($id)
     {
         ProjectNote::destroy($id);
 
-        return redirect('project-notes')->with('flashMessage', 'ProjectNote deleted!');
+        return redirect('project-notes')->with('flashMessage', 'Project Note deleted!');
     }
 
     public function deleteAllNotesForParticularProject($id)
@@ -79,6 +79,6 @@ class ProjectNotesController extends Controller
             ->where('project_id', '=', $item->project_id)
             ->delete();
         }
-        return redirect('project-notes')->with('flashMessage', 'ProjectNote deleted!');
+        return redirect('project-notes')->with('flashMessage', 'Project Note deleted!');
     }
 }

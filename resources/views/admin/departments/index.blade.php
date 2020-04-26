@@ -22,6 +22,11 @@
         <fieldset>
             <legend><span class="number"><i class="fas fa-table"></i></span> Departments Table</legend>
         </fieldset>
+        @can('add-department')
+            <a href="{{ url('/departments/create') }}">
+                <button class="customButton font-weight-bold">ADD NEW DEPARTMENT</button>
+            </a>
+        @endcan
     </div>
     <div class="card shadow mb-4">
         <div class="card-body">

@@ -19,7 +19,7 @@
         <form action="{{ url('/project-notes') }}" method="post" enctype="multipart/form-data">
             @csrf
             <fieldset>
-                <legend><span class="number"><i class="fas fa-plus"></i></span> Add ProjectNote</legend>
+                <legend><span class="number"><i class="fas fa-plus"></i></span> Add Project Note</legend>
             </fieldset>
             <fieldset>
                 @include ('admin.project-notes.form', ['formMode' => 'create'])

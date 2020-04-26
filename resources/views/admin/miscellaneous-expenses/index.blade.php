@@ -22,6 +22,9 @@
         <fieldset>
             <legend><span class="number"><i class="fas fa-table"></i></span> Miscellaneous Expenses Table</legend>
         </fieldset>
+        <a href="{{ url('/miscellaneous-expenses/create') }}">
+            <button class="customButton font-weight-bold">ADD MISCELLANEOUS</button>
+        </a>
     </div>
     <div class="card shadow mb-4">
         <div class="card-body">

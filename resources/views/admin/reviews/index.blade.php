@@ -22,6 +22,11 @@
         <fieldset>
             <legend><span class="number"><i class="fas fa-table"></i></span> All Reviews</legend>
         </fieldset>
+        @can('add-review')
+            <a href="{{ url('/reviews/create') }}">
+                <button class="customButton font-weight-bold">ADD NEW REVIEW</button>
+            </a>
+        @endcan
     </div>
     <div class="card shadow mb-4">
         <div class="card-body">

@@ -22,6 +22,9 @@
         <fieldset>
             <legend><span class="number"><i class="fas fa-table"></i></span> Credits Table</legend>
         </fieldset>
+        <a href="{{ url('/credits/create') }}">
+            <button class="customButton font-weight-bold">ADD CREDIT</button>
+        </a>
     </div>
     <div class="card shadow mb-4">
         <div class="card-body">

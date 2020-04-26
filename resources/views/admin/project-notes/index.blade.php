@@ -22,6 +22,11 @@
         <fieldset>
             <legend><span class="number"><i class="fas fa-table"></i></span> Project Notes Table</legend>
         </fieldset>
+        @role('Admin')
+            <a href="{{ url('/project-notes/create') }}">
+                <button class="customButton font-weight-bold">ADD NEW PROJECT NOTE</button>
+            </a>
+        @endrole
     </div>
     <div class="card shadow mb-4">
         <div class="card-body">

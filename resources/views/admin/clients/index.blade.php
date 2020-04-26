@@ -22,6 +22,9 @@
         <fieldset>
             <legend><span class="number"><i class="fas fa-table"></i></span> Clients Table</legend>
         </fieldset>
+        <a href="{{ url('/clients/create') }}">
+            <button class="customButton font-weight-bold">ADD NEW CLIENT</button>
+        </a>
     </div>
     <div class="card shadow mb-4">
         <div class="card-body">

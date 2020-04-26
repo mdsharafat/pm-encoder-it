@@ -22,6 +22,11 @@
         <fieldset>
             <legend><span class="number"><i class="fas fa-table"></i></span> Assigned/Reassigned/In progress - Tasks </legend>
         </fieldset>
+        @can('add-task')
+            <a href="{{ url('/tasks/create') }}">
+                <button class="customButton font-weight-bold">ADD NEW TASK</button>
+            </a>
+        @endcan
     </div>
     <div class="card shadow mb-4">
         <div class="card-body">
