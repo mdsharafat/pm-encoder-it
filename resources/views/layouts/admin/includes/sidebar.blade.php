@@ -74,8 +74,11 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 @role('Admin')
                     <a class="collapse-item" href="{{ url('/projects/create') }}">ADD PROJECT</a>
+                    <a class="collapse-item" href="{{ url('/projects') }}">MANAGE PROJECT</a>
                 @endrole
-                <a class="collapse-item" href="{{ url('/projects') }}">@role('Admin')MANAGE PROJECT @endrole @role('User') PROJECT LIST @endrole</a>
+                @role('User')
+                    <a class="collapse-item" href="{{ url('/employee-projects') }}"> PROJECT LIST</a>
+                @endrole
             </div>
         </div>
     </li>
@@ -160,12 +163,12 @@
                     <a class="collapse-item" href="{{ url('/employees') }}">@role('Admin')MANAGE EMPLOYEE @endrole @role('User') EMPLOYEE LIST @endrole</a>
                 @endcan
                 @role('User')
-                    <a class="collapse-item" href="{{ url('/employees') }}">MY PROFILE</a>
+                    <a class="collapse-item" href="{{ url('/my-employee-profile') }}">MY PROFILE</a>
                 @endrole
             </div>
         </div>
     </li>
-    @canany(['add-review', 'edit-review', 'view-review', 'delete-review'])
+    @role('Admin')
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseReview" aria-expanded="true" aria-controls="collapseReview">
             <i class="fas fa-star"></i>
@@ -173,17 +176,13 @@
         </a>
         <div id="collapseReview" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                @can('add-review')
-                    <a class="collapse-item" href="{{ url('/reviews/create') }}">ADD REVIEW</a>
-                @endcan
-                @can('view-review')
-                    <a class="collapse-item" href="{{ url('/reviews') }}">@role('Admin') MANAGE REVIEW @endrole @role('User') REVIEW LISTS @endrole</a>
-                    <a class="collapse-item" href="{{ url('/employee-view-reviews') }}">EMPLOYEE VIEW</a>
-                @endcan
+                <a class="collapse-item" href="{{ url('/reviews/create') }}">ADD REVIEW</a>
+                <a class="collapse-item" href="{{ url('/reviews') }}">@role('Admin') MANAGE REVIEW @endrole @role('User') REVIEW LISTS @endrole</a>
+                <a class="collapse-item" href="{{ url('/employee-view-reviews') }}">EMPLOYEE VIEW</a>
             </div>
         </div>
     </li>
-    @endcanany
+    @endrole
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLeaveManagement" aria-expanded="true" aria-controls="collapseLeaveManagement">
             <i class="fas fa-plane"></i>

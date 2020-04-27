@@ -135,16 +135,16 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         @if($task->assignedTo->image)
-                                            <img src="{{ asset('storage/clients/'.$task->assignedTo->image) }}" alt="{{ $task->assignedTo->full_name }}" style="width:100px; height: 100px; margin: 0 auto; border-radius: 50%; border: 1px solid #cecece;">
+                                            <img src="{{ asset('storage/employees/'.$task->assignedTo->image) }}" alt="{{ $task->assignedTo->full_name }}" style="width:150px; height: 150px; margin: 0 auto; border: 1px solid #cecece;">
                                         @else
-                                            <img src="{{ asset('assets/img/user.jpg') }}" alt="{{ $task->assignedTo->full_name }}" style="width:100px; height: 100px; margin: 0 auto; border-radius: 50%; border: 1px solid #cecece;">
+                                            <img src="{{ asset('assets/img/user.jpg') }}" alt="{{ $task->assignedTo->full_name }}" style="width:150px; height: 150px; margin: 0 auto; border: 1px solid #cecece;">
                                         @endif
                                     </div>
                                     <div class="col-md-8 text-left">
                                         <h1 class="text-success" style="font-size: 20px; margin-top: 10px; font-weight: bold;">{{ "Name : ".$task->assignedTo->full_name }}</h1>
                                         <p class="title">Department : {{ $task->assignedTo->department->name }} </p>
                                         <p class="title">Designation: {{ $task->assignedTo->designation->name }} </p>
-                                        <p class="title">Contribution : {{ $project->projectContribution($task->assignedTo->id) }}</p>
+                                        <p class="title">Contribution : {{ $project->projectContribution($task->assignedTo->id)." %" }}</p>
                                         <div class="progress mb-4">
                                             <div class="progress-bar bg-success" role="progressbar" style="width: 10%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>

@@ -20,7 +20,7 @@
     @endif
     <div class="form-style-5" style="padding-top: 0px; padding-bottom: 0px;">
         <fieldset>
-            <legend><span class="number"><i class="fas fa-table"></i></span> Completed Tasks Table</legend>
+            <legend><span class="number"><i class="fas fa-table"></i></span> Pending Feedbback - Tasks </legend>
         </fieldset>
         @can('add-task')
             <a href="{{ url('/tasks/create') }}">
@@ -28,8 +28,8 @@
             </a>
         @endcan
         @can('view-task')
-            <a href="{{ url('/completed-tasks-view-by-employee') }}">
-                <button class="customButton font-weight-bold" style="background: teal;">VIEW BY EMPLOYEE</button>
+            <a href="{{ url('/tasks') }}">
+                <button class="customButton font-weight-bold" style="background: teal;">ALL PENDING TASKS</button>
             </a>
         @endcan
     </div>
@@ -49,16 +49,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($tasks as $item)
+                        @foreach($employee->pendingTasks() as $item)
                             <tr class="text-center">
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->assignedTo->full_name }}</td>
-                                <td>{{ Str::limit($item->project->title, 10) }}</td>
+                                <td>{{ Str::limit($item->project->title, 15) }}</td>
                                 <td>{{ Str::limit($item->task, 30) }}</td>
                                 <td>{{ $item->deadline }}</td>
-                                <td> <span class="badge bg-success my-custom-badge"> {{ $item->statusName($item->status) }} </span> </td>
+                                <td> <span class="badge @if($item->status ==1 ) {{ 'bg-primary' }} @elseif($item->status ==2) {{ 'bg-danger' }} @elseif($item->status ==3) {{ 'bg-info' }} @elseif($item->status ==4) {{ 'bg-warning' }} @else {{ 'bg-success' }} @endif my-custom-badge"> {{ $item->statusName($item->status) }} </span> </td>
                                 <td>
-                                    <a href="{{ url('/reassign-task/' . $item->unique_key) }}" title="Reassign" class="btn btn-warning btn-sm"><i class="fas fa-redo-alt"></i></a>
                                     <a href="{{ url('/tasks/' . $item->unique_key) }}" title="View Task" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
                                     <a href="{{ url('/tasks/' . $item->id . '/edit') }}" title="Edit Task" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
 
@@ -88,10 +87,10 @@
                 "columnDefs": [
                     { "width": "20px", "targets": 0 },
                     { "width": "60px", "targets": 1 },
-                    { "width": "120px", "targets": 2 },
-                    { "width": "150px", "targets": 4 },
+                    { "width": "130px", "targets": 2 },
+                    { "width": "100px", "targets": 4 },
                     { "width": "50px", "targets": 5 },
-                    { "width": "130px", "targets": 6 },
+                    { "width": "100px", "targets": 6 },
                 ],
             });
         });

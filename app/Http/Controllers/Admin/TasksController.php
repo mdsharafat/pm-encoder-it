@@ -30,6 +30,42 @@ class TasksController extends Controller
         return view('admin.tasks.pending-feedback-tasks', compact('tasks'));
     }
 
+    public function assignedTaskViewByEmployee()
+    {
+        $employees = Employee::all();
+        return view('admin.tasks.assigned-tasks-view-by-employee', compact('employees'));
+    }
+
+    public function assignedAllTaskViewByEmployee($id)
+    {
+        $employee = Employee::where('id', $id)->first();
+        return view('admin.tasks.assigned-all-tasks-view-by-employee', compact('employee'));
+    }
+
+    public function pendingTaskViewByEmployee()
+    {
+        $employees = Employee::all();
+        return view('admin.tasks.pending-tasks-view-by-employee', compact('employees'));
+    }
+
+    public function pendingAllTaskViewByEmployee($id)
+    {
+        $employee = Employee::where('id', $id)->first();
+        return view('admin.tasks.pending-all-tasks-view-by-employee', compact('employee'));
+    }
+
+    public function completedTaskViewByEmployee()
+    {
+        $employees = Employee::all();
+        return view('admin.tasks.completed-tasks-view-by-employee', compact('employees'));
+    }
+
+    public function completedAllTaskViewByEmployee($id)
+    {
+        $employee = Employee::where('id', $id)->first();
+        return view('admin.tasks.completed-all-tasks-view-by-employee', compact('employee'));
+    }
+
     public function myAssignedTasks()
     {
         $tasks = Task::latest()->where('assigned_to', Auth::user()->employee->id)->whereIn('status', [1,2])->get();
@@ -67,7 +103,6 @@ class TasksController extends Controller
     public function completedTask(Request $request)
     {
         $request->session()->put('currentTaskPageUrl', '/completed-tasks');
-
         $tasks = Task::latest()->where('status', 5)->get();
         return view('admin.tasks.completed-tasks', compact('tasks'));
     }
@@ -136,6 +171,16 @@ class TasksController extends Controller
         $task->task        = $request->task;
         $task->save();
 
+        $is_found = DB::table('employee_project')
+                    ->where('emp_id', $task->assigned_to)
+                    ->where('project_id', $task->project_id)
+                    ->get();
+
+        if($is_found->count() == 0){
+            $employee = Employee::where('id', $task->assigned_to)->first();
+            $employee->projects()->attach($task->project_id);
+        }
+
         DB::table('projects')
             ->where('id', $request->project_id)
             ->update(['status' => 0]);
@@ -176,17 +221,31 @@ class TasksController extends Controller
 
     public function update(Request $request, $id)
     {
-        $task        = Task::findOrFail($id);
+        $task           = Task::findOrFail($id);
+        $old_emp_id     = $task->assigned_to;
+        $old_project_id = $task->project_id;
+
         $requestData = array();
         $requestData['assigned_to'] = $request->assigned_to;
         $requestData['assigned_by'] = Auth::user()->id;
         $requestData['project_id']  = $request->project_id;
         if($request->deadline != null){
-            $requestData['deadline']    = Carbon::parse($request->deadline)->format('Y/m/d H:i');
+            $requestData['deadline'] = Carbon::parse($request->deadline)->format('Y/m/d H:i');
         }
         $requestData['total_point'] = $request->total_point;
         $requestData['task']        = $request->task;
         $task->update($requestData);
+
+        if($old_emp_id != $task->assigned_to){
+            $is_found = DB::table('employee_project')
+                        ->where('emp_id', $task->assigned_to)
+                        ->where('project_id', $task->project_id)
+                        ->get();
+            if($is_found->count() == 0){
+                $employee = Employee::where('id', $task->assigned_to)->first();
+                $employee->projects()->attach($task->project_id);
+            }
+        }
 
         if($request->session()->get('currentTaskPageUrl')){
             return redirect($request->session()->get('currentTaskPageUrl'))->with('flashMessage', 'Task updated!');
@@ -197,7 +256,19 @@ class TasksController extends Controller
 
     public function destroy($id)
     {
+        $task           = Task::where('id', $id)->first();
+        $old_emp_id     = $task->assigned_to;
+        $old_project_id = $task->project_id;
+
         Task::destroy($id);
+
+        $old_emp_record = Task::where('assigned_to', $old_emp_id)
+                        ->where('project_id', $old_project_id)
+                        ->count();
+        if($old_emp_record == 0){
+            $employee = Employee::where('id', $old_emp_id)->first();
+            $employee->projects()->detach($old_project_id);
+        }
 
         return redirect('tasks')->with('flashMessage', 'Task deleted!');
     }

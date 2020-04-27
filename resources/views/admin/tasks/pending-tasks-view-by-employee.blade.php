@@ -20,11 +20,16 @@
     @endif
     <div class="form-style-5" style="padding-top: 0px; padding-bottom: 0px;">
         <fieldset>
-            <legend><span class="number"><i class="fas fa-table"></i></span> Employees Table</legend>
+            <legend><span class="number"><i class="fas fa-table"></i></span> Pending Tasks View By Employee</legend>
         </fieldset>
-        @can('add-employee')
-            <a href="{{ url('/employees/create') }}">
-                <button class="customButton font-weight-bold">ADD NEW EMPLOYEE</button>
+        @can('add-task')
+            <a href="{{ url('/tasks/create') }}">
+                <button class="customButton font-weight-bold">ADD NEW TASK</button>
+            </a>
+        @endcan
+        @can('view-task')
+            <a href="{{ url('/pending-feedback-tasks') }}">
+                <button class="customButton font-weight-bold" style="background: teal;">ALL PENDING TASKS</button>
             </a>
         @endcan
     </div>
@@ -38,40 +43,25 @@
                             <th>Name</th>
                             <th>Department</th>
                             <th>Designation</th>
-                            <th>Projects <span class="text-success font-weight-bold"><i class="fas fa-running"></i></span></th>
                             <th>Tasks <span class="text-success font-weight-bold"><i class="fas fa-running"></i></span></th>
-                            @canany(['edit-employee', 'view-employee-details', 'delete-employee'])
+                            @can('view-task')
                             <th>Action</th>
-                            @endcanany
+                            @endcan
                         </tr>
                     </thead>
                     <tbody>
-
                         @foreach($employees as $item)
                             <tr class="text-center">
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->full_name }}</td>
                                 <td>{{ $item->department->name }}</td>
                                 <td>{{ $item->designation->name }}</td>
-                                <td><a href="{{ url('/all-running-projects-single-employee/'.$item->unique_key) }}"><span class="badge bg-success my-custom-badge">{{ $item->runningProjects()->count() }}</span></a></td>
-                                <td><span class="badge bg-success my-custom-badge">{{ $item->tasks->whereIn('status', [1,2,3])->count() }}</span></td>
-                                @canany(['edit-employee', 'view-employee-details', 'delete-employee'])
+                                <td><a href="{{ url('/pending-all-task-view-by-employee/'.$item->id) }}"><span class="badge bg-success my-custom-badge">{{ $item->tasks->where('status', 4)->count() }}</span></a></td>
+                                @can('view-task')
                                 <td>
-                                    @can('view-employee-details')
-                                    <a href="{{ url('/employees/' . $item->unique_key) }}" title="View Employee" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
-                                    @endcan
-                                    @can('edit-employee')
-                                    <a href="{{ url('/employees/' . $item->unique_key . '/edit') }}" title="Edit Employee" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                    @endcan
-                                    @can('delete-employee')
-                                    <form method="POST" action="{{ url('/employees' . '/' . $item->unique_key) }}" accept-charset="UTF-8" style="display:inline">
-                                        {{ method_field('DELETE') }}
-                                        @csrf
-                                        <button type="submit" class="btn btn-danger btn-sm" title="Delete Employee" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fas fa-trash-alt"></i></button>
-                                    </form>
-                                    @endcan
+                                    <a href="{{ url('/pending-all-task-view-by-employee/'.$item->id) }}" title="View Employee" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
                                 </td>
-                                @endcanany
+                                @endcan
                             </tr>
                         @endforeach
                     </tbody>
@@ -93,7 +83,7 @@
                     { "width": "20px", "targets": 0 },
                     { "width": "150px", "targets": 1 },
                     { "width": "150px", "targets": 2 },
-                    { "width": "150px", "targets": 6 },
+                    { "width": "150px", "targets": 3 },
                 ],
             });
         });

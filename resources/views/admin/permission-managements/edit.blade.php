@@ -62,7 +62,7 @@
                     <div class="col-md-3">
                         <div class="user_img_div" style="width: 100%; display: block; overflow: hidden;">
                             @if($user->employee->image != null)
-                                <img style="width: 100px; height: 100px; display: block; overflow: hidden; margin: 0 auto;" src="{{ asset('storage/users/'.$user->employee->image) }}" alt="image">
+                                <img style="width: 100px; height: 100px; display: block; overflow: hidden; margin: 0 auto;" src="{{ asset('storage/employees/'.$user->employee->image) }}" alt="image">
                             @else
                                 <img style="width: 100px; height: 100px; display: block; overflow: hidden; margin: 0 auto; border: 1px solid #cecece;" src="{{ asset('assets/img/user.jpg') }}" alt="image">
                             @endif

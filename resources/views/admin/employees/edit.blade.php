@@ -20,7 +20,7 @@
     @endif
 
     <div class="form-style-5">
-        <form action="{{ url('/employees/' . $employee->id) }}" method="post" enctype="multipart/form-data">
+        <form action="{{ url('/employees/' . $employee->unique_key) }}" method="post" enctype="multipart/form-data">
             {{ method_field('PATCH') }}
             @csrf
             <fieldset>

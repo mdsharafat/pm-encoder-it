@@ -27,6 +27,23 @@ class EmployeesController extends Controller
         return view('admin.employees.index', compact('employees'));
     }
 
+    public function allRunningProjects($id)
+    {
+        $employee = DB::table('employees')
+                    ->where('id', $id)
+                    ->select('full_name')
+                    ->first();
+        $runningProjects = DB::table('employee_project')
+                        ->join('projects', 'projects.id', 'employee_project.project_id')
+                        ->join('employees', 'employees.id', 'employee_project.emp_id')
+                        ->where('employee_project.emp_id', $id)
+                        ->where('projects.status', 0)
+                        ->select('projects.title as title', 'projects.budget as budget', 'projects.deadline as deadline', 'employees.full_name as name', 'employees.image as image')
+                        ->groupBy('employee_project.project_id')
+                        ->get();
+        return view('admin.employees.running-projects', compact('employee', 'runningProjects'));
+    }
+
     public function create()
     {
         $employee     = new Employee();
@@ -49,6 +66,7 @@ class EmployeesController extends Controller
         $employee->department_id     = $request->department_id;
         $employee->designation_id    = $request->designation_id;
         $employee->job_type_id       = $request->job_type_id;
+        $employee->unique_key        = $this->generateUniqueKey();
         $employee->full_name         = $request->full_name;
         $employee->date_of_join      = Carbon::parse($request->date_of_join)->format('Y/m/d');
         $employee->phone             = $request->phone;
@@ -85,6 +103,24 @@ class EmployeesController extends Controller
         return redirect('employees')->with('flashMessage', 'Employee added!');
     }
 
+    protected function generateUniqueKey()
+    {
+        $unique_key = '';
+        $is_unique  = 0;
+        do {
+            $unique_key = Str::random(40);
+            $is_found   = Employee::where('unique_key',$unique_key)->first();
+            if($is_found == null){
+                $is_unique = 1;
+                break;
+            }else{
+                $is_unique = 0;
+            }
+        } while ($is_unique);
+
+        return $unique_key;
+    }
+
     public function uploadImage($image, $uploadPath)
     {
         $now = Carbon::now();
@@ -93,23 +129,29 @@ class EmployeesController extends Controller
         return $imageName;
     }
 
-    public function show($id)
+    public function myEmployeeProfile()
     {
-        $employee = Employee::findOrFail($id);
+        $employee = Auth::user()->employee;
         return view('admin.employees.show', compact('employee'));
     }
 
-    public function edit($id)
+    public function show($unique_key)
+    {
+        $employee = Employee::where('unique_key', $unique_key)->first();
+        return view('admin.employees.show', compact('employee'));
+    }
+
+    public function edit($unique_key)
     {
         $departments  = Department::all();
         $designations = Designation::all();
-        $employee     = Employee::findOrFail($id);
+        $employee     = Employee::where('unique_key', $unique_key)->first();
         return view('admin.employees.edit', compact('departments', 'designations', 'employee'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $unique_key)
     {
-        $employee                 = Employee::findOrFail($id);
+        $employee                 = Employee::where('unique_key', $unique_key)->first();
 
         $requestUserData          = array();
         $requestUserData['name']  = $request->name;
@@ -160,9 +202,9 @@ class EmployeesController extends Controller
         return redirect('employees')->with('flashMessage', 'Employee updated!');
     }
 
-    public function destroy($id)
+    public function destroy($unique_key)
     {
-        $employee = Employee::where('id', $id)->first();
+        $employee = Employee::where('unique_key', $unique_key)->first();
         if ($employee->user->image) {
                 $deleteUserImage = 'storage/users/'.$employee->user->image;
                 unlink($deleteUserImage);
@@ -195,13 +237,6 @@ class EmployeesController extends Controller
 
     public function employeeDashboard()
     {
-        $projects = DB::table('employee_project')
-                ->join('projects', 'projects.id', '=', 'employee_project.project_id')
-                ->select(DB::raw('count(*) as count'))
-                ->where('employee_project.emp_id', '=', Auth::user()->employee->id)
-                ->where('projects.status', '!=', 1)
-                ->first();
-
         $assignedTasks = DB::table('tasks')
                 ->where('assigned_to', '=', Auth::user()->employee->id)
                 ->whereNotIn('status', [3, 4, 5])
@@ -232,7 +267,7 @@ class EmployeesController extends Controller
                 ->select(DB::raw('count(*) as count'))
                 ->first();
 
-        return view('admin.employees.employee-dashboard', compact('projects', 'assignedTasks', 'inProgressTasks', 'submittedTasks', 'appliedLeaves', 'approvedLeaves'));
+        return view('admin.employees.employee-dashboard', compact('assignedTasks', 'inProgressTasks', 'submittedTasks', 'appliedLeaves', 'approvedLeaves'));
     }
 
 }

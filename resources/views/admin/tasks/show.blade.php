@@ -33,15 +33,16 @@
         <div class="row">
             <div class="col-md-4">
                 @if($task->assignedTo->image)
-                    <img src="{{ asset('storage/clients/'.$task->assignedTo->image) }}" alt="{{ $task->assignedTo->full_name }}" style="width:150px; height: 150px; margin: 0 auto; border-radius: 50%; border: 1px solid #cecece;">
+                    <img src="{{ asset('storage/employees/'.$task->assignedTo->image) }}" alt="{{ $task->assignedTo->full_name }}" style="width:150px; height: 150px; margin: 0 auto; border: 1px solid #cecece;">
                 @else
-                    <img src="{{ asset('assets/img/user.jpg') }}" alt="{{ $task->assignedTo->full_name }}" style="width:150px; height: 150px; margin: 0 auto; border-radius: 50%; border: 1px solid #cecece;">
+                    <img src="{{ asset('assets/img/user.jpg') }}" alt="{{ $task->assignedTo->full_name }}" style="width:150px; height: 150px; margin: 0 auto; border: 1px solid #cecece;">
                 @endif
             </div>
             <div class="col-md-8 text-left">
                 <h1 class="text-success" style="font-size: 20px; margin-top: 10px; font-weight: bold;">{{ "Assigned To ".$task->assignedTo->full_name }}</h1>
                 <p class="title">Status: <span class="badge my-custom-badge @if($task->status ==1 ) {{ 'bg-primary' }} @elseif($task->status ==2) {{ 'bg-danger' }} @elseif($task->status ==3) {{ 'bg-info' }} @else {{ 'bg-success' }} @endif"> {{ $task->statusName($task->status) }} </span></p>
                 <p class="title">Project: {{ ucfirst($task->project->title) }}</p>
+                <p class="title">Deadline: {{ Carbon\Carbon::parse($task->deadline)->format('D jS\\ F, Y') }}</p>
                 @role('Admin')
                 <p class="title">Total Point: {{ $task->total_point }}</p>
                 <p class="title">Received Point: {{ $task->received_point }}</p>

@@ -155,6 +155,21 @@ class Employee extends Model
         return $this->hasMany(Task::class, 'assigned_to');
     }
 
+    public function assignedTasks()
+    {
+        return $this->tasks()->whereIn('status', [1,2])->get();
+    }
+
+    public function pendingTasks()
+    {
+        return $this->tasks()->where('status', 4)->get();
+    }
+
+    public function completedTasks()
+    {
+        return $this->tasks()->where('status', 5)->get();
+    }
+
     public function projectContribution($id)
     {
         $totalAssignedPoint = Task::where('project_id', $id)->sum('total_point');
@@ -170,7 +185,12 @@ class Employee extends Model
 
     public function totalProjects()
     {
-        $this->projects()->groupBy('project_id');
+        return $this->projects()->groupBy('project_id')->get();
+    }
+
+    public function runningProjects()
+    {
+        return $this->projects()->groupBy('project_id')->where('status', 0)->get();
     }
 
     public function salaries()

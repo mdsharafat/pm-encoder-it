@@ -27,6 +27,11 @@
                 <button class="customButton font-weight-bold">ADD NEW TASK</button>
             </a>
         @endcan
+        @can('view-task')
+            <a href="{{ url('/assigned-tasks-view-by-employee') }}">
+                <button class="customButton font-weight-bold" style="background: teal;">VIEW BY EMPLOYEE</button>
+            </a>
+        @endcan
     </div>
     <div class="card shadow mb-4">
         <div class="card-body">

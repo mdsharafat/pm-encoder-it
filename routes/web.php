@@ -38,6 +38,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::POST('/permission-management', 'Admin\PermissionManagementController@updatePermission');
 
         //projects
+        Route::get('/projects', 'Admin\ProjectsController@index');
         Route::get('/projects/create', 'Admin\ProjectsController@create');
         Route::POST('/projects', 'Admin\ProjectsController@store');
         Route::get('/projects/{id}/edit', 'Admin\ProjectsController@edit');
@@ -84,6 +85,16 @@ Route::group(['middleware' => ['auth']], function () {
         Route::PATCH('/platforms/{id}', 'Admin\PlatformsController@update');
         Route::DELETE('/platforms/{id}', 'Admin\PlatformsController@destroy');
 
+        // reviews
+        Route::get('/reviews', 'Admin\ReviewsController@index');
+        Route::get('/reviews/create', 'Admin\ReviewsController@create');
+        Route::POST('/reviews', 'Admin\ReviewsController@store');
+        Route::get('/reviews/{id}/edit', 'Admin\ReviewsController@edit');
+        Route::PATCH('/reviews/{id}', 'Admin\ReviewsController@update');
+        Route::DELETE('/reviews/{id}', 'Admin\ReviewsController@destroy');
+        Route::get('/employee-view-reviews', 'Admin\ReviewsController@viewByEmployee');
+        Route::get('/all-review-unique-employee/{id}', 'Admin\ReviewsController@allReviewUniqueEmployee');
+
         //clients
         Route::resource('clients', 'Admin\\ClientsController');
 
@@ -109,18 +120,20 @@ Route::group(['middleware' => ['auth']], function () {
     Route::PATCH('/designations/{id}', 'Admin\DesignationsController@update')->middleware('permission:edit-designation');
     Route::DELETE('/designations/{id}', 'Admin\DesignationsController@destroy')->middleware('permission:delete-designation');
 
-
-    Route::get('/projects', 'Admin\ProjectsController@index');
+    Route::get('/employee-projects', 'Admin\ProjectsController@employeeProjects');
     Route::get('/projects/{id}', 'Admin\ProjectsController@show');
 
     Route::get('/employees', 'Admin\EmployeesController@index')->middleware('permission:view-employee-list');
     Route::get('/employees/create', 'Admin\EmployeesController@create')->middleware('permission:add-employee');
     Route::POST('/employees', 'Admin\EmployeesController@store')->middleware('permission:add-employee');
-    Route::get('/employees/{id}/edit', 'Admin\EmployeesController@edit')->middleware('permission:edit-employee');
-    Route::PATCH('/employees/{id}', 'Admin\EmployeesController@update')->middleware('permission:edit-employee');
-    Route::DELETE('/employees/{id}', 'Admin\EmployeesController@destroy')->middleware('permission:delete-employee');
-    Route::get('/employees/{id}', 'Admin\EmployeesController@show')->middleware('permission:view-employee-details');
+    Route::get('/employees/{unique_key}/edit', 'Admin\EmployeesController@edit')->middleware('permission:edit-employee');
+    Route::PATCH('/employees/{unique_key}', 'Admin\EmployeesController@update')->middleware('permission:edit-employee');
+    Route::DELETE('/employees/{unique_key}', 'Admin\EmployeesController@destroy')->middleware('permission:delete-employee');
+    Route::get('/employees/{unique_key}', 'Admin\EmployeesController@show');
     Route::POST('/delete-certificate', 'Admin\EmployeesController@deleteCertificate')->middleware('permission:edit-employee');
+    Route::get('/all-running-projects-single-employee/{unique_key}', 'Admin\EmployeesController@allRunningProjects')->middleware('permission:view-employee-details');
+    Route::get('/my-employee-profile', 'Admin\EmployeesController@myEmployeeProfile');
+
 
     //leave management
     Route::get('/leave-managements', 'Admin\LeaveManagementsController@index')->middleware('permission:view-leave');
@@ -144,16 +157,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/approved-leave-lists', 'Admin\LeaveManagementsController@approvedLeaveList')->middleware('permission:view-leave');
     Route::get('/rejected-leave-lists', 'Admin\LeaveManagementsController@rejectedLeaveList')->middleware('permission:view-leave');
 
-    // reviews
-    Route::get('/reviews', 'Admin\ReviewsController@index')->middleware('permission:view-review');
-    Route::get('/reviews/create', 'Admin\ReviewsController@create')->middleware('permission:add-review');
-    Route::POST('/reviews', 'Admin\ReviewsController@store')->middleware('permission:add-review');
-    Route::get('/reviews/{id}/edit', 'Admin\ReviewsController@edit')->middleware('permission:edit-review');
-    Route::PATCH('/reviews/{id}', 'Admin\ReviewsController@update')->middleware('permission:edit-review');
-    Route::DELETE('/reviews/{id}', 'Admin\ReviewsController@destroy')->middleware('permission:delete-review');
-    Route::get('/employee-view-reviews', 'Admin\ReviewsController@viewByEmployee')->middleware('permission:view-review');
-    Route::get('/all-review-unique-employee/{id}', 'Admin\ReviewsController@allReviewUniqueEmployee')->middleware('permission:view-review');
-
     Route::get('/tasks', 'Admin\TasksController@index')->middleware('permission:view-task');
     Route::get('/tasks/create', 'Admin\TasksController@create')->middleware('permission:add-task');
     Route::POST('/tasks', 'Admin\TasksController@store')->middleware('permission:add-task');
@@ -170,6 +173,15 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/my-completed-tasks', 'Admin\TasksController@myCompletedTasks');
     Route::PATCH('/tasks/{unique_key}/submit', 'Admin\TasksController@taskSubmit');
     Route::PATCH('/tasks/{unique_key}/inprogress', 'Admin\TasksController@taskInProgress');
+    Route::get('/assigned-tasks-view-by-employee', 'Admin\TasksController@assignedTaskViewByEmployee')->middleware('permission:view-task');
+    Route::get('/assigned-all-task-view-by-employee/{id}', 'Admin\TasksController@assignedAllTaskViewByEmployee')->middleware('permission:view-task');
+
+    Route::get('/pending-tasks-view-by-employee', 'Admin\TasksController@pendingTaskViewByEmployee')->middleware('permission:view-task');
+    Route::get('/pending-all-task-view-by-employee/{id}', 'Admin\TasksController@pendingAllTaskViewByEmployee')->middleware('permission:view-task');
+
+    Route::get('/completed-tasks-view-by-employee', 'Admin\TasksController@completedTaskViewByEmployee')->middleware('permission:view-task');
+    Route::get('/completed-all-task-view-by-employee/{id}', 'Admin\TasksController@completedAllTaskViewByEmployee')->middleware('permission:view-task');
+
 
 });
 

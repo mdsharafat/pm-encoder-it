@@ -18,6 +18,12 @@ class ProjectsController extends Controller
         return view('admin.projects.index', compact('projects'));
     }
 
+    public function employeeProjects()
+    {
+        $projects = Project::latest()->get();
+        return view('admin.projects.employee-projects', compact('projects'));
+    }
+
     public function create()
     {
         $clients = Client::all();

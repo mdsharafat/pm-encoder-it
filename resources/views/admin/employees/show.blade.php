@@ -29,13 +29,17 @@
                     <h6>
                         {{ $employee->department->name }}
                     </h6>
-                    <p class="proile-rating font-weight-bold">{{ $employee->averageReview() }} <span class="text-warning"><i class="fas fa-star"></i></span></p>
+                    @role('Admin')
+                        <p class="proile-rating font-weight-bold">{{ $employee->averageReview() }} <span class="text-warning"><i class="fas fa-star"></i></span></p>
+                    @endrole
                 </div>
             </div>
             <div class="col-md-2">
-                <a href="{{ url('/employees/' . $employee->id . '/edit') }}">
-                    <button type="button" class="customButton" name="btnAddMore">Edit Profile</button>
-                </a>
+                @can('edit-employee')
+                    <a href="{{ url('/employees/' . $employee->unique_key . '/edit') }}">
+                        <button type="button" class="customButton" name="btnAddMore">Edit Profile</button>
+                    </a>
+                @endcan
             </div>
         </div>
         <div class="row">
@@ -51,9 +55,11 @@
                         <li class="nav-item">
                             <a class="nav-link" id="certificate-tab" data-toggle="tab" href="#certificate" role="tab" aria-controls="certificate" aria-selected="false">Certificates</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="review-tab" data-toggle="tab" href="#review" role="tab" aria-controls="review" aria-selected="false">Reviews</a>
-                        </li>
+                        @role('Admin')
+                            <li class="nav-item">
+                                <a class="nav-link" id="review-tab" data-toggle="tab" href="#review" role="tab" aria-controls="review" aria-selected="false">Reviews</a>
+                            </li>
+                        @endrole
                         <li class="nav-item">
                             <a class="nav-link" id="project-tab" data-toggle="tab" href="#project" role="tab" aria-controls="project" aria-selected="false">Projects</a>
                         </li>
@@ -141,31 +147,33 @@
                                 <td style="min-width:20px;"><p>:</p></td>
                                 <td><p>{{ $employee->dateOfJoin($employee->date_of_join) }}</p></td>
                             </tr>
-                            <tr>
-                                <th style="min-width:180px;"><p class="font-weight-bold">Current Salary</p></th>
-                                <td style="min-width:20px;"><p>:</p></td>
-                                <td><p class="font-weight-bold text-danger">{{ $employee->current_salary." $ /per month" }}</p></td>
-                            </tr>
-                            <tr>
-                                <th style="min-width:180px;"><p class="font-weight-bold">Cumulative Paid</p></th>
-                                <td style="min-width:20px;"><p>:</p></td>
-                                <td><p class="font-weight-bold text-danger">{{ $employee->cumulativeSalary()." $ till now." }}</p></td>
-                            </tr>
-                            <tr>
-                                <th style="min-width:180px;"><p class="font-weight-bold">Cumulative Leave</p></th>
-                                <td style="min-width:20px;"><p>:</p></td>
-                                <td><p class="font-weight-bold text-danger">{{ $employee->cumulativeLeave()." Days" }}</p></td>
-                            </tr>
-                            <tr>
-                                <th style="min-width:180px;"><p class="font-weight-bold">Date Of Resign</p></th>
-                                <td style="min-width:20px;"><p>:</p></td>
-                                <td><p>{{ $employee->dateOfResign() }}</p></td>
-                            </tr>
-                            <tr>
-                                <th style="min-width:180px;"><p class="font-weight-bold">Reason Of Resign</p></th>
-                                <td style="min-width:20px;"><p>:</p></td>
-                                <td><p>{{ $employee->reasonOfResign() }}</p></td>
-                            </tr>
+                            @role('Admin')
+                                <tr>
+                                    <th style="min-width:180px;"><p class="font-weight-bold">Current Salary</p></th>
+                                    <td style="min-width:20px;"><p>:</p></td>
+                                    <td><p class="font-weight-bold text-danger">{{ $employee->current_salary." $ /per month" }}</p></td>
+                                </tr>
+                                <tr>
+                                    <th style="min-width:180px;"><p class="font-weight-bold">Cumulative Paid</p></th>
+                                    <td style="min-width:20px;"><p>:</p></td>
+                                    <td><p class="font-weight-bold text-danger">{{ $employee->cumulativeSalary()." $ till now." }}</p></td>
+                                </tr>
+                                <tr>
+                                    <th style="min-width:180px;"><p class="font-weight-bold">Cumulative Leave</p></th>
+                                    <td style="min-width:20px;"><p>:</p></td>
+                                    <td><p class="font-weight-bold text-danger">{{ $employee->cumulativeLeave()." Days" }}</p></td>
+                                </tr>
+                                <tr>
+                                    <th style="min-width:180px;"><p class="font-weight-bold">Date Of Resign</p></th>
+                                    <td style="min-width:20px;"><p>:</p></td>
+                                    <td><p>{{ $employee->dateOfResign() }}</p></td>
+                                </tr>
+                                <tr>
+                                    <th style="min-width:180px;"><p class="font-weight-bold">Reason Of Resign</p></th>
+                                    <td style="min-width:20px;"><p>:</p></td>
+                                    <td><p>{{ $employee->reasonOfResign() }}</p></td>
+                                </tr>
+                            @endrole
                         </table>
                     </div>
                     <div class="tab-pane fade" id="certificate" role="tabpanel" aria-labelledby="certificate-tab">
@@ -183,58 +191,64 @@
                             @endforeach
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr class="text-center">
-                                        <th>#</th>
-                                        <th>Note</th>
-                                        <th>Point</th>
-                                        <th>Reviewed By</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($employee->reviews as $item)
+                    @role('Admin')
+                        <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
                                         <tr class="text-center">
-                                            <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $item->note }}</td>
-                                            <td>{{ $item->point }}</td>
-                                            <td>{{ $item->reviewedBy->name }}</td>
-                                            <td>
-                                                <a href="{{ url('/reviews/' . $item->id . '/edit') }}" title="Edit Employee" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                <form method="POST" action="{{ url('/reviews' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
-                                                    {{ method_field('DELETE') }}
-                                                    @csrf
-                                                    <button type="submit" class="btn btn-danger btn-sm" title="Delete Employee" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fas fa-trash-alt"></i></button>
-                                                </form>
-                                            </td>
+                                            <th>#</th>
+                                            <th>Note</th>
+                                            <th>Point</th>
+                                            <th>Reviewed By</th>
+                                            <th>Action</th>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($employee->reviews as $item)
+                                            <tr class="text-center">
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $item->note }}</td>
+                                                <td>{{ $item->point }}</td>
+                                                <td>{{ $item->reviewedBy->name }}</td>
+                                                <td>
+                                                    <a href="{{ url('/reviews/' . $item->id . '/edit') }}" title="Edit Employee" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                                    <form method="POST" action="{{ url('/reviews' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
+                                                        {{ method_field('DELETE') }}
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-danger btn-sm" title="Delete Employee" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fas fa-trash-alt"></i></button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                    </div>
+                    @endrole
                     <div class="tab-pane fade" id="project" role="tabpanel" aria-labelledby="project-tab">
-                        <h5 class="font-weight-bold">Total Projects : <span class="badge bg-success my-custom-badge">{{ $employee->projects->count() }}</span></h5>
+                        <h5 class="font-weight-bold">Total Projects : <span class="badge bg-success my-custom-badge">{{ $employee->totalProjects()->count() }}</span></h5>
                         <div class="grid">
-                            @foreach($employee->projects as $project)
+                            @foreach($employee->totalProjects() as $project)
                                 <div class="grid-item">
                                     <div class="para-container">
                                         <p class="text-center font-weight-bold">Title :  {{ $project->title }}</p>
                                         <div class="row">
-                                            <div class="col-md-6">
-                                                <p class="text-center font-weight-bold">Budget : {{ $project->budget." $" }}</p>
-                                            </div>
+                                            @role('Admin')
+                                                <div class="col-md-6">
+                                                    <p class="text-center font-weight-bold">Budget : {{ $project->budget." $" }}</p>
+                                                </div>
+                                            @endrole
                                             <div class="col-md-6 float-right">
                                                 <p class="text-center font-weight-bold">Status : <span class="badge my-custom-badge @if($project->status == 1 ) {{ 'bg-success' }} @else {{ 'bg-danger' }} @endif"> {{ $project->statusName($project->status) }} </span></p>
                                             </div>
                                         </div>
-                                        <p class="text-center font-weight-bold text-success">Contribution : {{ $employee->projectContribution($project->id)." %" }}</p>
-                                        <div class="progress mb-4">
-                                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ $employee->projectContribution($project->id) }}%" aria-valuenow="{{ $employee->projectContribution($project->id) }}" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
+                                        @role('Admin')
+                                            <p class="text-center font-weight-bold text-success">Contribution : {{ $employee->projectContribution($project->id)." %" }}</p>
+                                            <div class="progress mb-4">
+                                                <div class="progress-bar bg-success" role="progressbar" style="width: {{ $employee->projectContribution($project->id) }}%" aria-valuenow="{{ $employee->projectContribution($project->id) }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                        @endrole
                                     </div>
                                 </div>
                             @endforeach
