@@ -13,29 +13,15 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use DB;
+use App\Http\Traits;
 
 class LeaveManagementsController extends Controller
 {
+    use Traits\UniqueKeyTrait;
+
     public function index(Request $request)
     {
-        // $employeeIds    = LeaveManagement::select('emp_id')->distinct()->pluck('emp_id')->toArray();
-        // $employeesLeave = Employee::whereIn('id', $employeeIds)->get();
-
         $employeesLeave = LeaveManagement::selectRaw('count(*) AS totalPending, emp_id, unique_key')->where('status', 1)->groupBy('emp_id')->get();
-
-        // $employeesLeave = LeaveManagement::select('emp_id', DB::raw('COUNT(emp_id) as totalPending'))
-        //     ->with('employee')
-        //     ->groupBy('emp_id')
-        //     ->where('status', 1)
-        //     ->get();
-
-        // foreach ($employeesLeave as $value) {
-        //     dump($value->unique_key);
-        // }
-
-        // dd($employeesLeave);
-
-
         return view('admin.leave-managements.index', compact('employeesLeave'));
     }
 
@@ -53,31 +39,13 @@ class LeaveManagementsController extends Controller
         ]);
         $leaveApplication             = new LeaveManagement();
         $leaveApplication->emp_id     = Auth::user()->employee->id;
-        $leaveApplication->unique_key = $this->generateUniqueKey();
+        $leaveApplication->unique_key = $this->generateUniqueKey(get_class($leaveApplication));
         $leaveApplication->status     = 1;
         $leaveApplication->date       = Carbon::parse($request->date)->format('Y/m/d');
         $leaveApplication->category   = $request->category;
         $leaveApplication->reason     = $request->reason;
         $leaveApplication->save();
         return redirect('/my-leave-applications-pending')->with('flashMessage', 'Leave Application Sent For Approval.');
-    }
-
-    protected function generateUniqueKey()
-    {
-        $unique_key = '';
-        $is_unique  = 0;
-        do {
-            $unique_key = Str::random(40);
-            $is_found   = LeaveManagement::where('unique_key',$unique_key)->first();
-            if($is_found == null){
-                $is_unique = 1;
-                break;
-            }else{
-                $is_unique = 0;
-            }
-        } while ($is_unique);
-
-        return $unique_key;
     }
 
     public function show($id)
@@ -130,15 +98,15 @@ class LeaveManagementsController extends Controller
 
     public function leaveApprovedUniqueUser($emp_id)
     {
-        $employeeName = Employee::selectRaw('full_name, department_id')->where('id', $emp_id)->first();
-        $leaveApproved = LeaveManagement::where('status', 2)->where('emp_id', $emp_id)->get();
+        $employeeName   = Employee::selectRaw('full_name, department_id')->where('id', $emp_id)->first();
+        $leaveApproved  = LeaveManagement::where('status', 2)->where('emp_id', $emp_id)->get();
         return view('admin.leave-managements.total-leave-approved-unique-user', compact('leaveApproved', 'employeeName'));
     }
 
     public function leaveRejectedUniqueUser($emp_id)
     {
-        $employeeName = Employee::selectRaw('full_name, department_id')->where('id', $emp_id)->first();
-        $leaveRejected = LeaveManagement::where('status', 3)->where('emp_id', $emp_id)->get();
+        $employeeName   = Employee::selectRaw('full_name, department_id')->where('id', $emp_id)->first();
+        $leaveRejected  = LeaveManagement::where('status', 3)->where('emp_id', $emp_id)->get();
         return view('admin.leave-managements.total-leave-rejected-unique-user', compact('leaveRejected', 'employeeName'));
     }
 

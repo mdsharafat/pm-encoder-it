@@ -7,3 +7,4 @@
 <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet">
 <link href="{{ asset('assets/css/custom-button.css') }}" rel="stylesheet">
 <link href="{{ asset('assets/css/custom-form.css') }}" rel="stylesheet">
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

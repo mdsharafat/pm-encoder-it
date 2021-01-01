@@ -119,6 +119,11 @@ class Employee extends Model
         return $this->hasMany(Certificate::class, 'emp_id');
     }
 
+    public function contributions()
+    {
+        return $this->hasMany(Contributions::class, 'emp_id');
+    }
+
     public function leaves()
     {
         return $this->hasMany(LeaveManagement::class, 'emp_id');
@@ -148,26 +153,6 @@ class Employee extends Model
             $averageReview = '0.00';
         }
         return $averageReview;
-    }
-
-    public function tasks()
-    {
-        return $this->hasMany(Task::class, 'assigned_to');
-    }
-
-    public function assignedTasks()
-    {
-        return $this->tasks()->whereIn('status', [1,2])->get();
-    }
-
-    public function pendingTasks()
-    {
-        return $this->tasks()->where('status', 4)->get();
-    }
-
-    public function completedTasks()
-    {
-        return $this->tasks()->where('status', 5)->get();
     }
 
     public function projectContribution($id)

@@ -66,6 +66,18 @@
     @endrole
 
     <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseInvolvement" aria-expanded="true" aria-controls="collapseInvolvement">
+            <i class="fas fa-users"></i>
+            <span>INVOLVEMENT</span>
+        </a>
+        <div id="collapseInvolvement" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="{{ url('/involvement/create') }}">ADD INVOLVEMENT</a>
+            </div>
+        </div>
+    </li>
+
+    <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProject" aria-expanded="true" aria-controls="collapseProject">
             <i class="fas fa-project-diagram"></i>
             <span>PROJECT</span>
@@ -84,27 +96,20 @@
     </li>
 
     <hr class="sidebar-divider">
-    <div class="sidebar-heading"> TASK ASSIGNMENTS </div>
+    <div class="sidebar-heading"> PROJECT CONTRIBUTION </div>
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTaskAssignments" aria-expanded="true" aria-controls="collapseTaskAssignments">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProjectContribution" aria-expanded="true" aria-controls="collapseProjectContribution">
             <i class="fas fa-tasks"></i>
-            <span>TASK ASSIGNMENTS</span>
+            <span>CONTRIBUTION</span>
         </a>
-        <div id="collapseTaskAssignments" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+        <div id="collapseProjectContribution" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                @can('add-task')
-                    <a class="collapse-item" href="{{ url('/tasks/create') }}">NEW TASK</a>
+                @can('add-contribution')
+                    <a class="collapse-item" href="{{ url('/contributions/create') }}">ADD CONTRIBUTION</a>
                 @endcan
-                @can('view-task')
-                    <a class="collapse-item" href="{{ url('/tasks') }}">ASSIGNED TASK LISTS</a>
-                    <a class="collapse-item" href="{{ url('/pending-feedback-tasks') }}">PENDING FEEDBACK</a>
-                    <a class="collapse-item" href="{{ url('/completed-tasks') }}">COMPLETED TASK</a>
+                @can('view-contribution')
+                    <a class="collapse-item" href="{{ url('/contributions') }}">VIEW CONTRIBUTION</a>
                 @endcan
-                @role('User')
-                    <a class="collapse-item" href="{{ url('/my-assigned-tasks') }}">ASSIGNED TO ME</a>
-                    <a class="collapse-item" href="{{ url('/my-in-progress-tasks') }}">IN PROGRESS TASKS</a>
-                    <a class="collapse-item" href="{{ url('/my-completed-tasks') }}">COMPLETED BY ME</a>
-                @endrole
             </div>
         </div>
     </li>

@@ -25,7 +25,7 @@ class Project extends Model
      *
      * @var array
      */
-    protected $fillable = ['title', 'client_id', 'platform_id', 'budget', 'project_status_id', 'deadline', 'desc', 'git_repo', 'trello_link', 'gd_link', 'demo_web_link', 'live_project_link', 'feedback_from_client', 'feedback_to_client', 'payment_status', 'payment_received'];
+    protected $fillable = ['unique_key', 'title', 'client_id', 'platform_id', 'budget', 'project_status_id', 'deadline', 'desc', 'git_repo', 'trello_link', 'gd_link', 'demo_web_link', 'live_project_link', 'feedback_from_client', 'feedback_to_client', 'payment_status', 'payment_received'];
 
     public function statusName($id)
     {
@@ -56,36 +56,9 @@ class Project extends Model
         return $this->hasMany(ProjectNote::class, 'project_id');
     }
 
-    public function tasks()
+    public function contributions()
     {
-        return $this->hasMany(Task::class, 'project_id');
-    }
-
-    public function projectContribution($empId)
-    {
-        $totalPoint    = $this->tasks()->sum('total_point');
-        $receivedPoint = $this->tasks()->where('assigned_to', $empId)->sum('received_point');
-        $contribution  = number_format(floor(($receivedPoint * 100) / ($totalPoint)) ,2);
-        return $contribution;
-    }
-
-    public function countTotalTaskPoint()
-    {
-        return $this->tasks()->sum('total_point');
-    }
-
-    public function completedTaskPointCount()
-    {
-        return $this->tasks()->where('status', 5)->sum('total_point');
-    }
-
-    public function percentageOfCompletion()
-    {
-        if($this->countTotalTaskPoint() != null){
-            return (number_format(($this->completedTaskPointCount() * 100) / $this->countTotalTaskPoint(),2));
-        }else{
-            return '0';
-        }
+        return $this->hasMany(Contribution::class, 'project_id');
     }
 
     public function employees()
@@ -97,4 +70,5 @@ class Project extends Model
     {
         return $this->hasMany(Credit::class, 'project_id');
     }
+
 }

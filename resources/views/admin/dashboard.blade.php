@@ -23,7 +23,7 @@
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">${{ $totalExpense }}</div>
                             </div>
                             <div class="col-auto">
-                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
                             </div>
                             </div>
                         </div>
@@ -57,15 +57,10 @@
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
-                                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks</div>
+                                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Running Projects</div>
                                     <div class="row no-gutters align-items-center">
                                         <div class="col-auto">
-                                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ $percentageTaskCompleted }}%</div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="progress progress-sm mr-2">
-                                                <div class="progress-bar bg-info" role="progressbar" style="width: {{ $percentageTaskCompleted }}%" aria-valuenow="{{ $percentageTaskCompleted }}" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
+                                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">%</div>
                                         </div>
                                     </div>
                                 </div>
@@ -107,12 +102,12 @@
                             <h6 class="m-0 font-weight-bold text-primary">Running Projects</h6>
                         </div>
                         <div class="card-body">
-                            @foreach ($projects as $project)
-                                <h4 class="small font-weight-bold">{{ $project->title }} <span class="float-right">{{ number_format($project->percentageOfCompletion(), 2) }}%</span></h4>
-                                <div class="progress mb-4">
-                                    <div class="progress-bar bg-success" role="progressbar" style="width: {{ number_format($project->percentageOfCompletion(), 2) }}%" aria-valuenow="{{ $project->percentageOfCompletion() }}" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            @endforeach
+{{--                            @foreach ($projects as $project)--}}
+{{--                                <h4 class="small font-weight-bold">{{ $project->title }} <span class="float-right">{{ number_format($project->percentageOfCompletion(), 2) }}%</span></h4>--}}
+{{--                                <div class="progress mb-4">--}}
+{{--                                    <div class="progress-bar bg-success" role="progressbar" style="width: {{ number_format($project->percentageOfCompletion(), 2) }}%" aria-valuenow="{{ $project->percentageOfCompletion() }}" aria-valuemin="0" aria-valuemax="100"></div>--}}
+{{--                                </div>--}}
+{{--                            @endforeach--}}
                         </div>
                     </div>
                 </div>

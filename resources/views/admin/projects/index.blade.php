@@ -59,9 +59,9 @@
                                 @endrole
                                 <td><span class="badge my-custom-badge @if($item->status == 1) {{ 'bg-success' }} @else {{ 'bg-danger' }} @endif">{{ $item->statusName($item->status) }}</span></td>
                                 <td>
-                                    <a href="{{ url('/projects/' . $item->id) }}" title="View Project" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
+                                    <a href="{{ url('/projects/' . $item->unique_key) }}" title="View Project" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
                                     @role('Admin')
-                                    <a href="{{ url('/projects/' . $item->id . '/edit') }}" title="Edit Project" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                    <a href="{{ url('/projects/' . $item->unique_key . '/edit') }}" title="Edit Project" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                     <form method="POST" action="{{ url('/projects' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
                                         {{ method_field('DELETE') }}
                                         @csrf

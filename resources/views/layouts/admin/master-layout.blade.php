@@ -20,6 +20,7 @@
 
     <!-- Sidebar -->
     @include('layouts.admin.includes.sidebar')
+
     <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->

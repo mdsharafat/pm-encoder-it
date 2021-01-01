@@ -35,7 +35,7 @@
                             <a class="nav-link" id="developer-tab" data-toggle="tab" href="#developer" role="tab" aria-controls="developer" aria-selected="false">Developers</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="tasks-tab" data-toggle="tab" href="#tasks" role="tab" aria-controls="tasks" aria-selected="false">Tasks</a>
+                            <a class="nav-link" id="note-tab" data-toggle="tab" href="#notes" role="tab" aria-controls="notes" aria-selected="false">Notes</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="payment-tab" data-toggle="tab" href="#payment" role="tab" aria-controls="tasks" aria-selected="false">Payments</a>
@@ -53,7 +53,7 @@
                             <tr>
                                 <th style="min-width:150px;"><p class="font-weight-bold">% of Completion</p></th>
                                 <td style="min-width:20px;"><p>:</p></td>
-                                <td><p class="font-weight-bold text-success">{{ number_format($project->percentageOfCompletion(), 2) }} % </p></td>
+                                <td><p class="font-weight-bold text-success"> % </p></td>
                             </tr>
                             @role('Admin')
                             <tr>
@@ -130,46 +130,44 @@
                     </div>
                     @role('Admin')
                     <div class="tab-pane fade" id="developer" role="tabpanel" aria-labelledby="developer-tab">
-                        @foreach ($project->tasks()->groupBy('assigned_to')->get() as $task )
+                        @foreach($project->contributions as $contribution)
                             <div class="card">
                                 <div class="row">
                                     <div class="col-md-4">
-                                        @if($task->assignedTo->image)
-                                            <img src="{{ asset('storage/employees/'.$task->assignedTo->image) }}" alt="{{ $task->assignedTo->full_name }}" style="width:150px; height: 150px; margin: 0 auto; border: 1px solid #cecece;">
+                                        @if($contribution->employee->user->image)
+                                            <img src="{{ asset('storage/employees/'.$contribution->employee->user->image) }}" alt="" style="width:150px; height: 150px; margin: 0 auto; border: 1px solid #cecece;">
                                         @else
-                                            <img src="{{ asset('assets/img/user.jpg') }}" alt="{{ $task->assignedTo->full_name }}" style="width:150px; height: 150px; margin: 0 auto; border: 1px solid #cecece;">
+                                            <img src="{{ asset('assets/img/user.jpg') }}" alt="" style="width:150px; height: 150px; margin: 0 auto; border: 1px solid #cecece;">
                                         @endif
                                     </div>
                                     <div class="col-md-8 text-left">
-                                        <h1 class="text-success" style="font-size: 20px; margin-top: 10px; font-weight: bold;">{{ "Name : ".$task->assignedTo->full_name }}</h1>
-                                        <p class="title">Department : {{ $task->assignedTo->department->name }} </p>
-                                        <p class="title">Designation: {{ $task->assignedTo->designation->name }} </p>
-                                        <p class="title">Contribution : {{ $project->projectContribution($task->assignedTo->id)." %" }}</p>
+                                        <h1 class="text-success" style="font-size: 20px; margin-top: 10px; font-weight: bold;">{{ "Name : ". $contribution->employee->full_name }}</h1>
+                                        <p class="title">Department : {{ $contribution->employee->department->name }} </p>
+                                        <p class="title">Designation: {{ $contribution->employee->designation->name }} </p>
+                                        <p class="title">Contribution : {{ $contribution->contribution." %" }}</p>
                                         <div class="progress mb-4">
-                                            <div class="progress-bar bg-success" role="progressbar" style="width: 10%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ $contribution->contribution }}%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         @endforeach
                     </div>
-                    <div class="tab-pane fade" id="tasks" role="tabpanel" aria-labelledby="tasks-tab">
+                    <div class="tab-pane fade" id="notes" role="tabpanel" aria-labelledby="notes-tab">
                         <div class="grid">
-                            @foreach ($project->tasks as $task)
+                            @foreach($project->projectNotes as $projectNote)
                                 <div class="grid-item custom_task_grid">
                                     <div class="row">
-                                        <div class="col-md-8">
-                                            <p class="font-weight-bold">Assigned To: {{ $task->assignedTo->full_name }}</p>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <p class="float-right"> <span class="badge my-custom-badge @if($task->status == 1 ) {{ 'bg-primary' }} @elseif($task->status ==2) {{ 'bg-danger' }} @elseif($task->status == 3) {{ 'bg-info' }} @elseif($task->status ==4) {{ 'bg-warning' }} @else {{ 'bg-success' }} @endif"> {{ $task->statusName($task->status) }} </span></p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
                                         <div class="col-md-12">
-                                            <p>{{ $task->task }}</p>
+                                            <p class=""> <span class="badge my-custom-badge bg-success"> {{ $projectNote->updated_at }} </span></p>
+                                            <p class="font-weight-bold">Note : {{ $projectNote->note }}</p>
                                         </div>
                                     </div>
+{{--                                    <div class="row">--}}
+{{--                                        <div class="col-md-12">--}}
+{{--                                            <p>{{ "task" }}</p>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
                                 </div>
                             @endforeach
                         </div>

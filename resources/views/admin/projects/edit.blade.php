@@ -25,7 +25,7 @@
             {{ method_field('PATCH') }}
             @csrf
             <fieldset>
-                <legend><span class="number"><i class="fas fa-plus"></i></span> Edit Project ({{ $project->id }})</legend>
+                <legend><span class="number"><i class="fas fa-plus"></i></span> Edit Project ({{ $project->title }})</legend>
             </fieldset>
             <fieldset>
                 @include ('admin.projects.form', ['formMode' => 'edit'])
@@ -40,8 +40,8 @@
     <script>
         $(document).ready(function(){
             $(function () {
-                $("#datepicker").datepicker({ 
-                        autoclose: true, 
+                $("#datepicker").datepicker({
+                        autoclose: true,
                         format: 'mm/dd/yyyy'
                 });
             });

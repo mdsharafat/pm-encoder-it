@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
-
+use App\Http\Traits;
 use App\Client;
 use Carbon\Carbon;
 use App\Project;
@@ -12,29 +12,25 @@ use Illuminate\Http\Request;
 
 class ProjectsController extends Controller
 {
-    public function index(Request $request)
-    {
+    use Traits\UniqueKeyTrait;
+
+    public function index(Request $request) {
         $projects = Project::latest()->get();
         return view('admin.projects.index', compact('projects'));
     }
 
-    public function employeeProjects()
-    {
+    public function employeeProjects() {
         $projects = Project::latest()->get();
         return view('admin.projects.employee-projects', compact('projects'));
     }
 
-    public function create()
-    {
+    public function create() {
         $clients = Client::all();
-        $project  = new Project();
+        $project = new Project();
         return view('admin.projects.create', compact('clients', 'project'));
     }
 
-    public function store(Request $request)
-    {
-        // dd($request->all());
-
+    public function store(Request $request) {
         $request->validate([
             'title' => 'required',
             'client_id' => 'required',
@@ -44,6 +40,7 @@ class ProjectsController extends Controller
         $client = Client::where('id', $request->client_id)->first();
 
         $project                       = new Project();
+        $project->unique_key           = $this->generateUniqueKey(get_class($project));
         $project->title                = $request->title;
         $project->client_id            = $request->client_id;
         $project->platform_id          = $client->platform->id;
@@ -61,23 +58,18 @@ class ProjectsController extends Controller
         return redirect('projects')->with('flashMessage', 'Project added!');
     }
 
-    public function show($id)
-    {
-        $project = Project::findOrFail($id);
-
+    public function show($unique_key) {
+        $project = Project::where('unique_key', $unique_key)->first();
         return view('admin.projects.show', compact('project'));
     }
 
-    public function edit($id)
-    {
+    public function edit($unique_key) {
         $clients = Client::all();
-        $project = Project::findOrFail($id);
+        $project = Project::where('unique_key', $unique_key)->first();
         return view('admin.projects.edit', compact('clients', 'project'));
     }
 
-    public function update(Request $request, $id)
-    {
-        // dd($request->all());
+    public function update(Request $request, $id) {
         $client      = Client::where('id', $request->client_id)->first();
         $project     = Project::findOrFail($id);
         $requestData = array();
@@ -100,10 +92,12 @@ class ProjectsController extends Controller
         return redirect('projects')->with('flashMessage', 'Project updated!');
     }
 
-    public function destroy($id)
-    {
+    public function destroy($id) {
         Project::destroy($id);
-
         return redirect('projects')->with('flashMessage', 'Project deleted!');
+    }
+
+    public function involvementCreate(Request $request) {
+
     }
 }

@@ -18,9 +18,12 @@ use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use DB;
+use App\Http\Traits;
 
 class EmployeesController extends Controller
 {
+    use Traits\UniqueKeyTrait;
+
     public function index(Request $request)
     {
         $employees = Employee::latest()->get();
@@ -66,7 +69,7 @@ class EmployeesController extends Controller
         $employee->department_id     = $request->department_id;
         $employee->designation_id    = $request->designation_id;
         $employee->job_type_id       = $request->job_type_id;
-        $employee->unique_key        = $this->generateUniqueKey();
+        $employee->unique_key        = $this->generateUniqueKey(get_class($employee));
         $employee->full_name         = $request->full_name;
         $employee->date_of_join      = Carbon::parse($request->date_of_join)->format('Y/m/d');
         $employee->phone             = $request->phone;
@@ -101,24 +104,6 @@ class EmployeesController extends Controller
         }
 
         return redirect('employees')->with('flashMessage', 'Employee added!');
-    }
-
-    protected function generateUniqueKey()
-    {
-        $unique_key = '';
-        $is_unique  = 0;
-        do {
-            $unique_key = Str::random(40);
-            $is_found   = Employee::where('unique_key',$unique_key)->first();
-            if($is_found == null){
-                $is_unique = 1;
-                break;
-            }else{
-                $is_unique = 0;
-            }
-        } while ($is_unique);
-
-        return $unique_key;
     }
 
     public function uploadImage($image, $uploadPath)
@@ -237,24 +222,6 @@ class EmployeesController extends Controller
 
     public function employeeDashboard()
     {
-        $assignedTasks = DB::table('tasks')
-                ->where('assigned_to', '=', Auth::user()->employee->id)
-                ->whereNotIn('status', [3, 4, 5])
-                ->select(DB::raw('count(*) as count'))
-                ->first();
-
-        $inProgressTasks = DB::table('tasks')
-                ->where('assigned_to', '=', Auth::user()->employee->id)
-                ->where('status', '=', 3)
-                ->select(DB::raw('count(*) as count'))
-                ->first();
-
-        $submittedTasks = DB::table('tasks')
-                ->where('assigned_to', '=', Auth::user()->employee->id)
-                ->whereIn('status', [4, 5])
-                ->select(DB::raw('count(*) as count'))
-                ->first();
-
         $appliedLeaves = DB::table('leave_managements')
                 ->where('emp_id', '=', Auth::user()->employee->id)
                 ->where('status', '=', 1)
@@ -267,7 +234,7 @@ class EmployeesController extends Controller
                 ->select(DB::raw('count(*) as count'))
                 ->first();
 
-        return view('admin.employees.employee-dashboard', compact('assignedTasks', 'inProgressTasks', 'submittedTasks', 'appliedLeaves', 'approvedLeaves'));
+        return view('admin.employees.employee-dashboard', compact('appliedLeaves', 'approvedLeaves'));
     }
 
 }

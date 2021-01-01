@@ -54,7 +54,7 @@
                                 <td>{{ $item->department->name }}</td>
                                 <td>{{ $item->designation->name }}</td>
                                 <td><a href="{{ url('/all-running-projects-single-employee/'.$item->unique_key) }}"><span class="badge bg-success my-custom-badge">{{ $item->runningProjects()->count() }}</span></a></td>
-                                <td><span class="badge bg-success my-custom-badge">{{ $item->tasks->whereIn('status', [1,2,3])->count() }}</span></td>
+                                <td><span class="badge bg-success my-custom-badge">{{ "Abcd" }}</span></td>
                                 @canany(['edit-employee', 'view-employee-details', 'delete-employee'])
                                 <td>
                                     @can('view-employee-details')

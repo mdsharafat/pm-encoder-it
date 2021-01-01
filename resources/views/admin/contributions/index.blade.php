@@ -20,8 +20,13 @@
     @endif
     <div class="form-style-5" style="padding-top: 0px; padding-bottom: 0px;">
         <fieldset>
-            <legend><span class="number"><i class="fas fa-table"></i></span> Completed - Tasks </legend>
+            <legend><span class="number"><i class="fas fa-table"></i></span> Contributions Table</legend>
         </fieldset>
+        @can('add-employee')
+            <a href="{{ url('/contributions/create') }}">
+                <button class="customButton font-weight-bold">ADD NEW CONTRIBUTION</button>
+            </a>
+        @endcan
     </div>
     <div class="card shadow mb-4">
         <div class="card-body">
@@ -31,30 +36,26 @@
                         <tr class="text-center">
                             <th>#</th>
                             <th>Project</th>
-                            <th>Task</th>
-                            <th>Deadline</th>
+                            <th>Total Employee</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($tasks as $item)
+                        @foreach($contributions as $item)
                             <tr class="text-center">
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ Str::limit($item->project->title, 20) }}</td>
-                                <td>{{ Str::limit($item->task, 45) }}</td>
-                                <td>{{ $item->deadline }}</td>
+                                <td>{{ $item->project->title }}</td>
+                                <td><a href="{{ url('/project-wise-contribution/' . $item->unique_key) }}"><span class="badge bg-success my-custom-badge">{{ $item->totalEmployee }}</span></a></td>
                                 <td>
-                                    <a href="{{ url('/tasks/' . $item->unique_key) }}" title="View Task" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
-                                    @can('update-task')
-                                    <a href="{{ url('/tasks/' . $item->id . '/edit') }}" title="Edit Task" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                    @endcan
-                                    @can('delete-task')
-                                    <form method="POST" action="{{ url('/tasks' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
-                                        {{ method_field('DELETE') }}
+                                    <a href="{{ url('/project-wise-contribution/' . $item->unique_key) }}" title="View Contribution" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
+{{--                                    <a href="{{ url('/contributions/' . $item->id . '/edit') }}" title="Edit Contribution" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>--}}
+
+                                    <form method="POST" action="{{ url('/project-wise-delete-contribution') }}" accept-charset="UTF-8" style="display:inline">
+                                        <input type="hidden" name="project" value="{{ $item->project_id }}">
+                                        <input type="hidden" name="unique_key" value="{{ $item->unique_key }}">
                                         @csrf
-                                        <button type="submit" class="btn btn-danger btn-sm" title="Delete Task" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fas fa-trash-alt"></i></button>
+                                        <button type="submit" class="btn btn-danger btn-sm" title="Delete Contribution" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fas fa-trash-alt"></i></button>
                                     </form>
-                                    @endcan
                                 </td>
                             </tr>
                         @endforeach
@@ -70,16 +71,5 @@
     <script src="{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 
     <!-- Page level custom scripts -->
-    <script>
-        $(document).ready(function() {
-            $('#dataTable').DataTable({
-                "columnDefs": [
-                    { "width": "20px", "targets": 0 },
-                    { "width": "200px", "targets": 1 },
-                    { "width": "100px", "targets": 3 },
-                    { "width": "100px", "targets": 4 },
-                ],
-            });
-        });
-    </script>
+    <script src="{{ asset('assets/js/demo/datatables-demo.js') }}"></script>
 @endsection
