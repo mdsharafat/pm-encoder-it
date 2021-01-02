@@ -30,16 +30,15 @@ class EmployeesController extends Controller
         return view('admin.employees.index', compact('employees'));
     }
 
-    public function allRunningProjects($id)
-    {
+    public function allRunningProjects($unique_key) {
         $employee = DB::table('employees')
-                    ->where('id', $id)
+                    ->where('unique_key', $unique_key)
                     ->select('full_name')
                     ->first();
         $runningProjects = DB::table('employee_project')
                         ->join('projects', 'projects.id', 'employee_project.project_id')
                         ->join('employees', 'employees.id', 'employee_project.emp_id')
-                        ->where('employee_project.emp_id', $id)
+                        ->where('employee_project.emp_id', Employee::where('unique_key', $unique_key)->first()->id)
                         ->where('projects.status', 0)
                         ->select('projects.title as title', 'projects.budget as budget', 'projects.deadline as deadline', 'employees.full_name as name', 'employees.image as image')
                         ->groupBy('employee_project.project_id')
@@ -47,16 +46,14 @@ class EmployeesController extends Controller
         return view('admin.employees.running-projects', compact('employee', 'runningProjects'));
     }
 
-    public function create()
-    {
+    public function create() {
         $employee     = new Employee();
         $departments  = Department::all();
         $designations = Designation::all();
         return view('admin.employees.create', compact('departments', 'designations', 'employee'));
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $user           = new User();
         $user->name     = $request->name;
         $user->email    = $request->email;
@@ -106,36 +103,31 @@ class EmployeesController extends Controller
         return redirect('employees')->with('flashMessage', 'Employee added!');
     }
 
-    public function uploadImage($image, $uploadPath)
-    {
+    public function uploadImage($image, $uploadPath) {
         $now = Carbon::now();
         $imageName = $now->year.$now->month.$now->day.$now->hour.$now->minute.$now->second.Str::random(10).'.'.$image->getClientOriginalExtension();
         $image->move($uploadPath, $imageName);
         return $imageName;
     }
 
-    public function myEmployeeProfile()
-    {
+    public function myEmployeeProfile() {
         $employee = Auth::user()->employee;
         return view('admin.employees.show', compact('employee'));
     }
 
-    public function show($unique_key)
-    {
+    public function show($unique_key) {
         $employee = Employee::where('unique_key', $unique_key)->first();
         return view('admin.employees.show', compact('employee'));
     }
 
-    public function edit($unique_key)
-    {
+    public function edit($unique_key) {
         $departments  = Department::all();
         $designations = Designation::all();
         $employee     = Employee::where('unique_key', $unique_key)->first();
         return view('admin.employees.edit', compact('departments', 'designations', 'employee'));
     }
 
-    public function update(Request $request, $unique_key)
-    {
+    public function update(Request $request, $unique_key) {
         $employee                 = Employee::where('unique_key', $unique_key)->first();
 
         $requestUserData          = array();
@@ -187,8 +179,7 @@ class EmployeesController extends Controller
         return redirect('employees')->with('flashMessage', 'Employee updated!');
     }
 
-    public function destroy($unique_key)
-    {
+    public function destroy($unique_key) {
         $employee = Employee::where('unique_key', $unique_key)->first();
         if ($employee->user->image) {
                 $deleteUserImage = 'storage/users/'.$employee->user->image;
@@ -208,8 +199,7 @@ class EmployeesController extends Controller
         return redirect('employees')->with('flashMessage', 'Employee deleted!');
     }
 
-    public function deleteCertificate(Request $request)
-    {
+    public function deleteCertificate(Request $request) {
         if($request->certificate_id){
             $certificate = Certificate::where('id', $request->certificate_id)->first();
             $deleteImage = 'storage/certificates/'.$certificate->image;
@@ -220,8 +210,7 @@ class EmployeesController extends Controller
             return response()->json(['msg'=>'error']);
     }
 
-    public function employeeDashboard()
-    {
+    public function employeeDashboard() {
         $appliedLeaves = DB::table('leave_managements')
                 ->where('emp_id', '=', Auth::user()->employee->id)
                 ->where('status', '=', 1)
@@ -235,6 +224,33 @@ class EmployeesController extends Controller
                 ->first();
 
         return view('admin.employees.employee-dashboard', compact('appliedLeaves', 'approvedLeaves'));
+    }
+
+    public function employeeSchedule() {
+        $employees = Employee::all();
+        return view('admin.employees.employee-schedule', compact('employees'));
+    }
+
+    public function checkEmployeeSchedule(Request $request) {
+        $employee = Employee::where('unique_key', $request->emp_id)->first();
+
+        $schedules = DB::table('employee_project')
+                        ->join('projects', 'projects.id', 'employee_project.project_id')
+                        ->where('employee_project.emp_id', '=', $employee->id)
+                        ->select('projects.title', 'projects.starts_from', 'projects.deadline')
+                        ->get();
+//        $schedule_object_array = [];
+//        foreach ($schedules as $schedule) {
+//            $schedule_object = new \stdClass();
+//            $schedule_object->title = $schedule->title;
+//            $schedule_object->start = $schedule->starts_from;
+//            $schedule_object->end = $schedule->deadline;
+//            array_push($schedule_object_array, $schedule_object);
+//        }
+        return response()->json([
+            'msg' => 'success',
+            'schedule' => $schedules
+        ]);
     }
 
 }

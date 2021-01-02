@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
 class Employee extends Model
 {
@@ -49,8 +50,7 @@ class Employee extends Model
         'reason_of_resign'
     ];
 
-    public function genderName($id)
-    {
+    public function genderName($id) {
         $genderArray = [
             1 => 'Male',
             2 => 'Female',
@@ -58,8 +58,7 @@ class Employee extends Model
         ];
         return isset($id) ? $genderArray[$id] : '';
     }
-    public function maritalStatus($id)
-    {
+    public function maritalStatus($id) {
         $maritalStatusArray = [
             0 => 'Unmarried',
             1 => 'Married',
@@ -67,8 +66,7 @@ class Employee extends Model
         return isset($id) ? $maritalStatusArray[$id] : '';
     }
 
-    public function jobStatusName($id)
-    {
+    public function jobStatusName($id) {
         $jobStatusArray = [
             0 => 'Running',
             1 => 'Former',
@@ -76,8 +74,7 @@ class Employee extends Model
         return isset($id) ? $jobStatusArray[$id] : '';
     }
 
-    public function dateOfJoin($date)
-    {
+    public function dateOfJoin($date) {
         $date_of_join = \Carbon\Carbon::parse($date);
         $now          = \Carbon\Carbon::now();
         $experience   = $date_of_join->diff(\Carbon\Carbon::now())->format("%y years, %m months and %d days");
@@ -88,23 +85,19 @@ class Employee extends Model
         }
     }
 
-    public function user()
-    {
+    public function user() {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function department()
-    {
+    public function department() {
         return $this->belongsTo(Department::class, 'department_id');
     }
 
-    public function designation()
-    {
+    public function designation() {
         return $this->belongsTo(Designation::class, 'designation_id');
     }
 
-    public function jobTypeName($jobType)
-    {
+    public function jobTypeName($jobType) {
         $jobTypeArray = [
             1 => 'Parmanent',
             2 => 'Provision',
@@ -114,23 +107,19 @@ class Employee extends Model
         return isset($jobType) ? $jobTypeArray[$jobType] : '';
     }
 
-    public function certificates()
-    {
+    public function certificates() {
         return $this->hasMany(Certificate::class, 'emp_id');
     }
 
-    public function contributions()
-    {
+    public function contributions() {
         return $this->hasMany(Contributions::class, 'emp_id');
     }
 
-    public function leaves()
-    {
+    public function leaves() {
         return $this->hasMany(LeaveManagement::class, 'emp_id');
     }
 
-    public function cumulativeLeave()
-    {
+    public function cumulativeLeave() {
         if($this->leaves()->where('status', 2)->count() > 0){
             return $this->leaves()->where('status', 2)->count();
         }else{
@@ -138,13 +127,11 @@ class Employee extends Model
         }
     }
 
-    public function reviews()
-    {
+    public function reviews() {
         return $this->hasMany(Review::class, 'emp_id');
     }
 
-    public function averageReview()
-    {
+    public function averageReview() {
         $count = $this->reviews()->count();
         $totalReviewPoint = $this->reviews()->sum('point');
         if($count > 0){
@@ -155,36 +142,23 @@ class Employee extends Model
         return $averageReview;
     }
 
-    public function projectContribution($id)
-    {
-        $totalAssignedPoint = Task::where('project_id', $id)->sum('total_point');
-        $receivedPoint      = $this->tasks()->where('project_id', $id)->where('status', 5)->sum('received_point');
-        $contribution       = number_format(floor(($receivedPoint * 100) / ($totalAssignedPoint)),2);
-        return $contribution;
-    }
-
-    public function projects()
-    {
+    public function projects() {
         return $this->belongsToMany(Project::class, 'employee_project', 'emp_id', 'project_id')->withTimestamps();
     }
 
-    public function totalProjects()
-    {
+    public function totalProjects() {
         return $this->projects()->groupBy('project_id')->get();
     }
 
-    public function runningProjects()
-    {
+    public function runningProjects() {
         return $this->projects()->groupBy('project_id')->where('status', 0)->get();
     }
 
-    public function salaries()
-    {
+    public function salaries() {
         return $this->hasMany(SalaryExpense::class, 'emp_id');
     }
 
-    public function cumulativeSalary()
-    {
+    public function cumulativeSalary() {
         if($this->salaries()->sum('amount') > 0){
             return $this->salaries()->sum('amount');
         }else{
@@ -192,8 +166,7 @@ class Employee extends Model
         }
     }
 
-    public function dateOfResign()
-    {
+    public function dateOfResign() {
         if(!empty($this->date_of_resign)){
             return $this->date_of_resign;
         }else{
@@ -201,12 +174,19 @@ class Employee extends Model
         }
     }
 
-    public function reasonOfResign()
-    {
+    public function reasonOfResign() {
         if(!empty($this->reason_of_resign)){
             return $this->reason_of_resign;
         }else{
             return '- - - - - -';
         }
+    }
+
+    public function currentlyInvolvedProjects($emp_id) {
+        $total_project = DB::table('employee_project')
+                    ->selectRaw('count(project_id) as total_involved_project')
+                    ->where('emp_id', $emp_id)
+                    ->first();
+        return ($total_project->total_involved_project);
     }
 }

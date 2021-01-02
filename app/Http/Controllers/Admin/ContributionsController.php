@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Contribution;
 use App\Project;
 use App\Employee;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use DB;
 
@@ -50,6 +51,19 @@ class ContributionsController extends Controller
             return redirect()->back()->withErrors(['contribution' => ['Contribution cannot be greater than remaining']]);
         }
         $contribution->save();
+
+        $is_envolved = DB::table('employee_project')
+                        ->where('emp_id', $request->emp_id)
+                        ->where('project_id', $request->project_id)
+                        ->first();
+        if($is_envolved == null) {
+            DB::table('employee_project')->insert([
+                'project_id' => $request->project_id,
+                'emp_id'     => $request->emp_id,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ]);
+        }
 
         return redirect('contributions')->with('flashMessage', 'Contribution added!');
     }

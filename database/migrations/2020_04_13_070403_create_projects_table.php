@@ -21,6 +21,7 @@ class CreateProjectsTable extends Migration
             $table->unsignedBigInteger('platform_id')->nullable();
             $table->double('budget')->default(0);
             $table->boolean('status')->default(0);
+            $table->date('starts_from')->nullable();
             $table->date('deadline')->nullable();
             $table->text('desc')->nullable();
             $table->string('git_repo')->nullable();

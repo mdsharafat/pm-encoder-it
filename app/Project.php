@@ -25,7 +25,7 @@ class Project extends Model
      *
      * @var array
      */
-    protected $fillable = ['unique_key', 'title', 'client_id', 'platform_id', 'budget', 'project_status_id', 'deadline', 'desc', 'git_repo', 'trello_link', 'gd_link', 'demo_web_link', 'live_project_link', 'feedback_from_client', 'feedback_to_client', 'payment_status', 'payment_received'];
+    protected $fillable = ['unique_key', 'title', 'client_id', 'platform_id', 'budget', 'project_status_id', 'starts_from', 'deadline', 'desc', 'git_repo', 'trello_link', 'gd_link', 'demo_web_link', 'live_project_link', 'feedback_from_client', 'feedback_to_client', 'payment_status', 'payment_received'];
 
     public function statusName($id)
     {

@@ -38,8 +38,12 @@
     <script>
         $(document).ready(function(){
             $(function () {
-                $("#datepicker").datepicker({ 
-                        autoclose: true, 
+                $("#datepicker_starts_from").datepicker({
+                        autoclose: true,
+                        format: 'mm/dd/yyyy'
+                }).datepicker('update', new Date());
+                $("#datepicker_deadline").datepicker({
+                        autoclose: true,
                         format: 'mm/dd/yyyy'
                 }).datepicker('update', new Date());
             });

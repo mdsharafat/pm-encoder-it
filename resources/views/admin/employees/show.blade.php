@@ -4,12 +4,18 @@
 <link href="{{ asset('assets/css/custom-show-details.css') }}" rel="stylesheet">
 <link rel="stylesheet" href="{{ asset('assets/css/magnific-popup.css') }}">
 <link href="{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+<style>
+    .uploaded-img-preview {
+        max-width: 150px;
+        max-height: 150px;
+    }
+</style>
 @endsection
 
 @section('main-content')
     <div class="container emp-profile">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="profile-img">
                     @if($employee->image)
                         <img src="{{ asset('storage/employees/'.$employee->image) }}" alt="$employee->full_name"/>
@@ -18,7 +24,7 @@
                     @endif
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-7">
                 <div class="profile-head">
                     <h5>
                         {{ $employee->full_name }}
@@ -61,7 +67,7 @@
                             </li>
                         @endrole
                         <li class="nav-item">
-                            <a class="nav-link" id="project-tab" data-toggle="tab" href="#project" role="tab" aria-controls="project" aria-selected="false">Projects</a>
+                            <a class="nav-link" id="schedule-tab" class="schedule-tab" data-toggle="tab" href="#schedule" role="tab" aria-controls="schedule" aria-selected="false">Schedule</a>
                         </li>
                     </ul>
                 </div>
@@ -151,12 +157,12 @@
                                 <tr>
                                     <th style="min-width:180px;"><p class="font-weight-bold">Current Salary</p></th>
                                     <td style="min-width:20px;"><p>:</p></td>
-                                    <td><p class="font-weight-bold text-danger">{{ $employee->current_salary." $ /per month" }}</p></td>
+                                    <td><p class="font-weight-bold text-danger">{{ $employee->current_salary." BDT /per month" }}</p></td>
                                 </tr>
                                 <tr>
                                     <th style="min-width:180px;"><p class="font-weight-bold">Cumulative Paid</p></th>
                                     <td style="min-width:20px;"><p>:</p></td>
-                                    <td><p class="font-weight-bold text-danger">{{ $employee->cumulativeSalary()." $ till now." }}</p></td>
+                                    <td><p class="font-weight-bold text-danger">{{ $employee->cumulativeSalary()." BDT till now." }}</p></td>
                                 </tr>
                                 <tr>
                                     <th style="min-width:180px;"><p class="font-weight-bold">Cumulative Leave</p></th>
@@ -226,32 +232,9 @@
                             </div>
                         </div>
                     @endrole
-                    <div class="tab-pane fade" id="project" role="tabpanel" aria-labelledby="project-tab">
-                        <h5 class="font-weight-bold">Total Projects : <span class="badge bg-success my-custom-badge">{{ $employee->totalProjects()->count() }}</span></h5>
-                        <div class="grid">
-                            @foreach($employee->totalProjects() as $project)
-                                <div class="grid-item">
-                                    <div class="para-container">
-                                        <p class="text-center font-weight-bold">Title :  {{ $project->title }}</p>
-                                        <div class="row">
-                                            @role('Admin')
-                                                <div class="col-md-6">
-                                                    <p class="text-center font-weight-bold">Budget : {{ $project->budget." $" }}</p>
-                                                </div>
-                                            @endrole
-                                            <div class="col-md-6 float-right">
-                                                <p class="text-center font-weight-bold">Status : <span class="badge my-custom-badge @if($project->status == 1 ) {{ 'bg-success' }} @else {{ 'bg-danger' }} @endif"> {{ $project->statusName($project->status) }} </span></p>
-                                            </div>
-                                        </div>
-                                        @role('Admin')
-                                            <p class="text-center font-weight-bold text-success">Contribution : {{ $employee->projectContribution($project->id)." %" }}</p>
-                                            <div class="progress mb-4">
-                                                <div class="progress-bar bg-success" role="progressbar" style="width: {{ $employee->projectContribution($project->id) }}%" aria-valuenow="{{ $employee->projectContribution($project->id) }}" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                        @endrole
-                                    </div>
-                                </div>
-                            @endforeach
+                    <div class="tab-pane fade" id="schedule" role="tabpanel" aria-labelledby="schedule-tab">
+                        <div class="schedule_calender">
+                            <div id='calendar'></div>
                         </div>
                     </div>
                 </div>

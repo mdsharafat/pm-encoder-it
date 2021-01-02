@@ -50,6 +50,7 @@ class NecessaryTableSeeder extends Seeder
         Permission::create(['name' => 'view-employee-list']);
         Permission::create(['name' => 'view-employee-details']);
         Permission::create(['name' => 'delete-employee']);
+        Permission::create(['name' => 'view-employee-schedule']);
 
         Permission::create(['name' => 'view-leave']);
         Permission::create(['name' => 'approval-leave']);
@@ -158,6 +159,7 @@ class NecessaryTableSeeder extends Seeder
              $employee->department_id     = mt_rand(1,5);
              $employee->designation_id    = mt_rand(1,5);
              $employee->job_type_id       = mt_rand(1,4);
+             $employee->unique_key        = $this->generateUniqueKey(get_class($employee));
              $employee->full_name         = $item[1];
              $employee->date_of_join      = $faker->date($format = 'Y/m/d', $max = 'now');
              $employee->phone             = $faker->randomNumber;
@@ -195,7 +197,8 @@ class NecessaryTableSeeder extends Seeder
              $project->client_id         = mt_rand(1,5);
              $project->platform_id       = mt_rand(1,3);
              $project->budget            = $projectNameArray[$i][1];
-             $project->deadline          = Carbon::parse($faker->date)->format('Y/m/d');
+             $project->starts_from       = Carbon::now()->format('Y/m/d');
+             $project->deadline          = Carbon::now()->format('Y/m/d');
              $project->desc              = $faker->paragraph;
              $project->git_repo          = "https://github.com/mdsharafat/pm-encoder-it";
              $project->trello_link       = "https://github.com/mdsharafat/pm-encoder-it";

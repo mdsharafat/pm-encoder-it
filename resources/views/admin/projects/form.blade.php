@@ -18,7 +18,7 @@
     </div>
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('budget') ? 'has-error' : ''}}">
-            <label for="budget" class="control-label">{{ 'Budget ($)' }}</label>
+            <label for="budget" class="control-label">{{ 'Budget (BDT)' }}</label>
             <input required type="number" name="budget" id="budget" placeholder="Budget *" value="{{ isset($project->budget) ? $project->budget : old('budget')}}" >
             {!! $errors->first('budget', '<p class="help-block">:message</p>') !!}
         </div>
@@ -26,7 +26,7 @@
 </div>
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <label for="payment_status">Payment Status</label>
         <select id="payment_status" name="payment_status">
             <option value="1" @if($project->payment_status == 1) {{ 'selected' }} @endif>Pending</option>
@@ -34,20 +34,32 @@
             <option value="3" @if($project->payment_status == 3) {{ 'selected' }} @endif>Full Paid</option>
         </select>
     </div>
-    <div class="col-md-4">
-        <label>Deadline </label>
-        <div id="datepicker" class="input-group date" data-date-format="mm-dd-yyyy">
-            <input required type="text" name="deadline" value="{{ isset($project->deadline) ? \Carbon\Carbon::parse($project->deadline)->format("m/d/Y") : old('deadline')}}" readonly />
-            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-        </div>
-        {!! $errors->first('deadline', '<p class="help-block">:message</p>') !!}
-    </div>
-    <div class="col-md-4">
+
+    <div class="col-md-6">
         <div class="form-group {{ $errors->has('git_repo') ? 'has-error' : ''}}">
             <label for="git_repo" class="control-label">{{ 'Git Repository' }}</label>
             <input type="text" name="git_repo" id="git_repo" placeholder="Git Repository" value="{{ isset($project->git_repo) ? $project->git_repo : old('git_repo') }}" >
             {!! $errors->first('git_repo', '<p class="help-block">:message</p>') !!}
         </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <label>Starts From </label>
+        <div id="datepicker_starts_from" class="input-group date" data-date-format="mm-dd-yyyy">
+            <input required type="text" name="starts_from" value="{{ isset($project->starts_from) ? \Carbon\Carbon::parse($project->starts_from)->format("m/d/Y") : old('starts_from')}}" readonly />
+            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+        </div>
+        {!! $errors->first('starts_from', '<p class="help-block">:message</p>') !!}
+    </div>
+    <div class="col-md-6">
+        <label>Deadline </label>
+        <div id="datepicker_deadline" class="input-group date" data-date-format="mm-dd-yyyy">
+            <input required type="text" name="deadline" value="{{ isset($project->deadline) ? \Carbon\Carbon::parse($project->deadline)->format("m/d/Y") : old('deadline')}}" readonly />
+            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+        </div>
+        {!! $errors->first('deadline', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
 

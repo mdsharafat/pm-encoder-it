@@ -39,7 +39,6 @@
                             <th>Department</th>
                             <th>Designation</th>
                             <th>Projects <span class="text-success font-weight-bold"><i class="fas fa-running"></i></span></th>
-                            <th>Tasks <span class="text-success font-weight-bold"><i class="fas fa-running"></i></span></th>
                             @canany(['edit-employee', 'view-employee-details', 'delete-employee'])
                             <th>Action</th>
                             @endcanany
@@ -54,7 +53,6 @@
                                 <td>{{ $item->department->name }}</td>
                                 <td>{{ $item->designation->name }}</td>
                                 <td><a href="{{ url('/all-running-projects-single-employee/'.$item->unique_key) }}"><span class="badge bg-success my-custom-badge">{{ $item->runningProjects()->count() }}</span></a></td>
-                                <td><span class="badge bg-success my-custom-badge">{{ "Abcd" }}</span></td>
                                 @canany(['edit-employee', 'view-employee-details', 'delete-employee'])
                                 <td>
                                     @can('view-employee-details')
@@ -93,7 +91,7 @@
                     { "width": "20px", "targets": 0 },
                     { "width": "150px", "targets": 1 },
                     { "width": "150px", "targets": 2 },
-                    { "width": "150px", "targets": 6 },
+                    { "width": "150px", "targets": 5 },
                 ],
             });
         });

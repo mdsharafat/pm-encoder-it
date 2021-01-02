@@ -8,7 +8,9 @@ use App\Http\Traits;
 use App\Client;
 use Carbon\Carbon;
 use App\Project;
+use App\Employee;
 use Illuminate\Http\Request;
+use DB;
 
 class ProjectsController extends Controller
 {
@@ -37,14 +39,15 @@ class ProjectsController extends Controller
             'budget' => 'required',
             'deadline' => 'required'
         ]);
-        $client = Client::where('id', $request->client_id)->first();
 
+        $client                        = Client::where('id', $request->client_id)->first();
         $project                       = new Project();
         $project->unique_key           = $this->generateUniqueKey(get_class($project));
         $project->title                = $request->title;
         $project->client_id            = $request->client_id;
         $project->platform_id          = $client->platform->id;
         $project->budget               = $request->budget;
+        $project->starts_from          = Carbon::parse($request->starts_from)->format('Y/m/d');
         $project->deadline             = Carbon::parse($request->deadline)->format('Y/m/d');
         $project->desc                 = $request->desc;
         $project->git_repo             = $request->git_repo;
@@ -78,6 +81,7 @@ class ProjectsController extends Controller
         $requestData['client_id']            = $request->client_id;
         $requestData['platform_id']          = $client->platform_id;
         $requestData['budget']               = $request->budget;
+        $requestData['starts_from']          = Carbon::parse($request->starts_from)->format('Y/m/d');
         $requestData['deadline']             = Carbon::parse($request->deadline)->format('Y/m/d');
         $requestData['desc']                 = $request->desc;
         $requestData['git_repo']             = $request->git_repo;
@@ -97,7 +101,33 @@ class ProjectsController extends Controller
         return redirect('projects')->with('flashMessage', 'Project deleted!');
     }
 
-    public function involvementCreate(Request $request) {
+    public function involvementCreate() {
+        $projects  = Project::all();
+        $employees = Employee::all();
+        return view('admin.projects.involvement', compact('projects', 'employees'));
+    }
 
+    public function availableEmployeeProject(Request $request) {
+        $project                  = Project::where('unique_key', $request->id)->first();
+        $involved_employees_array = [];
+        foreach ($project->employees as $employee) {
+            array_push($involved_employees_array, $employee->id);
+        }
+        $available_employees       = Employee::whereNotIn('id', $involved_employees_array)->get();
+        return response()->json([
+            'msg'                 => 'success',
+            'available_employees' => $available_employees
+        ]);
+    }
+
+    public function involvementStore(Request $request) {
+        $project = Project::where('unique_key', $request->project_id)->first();
+        DB::table('employee_project')->insert([
+            'project_id' => $project->id,
+            'emp_id'     => $request->emp_id,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+        return redirect()->back()->with('flashMessage', Employee::where('id', $request->emp_id)->first()->full_name.' added to '.$project->title);
     }
 }

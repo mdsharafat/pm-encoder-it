@@ -133,6 +133,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/employees/{unique_key}', 'Admin\EmployeesController@show');
     Route::POST('/delete-certificate', 'Admin\EmployeesController@deleteCertificate')->middleware('permission:edit-employee');
     Route::get('/all-running-projects-single-employee/{unique_key}', 'Admin\EmployeesController@allRunningProjects')->middleware('permission:view-employee-details');
+    Route::get('/employee-schedule', 'Admin\EmployeesController@employeeSchedule')->middleware('permission:view-employee-schedule');
+    Route::get('/check-employee-schedule', 'Admin\EmployeesController@checkEmployeeSchedule')->middleware('permission:view-employee-schedule');
     Route::get('/my-employee-profile', 'Admin\EmployeesController@myEmployeeProfile');
 
 
@@ -160,6 +162,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     //involvement
     Route::get('/involvement/create', 'Admin\ProjectsController@involvementCreate')->middleware('permission:add-involvement');
+    Route::POST('/involvement/store', 'Admin\ProjectsController@involvementStore')->middleware('permission:add-involvement');
+    Route::get('/available-employee-project', 'Admin\ProjectsController@availableEmployeeProject')->middleware('permission:add-involvement');
 
     //contribution
     Route::get('/contributions', 'Admin\ContributionsController@index')->middleware('permission:view-contribution');

@@ -32,7 +32,10 @@
                         </li>
                         @role('Admin')
                         <li class="nav-item">
-                            <a class="nav-link" id="developer-tab" data-toggle="tab" href="#developer" role="tab" aria-controls="developer" aria-selected="false">Developers</a>
+                            <a class="nav-link" id="involvement-tab" data-toggle="tab" href="#involvement" role="tab" aria-controls="involvement" aria-selected="false">Involvement</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="contribution-tab" data-toggle="tab" href="#contribution" role="tab" aria-controls="contribution" aria-selected="false">Contribution</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="note-tab" data-toggle="tab" href="#notes" role="tab" aria-controls="notes" aria-selected="false">Notes</a>
@@ -129,7 +132,35 @@
                         </table>
                     </div>
                     @role('Admin')
-                    <div class="tab-pane fade" id="developer" role="tabpanel" aria-labelledby="developer-tab">
+                    <div class="tab-pane fade" id="involvement" role="tabpanel" aria-labelledby="involvement-tab">
+                        @foreach($project->employees as $employee)
+                            <div class="card">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        @if($employee->user->image)
+                                            <img src="{{ asset('storage/employees/'.$employee->user->image) }}" alt="" style="width:150px; height: 150px; margin: 0 auto; border: 1px solid #cecece;">
+                                        @else
+                                            <img src="{{ asset('assets/img/user.jpg') }}" alt="" style="width:150px; height: 150px; margin: 0 auto; border: 1px solid #cecece;">
+                                        @endif
+                                    </div>
+                                    <div class="col-md-9 text-left">
+                                        <h1 class="text-success" style="font-size: 20px; margin-top: 10px; font-weight: bold;">{{ "Name : ". $employee->full_name }}</h1>
+                                        <p class="title">Department : {{ $employee->department->name }} </p>
+                                        <p class="title">Designation: {{ $employee->designation->name }} </p>
+                                        <p class="title">Ratings: {{ $employee->averageReview() }} </p>
+
+                                        @if(($employee->currentlyInvolvedProjects($employee->id) - 1) >= 0)
+                                            <p class="title" style="color: red"> {{ 'Currently involved in '. $employee->currentlyInvolvedProjects($employee->id). ' more project.' }} </p>
+                                        @else
+                                            <p class="title" style="color: green">   {{ 'Working only this project.' }} </p>
+                                        @endif
+
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="tab-pane fade" id="contribution" role="tabpanel" aria-labelledby="contribution-tab">
                         @foreach($project->contributions as $contribution)
                             <div class="card">
                                 <div class="row">
@@ -184,7 +215,7 @@
                                     <td style="min-width:20px;"><p></p></td>
                                     <th style="min-width:150px;"><p class="font-weight-bold">Received Amount</p></th>
                                     <td style="min-width:20px;"><p>:</p></td>
-                                    <td style="min-width:20px;"><p>{{ $credit->amount." $" }}</p></td>
+                                    <td style="min-width:20px;"><p>{{ $credit->amount." BDT" }}</p></td>
                                 </tr>
                             @endforeach
                             <tr style="border-top: 1px solid #858796; padding-top: 10px !important;">
@@ -196,7 +227,7 @@
                                 <td style="min-width:20px;"><p></p></td>
                                 <th style="min-width:150px;"><p class="font-weight-bold">Total</p></th>
                                 <td style="min-width:20px;"><p>:</p></td>
-                                <td style="min-width:20px;"><p>{{ $project->credits->sum('amount')." $" }}</p></td>
+                                <td style="min-width:20px;"><p>{{ $project->credits->sum('amount')." BDT" }}</p></td>
                             </tr>
                         </table>
                     </div>

@@ -167,6 +167,9 @@
                 @can('view-employee-list')
                     <a class="collapse-item" href="{{ url('/employees') }}">@role('Admin')MANAGE EMPLOYEE @endrole @role('User') EMPLOYEE LIST @endrole</a>
                 @endcan
+                @can('view-employee-schedule')
+                    <a class="collapse-item" href="{{ url('/employee-schedule') }}">SCHEDULE</a>
+                @endcan
                 @role('User')
                     <a class="collapse-item" href="{{ url('/my-employee-profile') }}">MY PROFILE</a>
                 @endrole
